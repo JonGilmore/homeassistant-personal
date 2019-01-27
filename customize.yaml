@@ -1,0 +1,488 @@
+# ########################
+# # AEOTEC MULTI'S
+# ########################
+binary_sensor.living_room_multisensor_sensor:
+  friendly_name: Living Room Multi - Sensor
+sensor.living_room_multisensor_alarm_level:
+  friendly_name: Living Room Multi - Alarm Level
+  hidden: true
+sensor.living_room_multisensor_alarm_type:
+  friendly_name: Living Room Multi - Alarm Type
+  hidden: true
+sensor.living_room_multisensor_burglar:
+  friendly_name: Living Room Multi - Burglar
+  hidden: true
+sensor.living_room_multisensor_luminance:
+  friendly_name: Living Room Lux
+sensor.living_room_multisensor_relative_humidity:
+  friendly_name: Living Room Humidity
+sensor.living_room_multisensor_sourcenodeid:
+  hidden: true
+sensor.living_room_multisensor_temperature:
+  friendly_name: Living Room Temperature
+sensor.living_room_multisensor_ultraviolet:
+  hidden: true
+zwave.living_room_multisensor:
+  friendly_name: Living Room Multi
+binary_sensor.office_multisensor_sensor:
+  friendly_name: Office Multi - Sensor
+sensor.office_multisensor_alarm_level:
+  friendly_name: Office Multi - Alarm Level
+  hidden: true
+sensor.office_multisensor_alarm_type:
+  friendly_name: Office Multi - Alarm Type
+  hidden: true
+sensor.office_multisensor_burglar:
+  friendly_name: Office Multi - Burglar
+  hidden: true
+sensor.office_multisensor_luminance:
+  friendly_name: Office Lux
+sensor.office_multisensor_relative_humidity:
+  friendly_name: Office Humidity
+sensor.office_multisensor_sourcenodeid:
+  hidden: true
+sensor.office_multisensor_temperature:
+  friendly_name: Office Temperature
+sensor.office_multisensor_ultraviolet:
+  hidden: true
+zwave.office_multisensor:
+  friendly_name: Office Multi
+
+########################
+# FIBARO
+########################
+sensor.main_fridge_access_control:
+  hidden: true
+sensor.main_fridge_alarm_level:
+  hidden: true
+sensor.main_fridge_alarm_type:
+  hidden: true
+sensor.main_fridge_burglar:
+  hidden: true
+sensor.main_fridge_general:
+  hidden: true
+sensor.main_fridge_heat:
+  hidden: true
+sensor.main_fridge_sourcenodeid:
+  hidden: true
+sensor.main_fridge_system:
+  hidden: true
+
+########################
+# LOCKS
+########################
+sensor.garage_door_lock_access_control:
+  hidden: true
+sensor.garage_door_lock_alarm_level:
+  hidden: true
+sensor.garage_door_lock_alarm_type:
+  hidden: true
+sensor.garage_door_lock_burglar:
+  hidden: true
+sensor.garage_door_lock_power_management:
+  hidden: true
+sensor.garage_door_lock_sourcenodeid:
+  hidden: true
+sensor.garage_door_lock_system:
+  hidden: true
+sensor.front_door_lock_alarm_level:
+  hidden: true
+sensor.front_door_lock_alarm_type:
+  hidden: true
+sensor.front_door_lock_access_control:
+  hidden: true
+sensor.front_door_lock_burglar:
+  hidden: true
+sensor.front_door_lock_power_management:
+  hidden: true
+sensor.front_door_lock_sourcenodeid:
+  hidden: true
+sensor.front_door_lock_system:
+  hidden: true
+
+# ########################
+# # DARK SKY
+# ########################
+sensor.dark_sky_humidity:
+  friendly_name: Exterior Humidity
+sensor.dark_sky_apparent_temperature:
+  friendly_name: Outside Feels
+
+# ########################
+# # AEOTEC SMART SWITCHES
+# ########################
+# sensor.aeotec_zw096_smart_switch_6_current:
+#   friendly_name: Basement Dehumidifier - Current
+# sensor.aeotec_zw096_smart_switch_6_current_2:
+#   friendly_name: Garage Fridge - Current
+# sensor.aeotec_zw096_smart_switch_6_energy:
+#   friendly_name: Basement Dehumidifier - Energy
+# sensor.aeotec_zw096_smart_switch_6_energy_2:
+#   friendly_name: Garage Fridge - Energy
+# sensor.aeotec_zw096_smart_switch_6_power:
+#   friendly_name: Basement Dehumidifier - Power
+# sensor.aeotec_zw096_smart_switch_6_power_2:
+#   friendly_name: Garage Fridge - Power
+# sensor.aeotec_zw096_smart_switch_6_previous_reading:
+#   hidden: true
+# sensor.aeotec_zw096_smart_switch_6_previous_reading_2:
+#   hidden: true
+# sensor.aeotec_zw096_smart_switch_6_previous_reading_3:
+#   hidden: true
+# sensor.aeotec_zw096_smart_switch_6_voltage:
+#   friendly_name: Basement Dehumidifier - Voltage
+# sensor.aeotec_zw096_smart_switch_6_voltage_2:
+#   friendly_name: Garage Fridge - Voltage
+# switch.aeotec_zw096_smart_switch_6_switch:
+#   friendly_name: Basement Dehumidifier - Switch
+# switch.aeotec_zw096_smart_switch_6_switch_2:
+#   friendly_name: Garage Fridge - Switch
+# zwave.aeotec_zw096_smart_switch_6:
+#   friendly_name: Basement Dehumidifier
+# zwave.aeotec_zw096_smart_switch_6_2:
+#   friendly_name: Garage Fridge
+#
+# ########################
+# # AEOTEC HEM
+# ########################
+# sensor.aeotec_zw095_home_energy_meter_gen5_current:
+#   friendly_name: House Current
+# sensor.aeotec_zw095_home_energy_meter_gen5_current_2:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_current_3:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_energy:
+#   friendly_name: House Energy
+# sensor.aeotec_zw095_home_energy_meter_gen5_energy_2:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_energy_3:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_power:
+#   friendly_name: House Power
+# sensor.aeotec_zw095_home_energy_meter_gen5_power_2:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_power_3:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_previous_reading:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_previous_reading_2:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_previous_reading_3:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_previous_reading_4:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_voltage:
+#   friendly_name: House Voltage
+# sensor.aeotec_zw095_home_energy_meter_gen5_voltage_2:
+#   hidden: true
+# sensor.aeotec_zw095_home_energy_meter_gen5_voltage_3:
+#   hidden: true
+# zwave.aeotec_zw095_home_energy_meter_gen5:
+#   hidden: true
+#
+# ########################
+# # THERMOSTATS
+# ########################
+# climate.tstat_main_cooling:
+#   friendly_name: Main Thermostat
+# climate.tstat_basement_cooling:
+#   friendly_name: Basement Thermostat
+# climate.tstat_second_cooling:
+#   friendly_name: Second Thermostat
+# climate.tstat_garage_cooling:
+#   friendly_name: T-Stat - Garage - cooling
+#   hidden: true
+# climate.tstat_main_heating:
+#   friendly_name: T-Stat - Main - heating
+#   hidden: true
+# climate.tstat_basement_heating:
+#   friendly_name: T-Stat - Basement - heating
+#   hidden: true
+# climate.tstat_second_heating:
+#   friendly_name: T-Stat - Second - heating
+#   hidden: true
+# climate.tstat_garage_heating:
+#   friendly_name: Garage Thermostat
+# sensor.tstat_main_temp:
+#   friendly_name: Thermostat - Main - temp
+# sensor.tstat_basement_temp:
+#   friendly_name: Thermostat - Basement - temp
+# sensor.tstat_second_temp:
+#   friendly_name: Thermostat - Upstairs - temp
+# sensor.tstat_garage_temp:
+#   friendly_name: Thermostat - Garage - temp
+# zwave.tstat_main:
+#   friendly_name: Thermostat - Main
+# zwave.tstat_basement:
+#   friendly_name: Thermostat - Basement
+# zwave.tstat_second:
+#   friendly_name: Thermostat - Upstairs
+# zwave.tstat_garage:
+#   friendly_name: Thermostat - Garage
+climate.thermostat_basement_cooling_econ:
+  hidden: true
+climate.thermostat_basement_heating_econ:
+  hidden: true
+climate.thermostat_garage_cooling_1:
+  hidden: true
+climate.thermostat_main_cooling_econ:
+  hidden: true
+climate.thermostat_main_heating_econ:
+  hidden: true
+climate.thermostat_upstairs_cooling_econ:
+  hidden: true
+climate.thermostat_upstairs_heating_econ:
+  hidden: true
+
+#
+# ########################
+# # EXTERIOR LIGHTS
+# ########################
+# switch.ge_12720_outdoor_smart_switch_switch:
+#   friendly_name: Deck Posts
+# switch.ge_45604_outdoor_module_switch:
+#   friendly_name: Exterior Front Uplights
+# switch.ge_12720_outdoor_smart_switch_switch_2:
+#   friendly_name: Exterior Back Landscape
+
+########################
+# GE MOTION SWITCHES
+########################
+sensor.master_closet_alarm_level:
+  hidden: true
+sensor.master_closet_alarm_level_2:
+  hidden: true
+sensor.master_closet_alarm_type:
+  hidden: true
+sensor.master_closet_alarm_type_2:
+  hidden: true
+sensor.master_closet_burglar_2:
+  hidden: true
+sensor.master_closet_sourcenodeid:
+  hidden: true
+sensor.master_closet_sourcenodeid_2:
+  hidden: true
+sensor.master_closet_burglar:
+  hidden: true
+sensor.pantry_alarm_level:
+  hidden: true
+sensor.pantry_alarm_level_2:
+  hidden: true
+sensor.pantry_alarm_type:
+  hidden: true
+sensor.pantry_alarm_type_2:
+  hidden: true
+sensor.pantry_burglar_2:
+  hidden: true
+sensor.pantry_sourcenodeid:
+  hidden: true
+sensor.pantry_sourcenodeid_2:
+  hidden: true
+sensor.pantry_burglar:
+  hidden: true
+
+########################
+# RADIO RA2 LIGHTS
+########################
+light.exterior_light:
+  friendly_name: Exterior Roof Outlet
+light.great_room_great_room_cans:
+  friendly_name: Great Room Cans
+switch.great_room_lamp:
+  friendly_name: Living Room Lamp
+light.kitchen_sunroom:
+  friendly_name: Sunroom Cans
+switch.laundry_light:
+  friendly_name: Laundry
+switch.master_bedroom_entry:
+  friendly_name: Master Entry
+light.master_bedroom_jons_lamp:
+  friendly_name: Jons Lamp
+switch.master_bedroom_lauras_lamp:
+  friendly_name: Lauras Lamp
+light.master_bedroom_sitting_cans:
+  friendly_name: Master Sitting Cans
+switch.sunroom_sunroom_lamp:
+  friendly_name: Sunroom Lamp
+switch.exterior_foyer:
+  friendly_name: Foyer
+light.exterior_patio:
+  friendly_name: Patio
+light.master_bedroom_fixtures:
+  friendly_name: Master Bath Fixture
+light.master_bedroom_fixture:
+  friendly_name: Master Toilet
+light.master_bedroom_master_cans:
+  friendly_name: Master Cans
+light.master_bedroom_master_fan:
+  friendly_name: Master Fan
+light.mudroom_garage_lights:
+  friendly_name: Garage Lights
+switch.mudroom_kitchen_cans:
+  friendly_name: Kitchen Cans
+switch.mudroom_kitchen_pendants:
+  friendly_name: Kitchen Pendants
+switch.mudroom_mudroom:
+  friendly_name: Mudroom
+switch.pulte_planning_center_lauras_office:
+  friendly_name: Lauras Office
+switch.upstairs_hall_hall:
+  friendly_name: Upstairs Hall
+switch.upstairs_hall_main_stairs:
+  friendly_name: Main Floor Stairs
+switch.upstairs_hall_treads:
+  friendly_name: Main Floor Tread Stairs
+light.exterior_uplights:
+  friendly_name: Exterior Front Uplights
+light.exterior_lights:
+  friendly_name: Exterior Back Uplights
+switch.master_bedroom_fan:
+  friendly_name: Master Bath Fan
+light.craftroom_craftroom_fan:
+  friendly_name: Craftroom Fan
+switch.office_lights:
+  friendly_name: Desk Lights
+switch.princess_light:
+  friendly_name: Princess Bathroom Light
+switch.princess_toilet_fan:
+  friendly_name: Princess Bathroom Fan
+
+########################
+# ELK M1 STUFF
+########################
+sensor.double_garage:
+  hidden: true
+sensor.single_garage:
+  hidden: true
+sensor.bsmt_temperature:
+  friendly_name: Freeze Alarm
+sensor.watr_htr_snsr:
+  friendly_name: Leak - Water Heater
+sensor.frdge_leak_snsr:
+  friendly_name: Leak - Basement Fridge
+sensor.sump_leak_snsr:
+  friendly_name: Leak - Sump Pump
+sensor.bsmt_stairs_mtn:
+  friendly_name: Basement Stairs PIR
+sensor.bsmt_storage_mtn:
+  friendly_name: Basement Storage PIR
+switch.output009:
+  hidden: true
+switch.output010:
+  hidden: true
+sensor.counter001:
+  friendly_name: Beep Status
+
+########################
+# HA STUFF
+########################
+group.all_lights:
+  hidden: false
+
+########################
+# DOORBIRD
+########################
+switch.front_door_light_on:
+  friendly_name: Doorbird IR
+switch.front_door_open_door:
+  hidden: true
+switch.front_door_open_door_2:
+  hidden: true
+
+########################
+# NEST
+########################
+# binary_sensor.basement_nest_protect_online:
+#   friendly_name: Basement Nest Protect
+# binary_sensor.gym_nest_protect_online:
+#   friendly_name: Gym Nest Protect
+# binary_sensor.bedroom_nest_protect_online:
+#   friendly_name: Bedroom Nest Protect
+# binary_sensor.entryway_nest_protect_online:
+#   friendly_name: Entryway Nest Protect
+# binary_sensor.hallway_nest_protect_online:
+#   friendly_name: Hallway Nest Protect
+# binary_sensor.master_bedroom_nest_protect_online:
+#   friendly_name: Master Bedroom Nest Protect
+# binary_sensor.princess_hallway_nest_protect_online:
+#   friendly_name: Princess Hallway Nest Protect
+# binary_sensor.princess_nest_protect_online:
+#   friendly_name: Princess Nest Protect
+# sensor.basement_nest_protect_battery_health:
+#   friendly_name: Basement Nest Protect battery
+# sensor.gym_nest_protect_battery_health:
+#   friendly_name: Gym Nest Protect battery
+# sensor.bedroom_nest_protect_battery_health:
+#   friendly_name: Bedroom Nest Protect battery
+# sensor.entryway_nest_protect_battery_health:
+#   friendly_name: Entryway Nest Protect battery
+# sensor.hallway_nest_protect_battery_health:
+#   friendly_name: Hallway Nest Protect battery
+# sensor.master_bedroom_nest_protect_battery_health:
+#   friendly_name: Master Bedroom Nest Protect battery
+# sensor.princess_hallway_nest_protect_battery_health:
+#   friendly_name: Princess Hallway Nest Protect battery
+# sensor.princess_nest_protect_battery_health:
+#   friendly_name: Princess Nest Protect battery
+# sensor.basement_nest_protect_co_status:
+#   friendly_name: Basement Nest Protect co
+# sensor.gym_nest_protect_co_status:
+#   friendly_name: Gym Nest Protect co
+# sensor.bedroom_nest_protect_co_status:
+#   friendly_name: Bedroom Nest Protect co
+# sensor.entryway_nest_protect_co_status:
+#   friendly_name: Entryway Nest Protect co
+# sensor.hallway_nest_protect_co_status:
+#   friendly_name: Hallway Nest Protect co
+# sensor.master_bedroom_nest_protect_co_status:
+#   friendly_name: Master Bedroom Nest Protect co
+# sensor.princess_hallway_nest_protect_co_status:
+#   friendly_name: Princess Hallway Nest Protect co
+# sensor.princess_nest_protect_co_status:
+#   friendly_name: Princess Nest Protect co
+# sensor.basement_nest_protect_color_status:
+#   friendly_name: Basement Nest Protect color
+#   hidden: true
+# sensor.gym_nest_protect_color_status:
+#   friendly_name: Gym Nest Protect color
+#   hidden: true
+# sensor.bedroom_nest_protect_color_status:
+#   friendly_name: Bedroom Nest Protect color
+#   hidden: true
+# sensor.entryway_nest_protect_color_status:
+#   friendly_name: Entryway Nest Protect color
+#   hidden: true
+# sensor.hallway_nest_protect_color_status:
+#   friendly_name: Hallway Nest Protect color
+#   hidden: true
+# sensor.master_bedroom_nest_protect_color_status:
+#   friendly_name: Master Bedroom Nest Protect color
+#   hidden: true
+# sensor.princess_hallway_nest_protect_color_status:
+#   friendly_name: Princess Hallway Nest Protect color
+#   hidden: true
+# sensor.princess_nest_protect_color_status:
+#   friendly_name: Princess Nest Protect color
+#   hidden: true
+# sensor.basement_nest_protect_smoke_status:
+#   friendly_name: Basement Nest Protect smoke
+# sensor.gym_nest_protect_smoke_status:
+#   friendly_name: Gym Nest Protect smoke
+# sensor.bedroom_nest_protect_smoke_status:
+#   friendly_name: Bedroom Nest Protect smoke
+# sensor.entryway_nest_protect_smoke_status:
+#   friendly_name: Entryway Nest Protect smoke
+# sensor.hallway_nest_protect_smoke_status:
+#   friendly_name: Hallway Nest Protect smoke
+# sensor.master_bedroom_nest_protect_smoke_status:
+#   friendly_name: Master Bedroom Nest Protect smoke
+# sensor.princess_hallway_nest_protect_smoke_status:
+#   friendly_name: Princess Hallway Nest Protect smoke
+# sensor.princess_nest_protect_smoke_status:
+#   friendly_name: Princess Nest Protect smoke
+
+# MQTT
+#sensor.mqtt_sensor:
+#  friendly_name: Kitchen Fridge
+#switch.mqtt_switch:
+#  friendly_name: Basement Freezer

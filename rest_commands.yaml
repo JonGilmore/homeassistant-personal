@@ -1,0 +1,47 @@
+  all_off:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=all_off'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  all_on:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=all_on'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  interior_off:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=interior_off'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  interior_on:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=interior_on'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  basement_off:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=basement_off'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  basement_on:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=basement_on'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  second_off:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=second_off'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'
+
+  second_on:
+    url: 'http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=second_on'
+    headers:
+      accept: 'application/json'
+      content-type: 'application/json'

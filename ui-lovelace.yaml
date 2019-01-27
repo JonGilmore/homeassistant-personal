@@ -1,0 +1,555 @@
+title: Reeder Ridge
+resources:
+  - url: /local/mini-media-player-bundle.js?v=0.9.8
+    type: module
+
+views:
+#########################
+# HOME TAB
+#########################
+  - id: 0
+    icon: mdi:home
+    theme: dark-mode
+    cards:
+      - id: alarmPanel
+        type: alarm-panel
+        entity: alarm_control_panel.area001
+        name: Reeder Ridge
+        style: '--alarm-color-disarmed: var(--label-badge-blue);'
+        show_keypad: true
+        display_letters: true
+        states:
+          - arm_home
+          - arm_away
+          - arm_night
+      - id: locks
+        type: entities
+        title: Locks
+        show_header_toggle: false
+        entities:
+          - lock.front_door_lock_locked
+          - lock.garage_door_lock_locked
+      - id: lightGroups
+        type: entities
+        title: Light Groups
+        show_header_toggle: false
+        entities:
+          - group.exterior_lights
+          - group.interior_lights
+          - switch.equipment_room_recirculation_pump
+          - switch.sundown1
+      - id: cameraGlance
+        type: picture-glance
+        image:
+        camera_image: camera.driveway
+        title: Exterior
+        entities:
+          - switch.exterior
+      - id: leakSensors
+        type: entities
+        title: Moisture Sensors
+        show_header_toggle: false
+        entities:
+          - binary_sensor.basement_freezer_moisture
+          - binary_sensor.basement_fridge_moisture
+          - binary_sensor.kitchen_dishwasher_moisture
+          - binary_sensor.kitchen_fridge_moisture
+          - binary_sensor.kitchen_sink_moisture
+      - id: deviceTracker
+        type: entity-filter
+        entities:
+          - device_tracker.jonspixel
+          - device_tracker.laurasiphone_2
+        state_filter:
+          - 'home'
+        card:
+          type: glance
+          title: People that are home
+      - id: testing
+        type: entities
+        title: Testing
+        entities:
+          - sensor.dark_inside
+          - sensor.living_room_lux2
+          - switch.great_room_lamp
+          - scene.master_bedroom_jons_keypad_all_on
+          - scene.master_bedroom_jons_keypad_all_off
+      - id: lightsOn
+        type: entity-filter
+        entities:
+          - light.basement_bar
+          - switch.basement_bar_cabinets
+          - switch.basement_bathroom_fan
+          - switch.basement_bathroom_shower
+          - switch.basement_main
+          - switch.basement_stair_treads
+          - switch.basement_stairs
+          - switch.basement_storage_lights
+          - light.basement_theater
+          - light.basement_theater_front_lamp
+          - light.basement_theater_rear_lamp
+          - light.basement_workshop
+          - light.craftroom_cans
+          - light.craftroom_craftroom_fan
+          - light.dining_room_cans
+          - light.dining_room_chandelier
+          - switch.exterior_cans
+          - light.exterior_deck
+          - switch.exterior_foyer
+          - switch.exterior_light
+          - switch.exterior_lights
+          - switch.exterior_outlets
+          - light.exterior_patio
+          - switch.exterior_posts
+          - switch.exterior_uplights
+          - switch.great_room_cabinets
+          - light.great_room_great_room_cans
+          - switch.great_room_lamp
+          - light.gym_cans
+          - switch.jack_and_jill_fan
+          - switch.jack_and_jill_light
+          - switch.jack_and_jill_lights
+          - switch.kitchen_cabinets
+          - light.kitchen_sunroom
+          - light.kitchen_table
+          - switch.laundry_light
+          - light.loft_cans
+          - switch.master_bedroom_entry
+          - switch.master_bedroom_fan
+          - light.master_bedroom_fixture
+          - light.master_bedroom_fixtures
+          - light.master_bedroom_jons_lamp
+          - switch.master_bedroom_lauras_lamp
+          - light.master_bedroom_master_cans
+          - light.master_bedroom_master_fan
+          - switch.master_bedroom_shower
+          - light.master_bedroom_sitting_cans
+          - switch.master_bedroom_toilet_fan
+          - light.master_bedroom_tub
+          - light.mudroom_garage_lights
+          - switch.mudroom_kitchen_cans
+          - switch.mudroom_kitchen_pendants
+          - switch.mudroom_mudroom
+          - light.nook_cans
+          - light.office_cans
+          - switch.office_lights
+          - switch.powder_room_fan
+          - switch.powder_room_hall_light
+          - light.princess_cans
+          - light.princess_fan
+          - switch.princess_light
+          - switch.princess_shower
+          - switch.princess_toilet_fan
+          - light.pulte_planning_center_lamp
+          - switch.pulte_planning_center_lauras_office
+          - light.second_bedroom_cans
+          - light.second_bedroom_fan
+          - switch.sunroom_sunroom_lamp
+          - switch.upstairs_hall_hall
+          - switch.upstairs_hall_main_stairs
+          - switch.upstairs_hall_treads
+        state_filter:
+          - 'on'
+        card:
+          title: Enabled Lights
+
+#########################
+# THERMOSTAT TAB
+#########################
+  - id: 1
+    icon: mdi:temperature-fahrenheit
+    title: Climate
+    cards:
+      - id: thermostats
+        type: entities
+        title: Thermostats
+        show_header_toggle: false
+        entities:
+          - climate.thermostat_basement_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_garage_heating_1
+      - id: temperatures
+        type: entities
+        title: Temperatures
+        show_header_toggle: false
+        entities:
+          - sensor.keypad004
+          - sensor.living_room_multisensor_temperature
+          - sensor.living_room_temperature
+          - sensor.master_entry_temperature
+          - sensor.office_multisensor_temperature
+      - id: humidity
+        type: entities
+        title: Humidity
+        show_header_toggle: false
+        entities:
+          - sensor.dark_sky_humidity
+          - sensor.living_room_multisensor_relative_humidity
+          - sensor.living_room_humidity
+          - sensor.master_entry_humidity
+          - sensor.office_multisensor_relative_humidity
+          - sensor.house_humidity
+          - sensor.target_humidity_max_winter
+          - sensor.target_humidity_min_winter
+      - id: weather
+        type: entities
+        title: Weather
+        show_header_toggle: false
+        entities:
+          - sensor.dark_sky_temperature
+          - sensor.dark_sky_summary
+          - sensor.dark_sky_daytime_high_temperature_0
+          - sensor.dark_sky_daily_summary
+          - sensor.dark_sky_cloud_coverage
+      - type: weather-forecast
+        entity: weather.dark_sky
+
+
+#########################
+# CAMERA TAB
+#########################
+  - id: 2
+    icon: mdi:camera
+    title: Cameras
+    cards:
+      - id: cameras
+        type: entities
+        title: Reeder Cameras
+        show_header_toggle: false
+        entities:
+          - camera.driveway
+          - camera.front_door
+          #- camera.garage
+          - camera.daisy
+          - camera.deck
+          - camera.front_door_live
+
+#########################
+# MUSIC TAB
+#########################
+  - id: 3
+    icon: mdi:music
+    title: Media
+    cards:
+      - id: music
+        type: entities
+        title: Sonos Players
+        show_header_toggle: false
+        entities:
+          - entity: media_player.deck
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.garage
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.guest_bathroom
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.gym_3
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.kitchen
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.laundry
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.master
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.office
+                name: Office
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.office
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.portable
+                name: Portable
+          - entity: media_player.portable
+            type: custom:mini-media-player
+            sonos_grouping:
+              - entity: media_player.deck
+                name: Deck
+              - entity: media_player.garage
+                name: Garage
+              - entity: media_player.guest_bathroom
+                name: Guest Bathroom
+              - entity: media_player.gym_3
+                name: Gym
+              - entity: media_player.kitchen
+                name: Kitchen
+              - entity: media_player.laundry
+                name: Laundry
+              - entity: media_player.master
+                name: Master
+              - entity: media_player.office
+                name: Office
+      - id: googleHome
+        type: entities
+        title: Google Home
+        show_header_toggle: false
+        entities:
+          - media_player.basement_ghm
+          - media_player.kitchen_ghm
+
+#########################
+# TV TAB
+#########################
+  - id: 4
+    title: TV
+    icon: mdi:television-classic
+    id: roku
+    cards:
+      - type: media-control
+        entity: media_player.great_room
+      - type: media-control
+        entity: media_player.49_tcl_roku_tv
+
+#########################
+# LIGHTS TAB
+#########################
+  - id: 5
+    icon: mdi:lightbulb
+    title: Lights
+    cards:
+      - id: all_lights
+        type: entities
+        title: All Lights
+        entities:
+          - light.basement_bar
+          - switch.basement_bar_cabinets
+          - switch.basement_bathroom_fan
+          - switch.basement_bathroom_shower
+          - switch.basement_main
+          - switch.basement_stair_treads
+          - switch.basement_stairs
+          - switch.basement_storage_lights
+          - light.basement_theater
+          - light.basement_theater_front_lamp
+          - light.basement_theater_rear_lamp
+          - light.basement_workshop
+          - light.craftroom_cans
+          - light.craftroom_craftroom_fan
+          - light.dining_room_cans
+          - light.dining_room_chandelier
+          - switch.exterior_cans
+          - light.exterior_deck
+          - switch.exterior_foyer
+          - switch.exterior_light
+          - switch.exterior_lights
+          - switch.exterior_outlets
+          - light.exterior_patio
+          - switch.exterior_posts
+          - switch.exterior_uplights
+          - switch.great_room_cabinets
+          - light.great_room_great_room_cans
+          - switch.great_room_lamp
+          - light.gym_cans
+          - switch.jack_and_jill_fan
+          - switch.jack_and_jill_light
+          - switch.jack_and_jill_lights
+          - switch.kitchen_cabinets
+          - light.kitchen_sunroom
+          - light.kitchen_table
+          - switch.laundry_light
+          - light.loft_cans
+          - switch.master_bedroom_entry
+          - switch.master_bedroom_fan
+          - light.master_bedroom_fixture
+          - light.master_bedroom_fixtures
+          - light.master_bedroom_jons_lamp
+          - switch.master_bedroom_lauras_lamp
+          - light.master_bedroom_master_cans
+          - light.master_bedroom_master_fan
+          - switch.master_bedroom_shower
+          - light.master_bedroom_sitting_cans
+          - switch.master_bedroom_toilet_fan
+          - light.master_bedroom_tub
+          - light.mudroom_garage_lights
+          - switch.mudroom_kitchen_cans
+          - switch.mudroom_kitchen_pendants
+          - switch.mudroom_mudroom
+          - light.nook_cans
+          - light.office_cans
+          - switch.office_lights
+          - switch.powder_room_fan
+          - switch.powder_room_hall_light
+          - light.princess_cans
+          - light.princess_fan
+          - switch.princess_light
+          - switch.princess_shower
+          - switch.princess_toilet_fan
+          - light.pulte_planning_center_lamp
+          - switch.pulte_planning_center_lauras_office
+          - light.second_bedroom_cans
+          - light.second_bedroom_fan
+          - switch.sunroom_sunroom_lamp
+          - switch.upstairs_hall_hall
+          - switch.upstairs_hall_main_stairs
+          - switch.upstairs_hall_treads
+          - switch.basement_dehumidifier_switch
+          - switch.master_closet_switch
+          - switch.pantry_switch
+#########################
+# SMARTTHINGS TAB
+#########################
+  - id: 6
+    icon: mdi:battery-charging-wireless-90
+    title: ST Devices
+    cards:
+      - id: st_devices
+        type: entities
+        title: ST Devices
+        show_header_toggle: false
+        entities:
+          - sensor.kitchen_fridge
+          - sensor.basement_freezer
+          - sensor.basement_fridge
+          - sensor.kitchen_dishwasher
+          - sensor.kitchen_sink
+#########################
+# ENERGY TAB
+#########################
+  - id: 7
+    icon: mdi:power-plug
+    title: Energy
+    cards:
+      - id: energy
+        type: entities
+        title: energy
+        show_header_toggle: false
+        entities:
+          - sensor.basement_dehumidifier_energy
+          - sensor.basement_dehumidifier_power
+          - sensor.garage_fridge_energy
+          - sensor.garage_fridge_power
+          - sensor.aeotec_hem_energy
+          - sensor.aeotec_hem_energy_2
+          - sensor.aeotec_hem_energy_3
+          - sensor.aeotec_hem_power
+          - sensor.aeotec_hem_power_2
+          - sensor.aeotec_hem_power_3

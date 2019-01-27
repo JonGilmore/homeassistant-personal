@@ -1,0 +1,280 @@
+# Get the mean value of the different luminance sensors
+  # - platform: min_max
+  #   name: House Brightness
+  #   round_digits: 0
+  #   type: mean
+  #   hidden: true
+  #   entity_ids:
+  #     - sensor.living_room_multisensor_luminance
+  #     - sensor.office_multisensor_luminance
+# Get the mean value of the different humidity sensors
+  - platform: min_max
+    name: House Humidity
+    round_digits: 0
+    type: mean
+    hidden: true
+    entity_ids:
+      - sensor.living_room_multisensor_relative_humidity
+      - sensor.office_multisensor_relative_humidity
+      - sensor.master_entry_humidity
+
+  # - platform: statistics
+  #   entity_id: sensor.living_room_lux2
+  #   name: House Lux
+  #   max_age:
+  #     minutes: 5
+
+# Elk sensors
+  - platform: template
+    sensors:
+      armed_status:
+        entity_id:
+          - alarm_control_panel.area001
+        value_template: '{{ states.alarm_control_panel.area001.attributes["armed_status"] }}'
+        friendly_name: 'House Armed Status'
+      arm_up_state:
+        entity_id:
+          - alarm_control_panel.area001
+        value_template: '{{ states.alarm_control_panel.area001.attributes["arm_up_state"] }}'
+        friendly_name: 'House Arm Up State'
+      alarm_state:
+        entity_id:
+          - alarm_control_panel.area001
+        value_template: '{{ states.alarm_control_panel.area001.attributes["alarm_state"] }}'
+        friendly_name: 'House Alarm State'
+      garage_double_state:
+        entity_id:
+          - sensor.double_garage
+        value_template: "{% if states.sensor.double_garage.state == 'Normal' %}closed{% elif states.sensor.double_garage.state == 'Violated' %}open{% else %}unknown{% endif %}"
+        friendly_name: 'Garage Double State'
+      garage_single_state:
+        entity_id:
+          - sensor.single_garage
+        value_template: "{% if states.sensor.single_garage.state == 'Normal' %}closed{% elif states.sensor.single_garage.state == 'Violated' %}open{% else %}unknown{% endif %}"
+        friendly_name: 'Garage Single State'
+
+# SMARTTHINGS SENSORS
+  - platform: mqtt
+    name: "Basement Freezer"
+    state_topic: "smartthings/Basement Freezer/temperature"
+    device_class: temperature
+    retain: true
+    unit_of_measurement: "°F"
+  - platform: mqtt
+    name: "Basement Fridge"
+    state_topic: "smartthings/Basement Fridge/temperature"
+    device_class: temperature
+    retain: true
+    unit_of_measurement: "°F"
+  - platform: mqtt
+    name: "Kitchen Fridge"
+    state_topic: "smartthings/Kitchen Fridge/temperature"
+    device_class: temperature
+    retain: true
+    unit_of_measurement: "°F"
+  - platform: mqtt
+    name: "Kitchen Dishwasher"
+    state_topic: "smartthings/Kitchen Dishwasher/temperature"
+    device_class: temperature
+    retain: true
+    unit_of_measurement: "°F"
+  - platform: mqtt
+    name: "Kitchen Sink"
+    state_topic: "smartthings/Kitchen Sink/temperature"
+    device_class: temperature
+    retain: true
+    unit_of_measurement: "°F"
+  - platform: mqtt
+    state_topic: "reeder/master/bed"
+    name: "Master Bed"
+    retain: true
+    #value_template: "{{ (value | float /10000) | round(0) }}"
+    #unit_of_measurement: "kg"
+    #force_update: true
+    #availability_topic: "reeder/master/bed/available"
+    #payload_available: "online"
+    #payload_not_available: "Connection Lost"
+
+# DARK SKY
+  - platform: darksky
+    api_key: !secret darksky_api
+    forecast:
+      - 0
+      - 1
+      - 2
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+      - nearest_storm_bearing
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - temperature
+      - apparent_temperature
+      - dew_point
+      - wind_speed
+      - wind_bearing
+      - cloud_cover
+      - humidity
+      - pressure
+      - visibility
+      - ozone
+      - minutely_summary
+      - hourly_summary
+      - daily_summary
+      - temperature_high
+      - temperature_low
+      - apparent_temperature_high
+      - apparent_temperature_low
+      - precip_intensity_max
+
+# # DARKNESS SENSORS
+  - platform: template
+    sensors:
+      dark_inside:
+        friendly_name: "Dark Inside?"
+        value_template: >-
+          {% if states.sensor.living_room_lux2.state | int < 375 %}True
+          {% else %}False{% endif %}
+      # dark_outside:
+      #   friendly_name: 'Dark? (solar angle)'
+      #   value_template: >-
+      #     {%if (states.sensor.solar_angle.state |int < -1) %}true
+      #     {% elif ( (states.sun.sun.attributes.elevation | int < 4.5) and (states.sensor.dark_sky_cloud_coverage.state | int > 80)) %}true
+      #     {% elif ( (states.sun.sun.attributes.elevation | int < 6.5) and (states.sensor.dark_sky_cloud_coverage.state | int > 85)) %}true
+      #     {% elif (states.sensor.dark_sky_cloud_coverage.state | int > 90) %}true
+      #     {% else %} false {% endif %}
+      # solar_angle:
+      #   friendly_name: 'Solar Angle'
+      #   value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
+      #   unit_of_measurement: '°'
+      time_of_day:
+        friendly_name: "Time of Day"
+        value_template: >-
+          {% if (states.sensor.living_room_lux2.state < '600') and (sensor.time_of_day == "day") %}dusk
+          {% elif (states.sensor.living_room_lux2.state < '300') and (sensor.time_of_day == "dusk") %}night
+          {% elif (states.sensor.living_room_lux2.state > '100') and (sensor.time_of_day == "night") %}dawn
+          {% elif (states.sensor.living_room_lux2.state > '250') and (sensor.time_of_day == "dawn") %}day
+          {% else %} error {% endif %}
+      # period_of_day:
+      #   friendly_name: 'period of the day'
+      #   value_template: >-
+      #     {% if (as_timestamp(states.sun.sun.attributes.next_dusk)) - (as_timestamp(states.sun.sun.attributes.next_setting)) < 0 %}dusk
+      #     {% elif (as_timestamp(states.sun.sun.attributes.next_rising)) - (as_timestamp(states.sun.sun.attributes.next_dawn)) < 0 %}dawn
+      #     {% elif (states.sun.sun.attributes.elevation) < 0 %}night
+      #     {% else %}day{% endif %}
+      #   icon_template: >-
+      #     {% if is_state('sun.sun', 'above_horizon') %}mdi:weather-sunny
+      #     {% else %}mdi:weather-night{% endif %}
+
+# Target Humidity States
+  - platform: template
+    sensors:
+      target_humidity_max_winter:
+        value_template: >-
+          {% if states.sensor.dark_sky_temperature.state   | int < -20 %}25
+          {% elif states.sensor.dark_sky_temperature.state | int < -10 %}30
+          {% elif states.sensor.dark_sky_temperature.state | int <   0 %}35
+          {% elif states.sensor.dark_sky_temperature.state | int <  10 %}40
+          {% elif states.sensor.dark_sky_temperature.state | int <  20 %}45
+          {% else %} 55 {% endif %}
+        friendly_name: 'Target Humidity - Max'
+      target_humidity_min_winter:
+        value_template: >-
+          {% if states.sensor.dark_sky_temperature.state   | int < -20 %}15
+          {% elif states.sensor.dark_sky_temperature.state | int < -10 %}20
+          {% elif states.sensor.dark_sky_temperature.state | int <   0 %}25
+          {% elif states.sensor.dark_sky_temperature.state | int <  10 %}30
+          {% elif states.sensor.dark_sky_temperature.state | int <  20 %}35
+          {% else %} 40 {% endif %}
+        friendly_name: 'Target Humidity - Min'
+
+# BRUH SENSORS
+  - platform: mqtt
+    name: "Master Entry PIR"
+    state_topic: "esp8266/sensornode1"
+    value_template: "{{ value_json.motion }}"
+  - platform: mqtt
+    name: "Master Entry Temperature"
+    state_topic: "esp8266/sensornode1"
+    unit_of_measurement: '°F'
+    value_template: "{{ value_json.temperature }}"
+  - platform: mqtt
+    name: "Master Entry Humidity"
+    state_topic: "esp8266/sensornode1"
+    value_template: "{{ value_json.humidity }}"
+    unit_of_measurement: "%"
+
+  - platform: mqtt
+    name: "Living Room Temperature"
+    state_topic: "esp8266/sensornode2"
+    unit_of_measurement: '°F'
+    value_template: "{{ value_json.temperature }}"
+  - platform: mqtt
+    name: "Living Room Humidity"
+    state_topic: "esp8266/sensornode2"
+    value_template: "{{ value_json.humidity }}"
+    unit_of_measurement: "%"
+  - platform: mqtt
+    name: "Living Room Lux2"
+    state_topic: "esp8266/sensornode2"
+    value_template: "{{ value_json.ldr }}"
+    unit_of_measurement: "lux"
+
+  - platform: mqtt
+    name: "Office Temperature2"
+    state_topic: "esp8266/office"
+    unit_of_measurement: '°F'
+    value_template: "{{ value_json.temperature }}"
+  - platform: mqtt
+    name: "Office Humidity2"
+    state_topic: "esp8266/office"
+    value_template: "{{ value_json.humidity }}"
+    unit_of_measurement: "%"
+  - platform: mqtt
+    name: "Office Lux2"
+    state_topic: "esp8266/office"
+    value_template: "{{ value_json.ldr }}"
+    unit_of_measurement: "lux"
+
+# TESTING SENSORS
+  # - platform: template
+  #   sensors:
+  #     master_bed_occupied:
+  #       friendly_name: "Master Bed Occupied"
+  #       value_template: >-
+  #         {% if states.sensor.master_bed.state |int > 8151000 %}true
+  #         {% else %} false {% endif %}
+  - platform: template
+    sensors:
+      master_bed_occupied:
+        # value_template: >-
+        #   {% if states.sensor.master_bed.state   | int < 6270000 %}both
+        #   {% elif states.sensor.master_bed.state | int < 6550000 %}jon
+        #   {% elif states.sensor.master_bed.state | int < 6750000 %}laura
+        #   {% else %} unoccupied {% endif %}
+        value_template: >-
+          {% if states.sensor.master_bed.state | int < 6880000 %}occupied
+          {% else %} unoccupied {% endif %}
+        friendly_name: 'Master Bed Occupied'
+
+
+# VIRTUAL DEVICES
+  - platform: template
+    sensors:
+      vacation_status:
+        friendly_name: "Vacation?"
+        value_template: >-
+          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" %}true
+          {% else %} false {% endif %}
+      occupancy_status:
+        friendly_name: "Occupied?"
+        value_template: >-
+          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" %}false
+          {% else %} true {% endif %}
+      sleep_status:
+        friendly_name: "Sleeping?"
+        value_template: >-
+          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night_instant" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night" %}true
+          {% else %} false {% endif %}

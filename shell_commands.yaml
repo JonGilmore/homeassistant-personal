@@ -1,0 +1,1 @@
+#  all_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Lutron&name=all_off"'

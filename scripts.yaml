@@ -1,0 +1,39 @@
+  all_off:
+    alias: All Off
+    sequence:
+      - service: rest_command.all_off
+
+  all_on:
+    alias: All On
+    sequence:
+      - service: rest_command.all_on
+
+  interior_off:
+    alias: Interior Off
+    sequence:
+      - service: rest_command.interior_off
+
+  interior_on:
+    alias: Interior On
+    sequence:
+      - service: rest_command.interior_on
+
+  basement_off:
+    alias: Basement Off
+    sequence:
+      - service: rest_command.basement_off
+
+  basement_on:
+    alias: Basement On
+    sequence:
+      - service: rest_command.basement_on
+
+  second_off:
+    alias: Second Off
+    sequence:
+      - service: rest_command.second_off
+
+  second_on:
+    alias: Second On
+    sequence:
+      - service: rest_command.second_on

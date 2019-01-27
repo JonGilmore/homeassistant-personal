@@ -1,0 +1,203 @@
+homeassistant:
+  name: Reeder
+  latitude: !secret ha_latitude
+  longitude: !secret ha_longitude
+  elevation: !secret ha_elevation
+  unit_system: imperial
+  time_zone: !secret ha_tz
+  customize: !include customize.yaml
+
+cloud:
+  google_actions:
+    filter:
+      include_entities:
+        - climate.thermostat_basement_heating_1
+        - climate.thermostat_main_heating_1
+        - climate.thermostat_upstairs_heating_1
+        - climate.thermostat_garage_heating_1
+      include_domains:
+        - light
+        - switch
+      exclude_domains:
+        - group
+        - input_boolean
+        - scene
+        - script
+        - cover
+        - media_player
+        - climate
+  alexa:
+    filter:
+      include_entities:
+        - climate.thermostat_basement_heating_1
+        - climate.thermostat_main_heating_1
+        - climate.thermostat_upstairs_heating_1
+        - climate.thermostat_garage_heating_1
+      include_domains:
+        - light
+        - switch
+      exclude_domains:
+        - group
+        - input_boolean
+        - scene
+        - script
+        - cover
+        - media_player
+        - climate
+
+http:
+  api_password: !secret api_password
+updater:
+  reporting: false
+tts:
+  - platform: google
+recorder:
+  db_url: !secret url_db
+
+influxdb:
+  host: localhost
+  username: !secret influx_usr
+  password: !secret influx_pwd
+  database: !secret influx_db
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - climate
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api
+
+mqtt:
+  broker: core-mosquitto
+  discovery: true
+  discovery_prefix: smartthings
+
+zwave:
+  usb_path: /dev/ttyACM0
+  network_key: !secret zwave_key
+
+elkm1:
+  host: !secret url_elk
+  temperature_unit: F
+  area:
+    exclude: [2-8]
+  zone:
+    exclude: [17-24, 27-208]
+  output:
+    exclude: [1-8, 11-208]
+  counter:
+    exclude: [2-64]
+  keypad:
+    include: [1-5]
+  task:
+    enabled: false
+  thermostat:
+    enabled: false
+  plc:
+    enabled: false
+  setting:
+    enabled: false
+
+doorbird:
+  token: !secret db_token
+  devices:
+    - host: !secret db_ip
+      username: !secret db_usr
+      password: !secret db_pwd
+      hass_url_override: !secret hass_ip
+      name: Front Door
+
+# isy994:
+#   host: !secret url_isy
+#   username: !secret isy_user
+#   password: !secret isy_passwd
+
+lutron:
+  host: !secret rr_ip
+  username: !secret rr_usr
+  password: !secret rr_pwd
+
+water_heater:
+  - platform: econet
+    username: !secret econet_user
+    password: !secret econet_pwd
+
+light:
+ - platform: lifx
+
+device_tracker:
+  - platform: unifi
+    host: !secret unifi_ip
+    verify_ssl: false
+    username: !secret unifi_usr
+    password: !secret unifi_pwd
+    ssid_filter:
+      - 'ReedingRainbow'
+
+owntracks:
+  max_gps_accuracy: 200
+  waypoints: true
+
+
+# nest:
+#  client_id: !secret nest_usr
+#  client_secret: !secret nest_pwd
+
+scene:
+  platform: hunterdouglas_powerview
+  address: !secret powerview_ip
+
+notify:
+  - name: pushover
+    platform: pushover
+    api_key: !secret pushover_api_key
+    user_key: !secret pushover_user_key
+
+####################################################
+#                     Includes                     #
+####################################################
+sensor: !include sensors.yaml
+binary_sensor: !include binary_sensors.yaml
+automation: !include automation.yaml
+group: !include groups.yaml
+#alarm_control_panel: !include alarm_control_panel.yaml
+switch: !include switches.yaml
+script: !include scripts.yaml
+shell_command: !include shell_commands.yaml
+camera: !include cameras.yaml
+rest_command: !include rest_commands.yaml
+#climate: !include climate.yaml
+input_boolean: !include input_boolean.yaml
+zone: !include zones.yaml
+
+####################################################
+#                     Enables                      #
+####################################################
+logger:
+history:
+sun:
+conversation:
+logbook:
+frontend:
+#  themes: !include_dir_merge_named themes/
+lovelace:
+  mode: yaml
+config:
+hassio:
+map:
+discovery:
+  ignore:
+    - axis
+    - plex_mediaserver
+
+panel_iframe:
+  nodered_flows:
+    title: 'TasmoAdmin'
+    url: 'http://192.168.45.249:9541'
+    icon: mdi:power-socket-us
+  grafana:
+    title: 'Grafana'
+    url: 'http://192.168.45.249:3000'
+    icon: mdi:chart-timeline

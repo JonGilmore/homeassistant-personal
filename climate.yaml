@@ -1,0 +1,6 @@
+# # BASEMENT T-STAT
+#   - platform: mqtt
+#     name: Basement
+#     current_temperature_topic: /smartthings/Basement/Thermostats/Temperature
+#     temperature_command_topic: /sensors/hvac_study/target_temp
+#

@@ -1,0 +1,1085 @@
+#########################################
+# Garage open pushover
+- id: Garage open pushover
+  alias: "Garage open pushover"
+  trigger:
+    - platform: state
+      entity_id: sensor.double_garage
+      to: "Violated"
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: sensor.single_garage
+      to: "Violated"
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: sensor.double_garage
+      to: "Violated"
+      for:
+        minutes: 15
+    - platform: state
+      entity_id: sensor.single_garage
+      to: "Violated"
+      for:
+        minutes: 15
+  action:
+    - service: notify.pushover
+      data:
+        title: "Garage Door Open"
+        message:  "Garage Door(s) open!"
+#########################################
+# Turn on light with sensor value change
+#- id: hall
+#  alias: "Hall Light"
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.kitchen_motion
+#      from: "False"
+#      to: "True"
+#  action:
+#    - service: homeassistant.turn_on
+#      entity_id: switch.switch
+#########################################
+# Turn light on with motion (if it is off).
+# Continue to keep it on when there is motion detected for 20 seconds
+#- alias: Lights on when motion on
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.kitchen_motion
+#      to: 'Violated'
+#  condition:
+#    - condition: state
+#      entity_id: light.zwave1_level
+#      state: 'off'
+#  action:
+#    - service: light.turn_on
+#      entity_id: light.zwave1_level
+#
+#- alias: Light off after 20 sec when motion off
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.kitchen_motion
+#      to: 'Normal'
+#      for:
+#        seconds: 20
+#  condition:
+#    - condition: state
+#      entity_id: light.zwave1_level
+#      state: 'on'
+#  action:
+#    - service_template: light.turn_off
+#      entity_id: light.zwave1_level
+#########################################
+# Turn on light at x minutes after sunrise
+#- alias: Lights on at X after sunrise
+#  trigger:
+#    - platform: sun
+#      event: sunrise
+#      offset: '+00:19:00'
+#  action:
+#    - service: light.turn_on
+#      entity_id: light.zwave1_level
+#########################################
+# Turn light on when doorbell rings (and elk is disarmed)
+#- alias: Hall lights on when doorbell rings (and elk is disarmed)
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.zone011
+#      to: 'Violated'
+#  condition:
+#    - condition: state
+#      entity_id: alarm_control_panel.area001
+#      state: 'disarmed'
+#  action:
+#    - service: light.turn_on
+#### change to front hall light ###
+#      entity_id: light.zwave1_level
+#########################################
+# Turn light on when elk is armed
+#- alias: Hall lights on when elk is armed
+#  trigger:
+#    - platform: state
+#      entity_id: alarm_control_panel.area001
+#      to: 'armed'
+#  action:
+#    service: light.turn_on
+#    entity_id: light.zwave1_level
+#########################################
+# Send pushover with driveway motion
+- id: pushover driveway line
+  alias: "pushover driveway line"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.driveway_line_crossing
+      to: "on"
+  action:
+    - service: notify.pushover
+      data:
+        title: "Driveway Motion"
+        message:  "Line crossing from HASS"
+        data:
+          file:
+            url: !secret hik_driveway_pic
+#########################################
+# Send pushover with deck motion (but only while alarm is armed)
+- id: pushover deck line (when alarm is armed)
+  alias: "pushover deck line (when alarm is armed)"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.deck_motion
+      to: "on"
+  condition:
+    - condition: template
+      value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
+  action:
+    - service: notify.pushover
+      data:
+        title: "Deck Motion"
+        message:  "Line crossing from HASS"
+        data:
+          file:
+            url: !secret hik_deck_pic
+#########################################
+# Send pushover with front door motion
+- id: pushover front door line
+  alias: "pushover front door line"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_line_crossing
+      to: "on"
+  action:
+    - service: notify.pushover
+      data:
+        title: "Front door Motion"
+        message:  "Line crossing from HASS"
+        data:
+          file:
+            url: !secret db_pic
+#########################################
+# front door motion, dark out, occupied, foyer on
+- id: front door line, foyer on
+  alias: "front door line, foyer on"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_line_crossing
+      to: "on"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: sensor.occupancy_status
+        state: 'true'
+      - condition: state
+        entity_id: sensor.dark_inside
+        state: 'True'
+      - condition: time
+        after: '17:00:00'
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - switch.exterior_foyer
+        - switch.exterior_cans
+#########################################
+# wake up
+- id: wake up
+  alias: "wake up"
+  trigger:
+    - platform: state
+      entity_id: sensor.sleep_status
+      from: 'true'
+      to: 'false'
+  condition:
+    - condition: state
+      entity_id: sensor.dark_inside
+      state: 'True'
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - switch.upstairs_hall_treads
+        - switch.great_room_lamp
+#########################################
+# bright out (in morning)
+# - id: bright out (in morning)
+#   alias: "bright out (in morning)"
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.dark_inside
+#       from: 'True'
+#       to: 'False'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: input_boolean.morning_lights_run_once
+#         state: 'off'
+#       - condition: sun
+#         after: sunrise
+#   action:
+#     - service: scene.turn_on
+#       entity_id: scene.master_bedroom_jons_keypad_all_off
+#     - service: homeassistant.turn_on
+#       entity_id: input_boolean.morning_lights_run_once
+#########################################
+- id: motion_lights
+  alias: Motion Lights
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.foyer_motion
+        - sensor.kitchen_motion
+        - sensor.basement_motion_2
+        - sensor.basement_motion
+        - sensor.bsmt_storage_mtn
+      to: 'Violated'
+    - platform: state
+      entity_id:
+        - sensor.foyer_motion
+        - sensor.kitchen_motion
+        - sensor.basement_motion_2
+        - sensor.basement_motion
+        - sensor.bsmt_storage_mtn
+      to: 'Normal'
+      for:
+        minutes: 5
+  condition:
+    ## Ensure Motion Lights aren't disabled
+    - condition: state
+      entity_id: input_boolean.block_all_motion_lights
+      state: 'off'
+  action:
+    service_template: >
+      {% if trigger.to_state.state == 'Violated' %}
+      light.turn_on
+      {% else %}
+      light.turn_off
+      {% endif %}
+    data_template:
+        entity_id: >
+          {% set trigger_entity = trigger.entity_id %}
+          {% if trigger_entity == 'sensor.foyer_motion' %}
+            switch.exterior_foyer
+          {% elif trigger_entity == 'sensor.kitchen_motion' %}
+            switch.kitchen_cabinets
+          {% elif trigger_entity == 'sensor.basement_motion_2' %}
+            switch.basement_main
+          {% elif trigger_entity == 'sensor.basement_motion' %}
+            light.basement_workshop
+          {% elif trigger_entity == 'sensor.bsmt_storage_mtn' %}
+            switch.basement_storage_lights
+          {% endif %}
+#########################################
+# Close master blinds if its dusk upon 1st motion on the entry only 1 time (after 1hr before sunset)
+- id: master_blinds at dusk
+  alias: Master Blinds
+  trigger:
+    - platform: state
+      entity_id: sensor.master_entry_pir
+      to: "motion detected"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.master_pm_run_once
+        state: 'off'
+      - condition: sun
+        after: sunset
+        after_offset: '-1:00:00'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.10877
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.master_pm_run_once
+#########################################
+# close master blinds at night
+- id: master_blinds at night
+  alias: Master Blinds
+  trigger:
+    - platform: sun
+      event: sunset
+  action:
+    - service: scene.turn_on
+      entity_id: scene.49347
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.master_pm_run_once
+#########################################
+# open master blinds in the morning (after 45min of unoccupied bed)
+- id: open master blinds in the morning (after 45min of unoccupied bed)
+  alias: open master blinds in the morning (after 45min of unoccupied bed)
+  trigger:
+    - platform: state
+      entity_id: sensor.master_bed_occupied
+      to: 'unoccupied'
+      for:
+        minutes: 45
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.master_am_run_once
+        state: 'off'
+      - condition: time
+        after: '06:30:00'
+      - condition: time
+        before: '11:45:00'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.24273
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.master_am_run_once
+    - service: notify.pushover
+      data:
+        message: 'Master Bed changed status: {{ trigger.to_state.state }}'
+#########################################
+# reset run-once variables
+- alias: Master Blinds - reset
+  trigger:
+    platform: time
+    at: '12:00:00'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.master_pm_run_once
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.sunset_run_once
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.master_am_run_once
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.morning_lights_run_once
+#########################################
+# Thermostat Rules
+# set the temperature ONLY if we're not on vacation AND one or more of us are home
+- alias: Thermostats - morning
+  trigger:
+    platform: time
+    at: '04:30:00'
+  condition:
+    - condition: state
+      entity_id: sensor.vacation_status
+      state: "false"
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: 'device_tracker.jonspixel'
+          state: 'home'
+        - condition: state
+          entity_id: 'device_tracker.laurasiphone_2'
+          state: 'home'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+        temperature: 70
+        operation_mode: Heat
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_cooling_1
+          - climate.thermostat_main_cooling_1
+        temperature: 77
+        operation_mode: cool
+# set the temperature back for work ONLY if we're not on vacation AND both people are not_home
+- alias: Thermostats - work
+  trigger:
+    platform: time
+    at: '08:00:00'
+  condition:
+    - condition: state
+      entity_id: sensor.vacation_status
+      state: "false"
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: 'device_tracker.jonspixel'
+          state: 'not_home'
+        - condition: state
+          entity_id: 'device_tracker.laurasiphone_2'
+          state: 'not_home'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+        temperature: 67
+        operation_mode: Heat
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_cooling_1
+          - climate.thermostat_main_cooling_1
+        temperature: 78
+        operation_mode: cool
+# (probably) getting home from work (or soon), make sure were not on vacation, and set the temps to normal
+- alias: Thermostats - home from work
+  trigger:
+    platform: time
+    at: '16:00:00'
+  condition:
+    - condition: state
+      entity_id: sensor.vacation_status
+      state: "false"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+        temperature: 71
+        operation_mode: Heat
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_cooling_1
+          - climate.thermostat_main_cooling_1
+        temperature: 77
+        operation_mode: cool
+# when we start sleeping, and we're not on vacation, set the temps back
+- alias: Thermostats - bed
+  trigger:
+    - platform: state
+      entity_id: sensor.sleep_status
+      to: "true"
+  condition:
+    - condition: state
+      entity_id: sensor.vacation_status
+      state: "false"
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+        temperature: 66
+        operation_mode: Heat
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_cooling_1
+          - climate.thermostat_main_cooling_1
+        temperature: 78
+        operation_mode: cool
+#########################################
+# at bedtime, lock the front & garage door locks, set the HVAC fans to on, turn off recirculation pump, turn off all lights & xmas lights
+- alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
+  trigger:
+    - platform: state
+      entity_id: sensor.sleep_status
+      to: "true"
+  action:
+    - service: lock.lock
+      entity_id: lock.garage_door_lock_locked
+    - service: lock.lock
+      entity_id: lock.front_door_lock_locked
+    - service: climate.set_fan_mode
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_basement_heating_1
+        fan_mode: 'On Low'
+    - service: homeassistant.turn_off
+      entity_id: switch.equipment_room_recirculation_pump
+    - service: homeassistant.turn_off
+      entity_id: switch.all_but_master
+#########################################
+# - alias: "done sleeping, turn the HVAC fan off"
+- alias: "done sleeping, turn the HVAC fan off"
+  trigger:
+    - platform: state
+      entity_id: sensor.sleep_status
+      to: "false"
+  action:
+    - service: climate.set_fan_mode
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_basement_heating_1
+        fan_mode: 'Auto Low'
+#########################################
+# away, turn the HVAC fans on & the recirculation pump off
+- alias: "away, turn the HVAC fans on & the recirculation pump off"
+  trigger:
+    - platform: state
+      entity_id: sensor.occupancy_status
+      to: "false"
+  action:
+    - service: climate.set_fan_mode
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_basement_heating_1
+        fan_mode: 'On Low'
+    - service: homeassistant.turn_off
+      entity_id: switch.equipment_room_recirculation_pump
+#########################################
+# home, turn the HVAC fans off & the recirculation on
+- alias: "home, set the fans to off - thermostat"
+  trigger:
+    - platform: state
+      entity_id: sensor.occupancy_status
+      to: "true"
+  action:
+    - service: climate.set_fan_mode
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_basement_heating_1
+        fan_mode: 'Auto Low'
+    - service: homeassistant.turn_on
+      entity_id: switch.equipment_room_recirculation_pump
+#########################################
+# elk disconnected - send pushover
+- alias: "elk disconnected - send pushover"
+  trigger:
+    - platform: state
+      entity_id: sensor.elkm1
+      to: "Disconnected"
+  action:
+    - service: notify.pushover
+      data:
+        title: "Elk Disconnected"
+        message:  "Check the Elk M1XEP connection"
+########################################
+# Turn on sunset lights
+- alias: Lights on at dark time
+  trigger:
+    - platform: state
+      entity_id: sensor.dark_inside
+      to: 'True'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '15:45:00'
+      - condition: time
+        before: '21:00:00'
+      - condition: state
+        entity_id: input_boolean.sunset_run_once
+        state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.sundown1
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.sunset_run_once
+########################################
+# Turn on master fan at night (if AC is on)
+- alias: Turn on master fan at night
+  trigger:
+    - platform: time
+      at: '20:00:00'
+  condition:
+    condition: state
+    entity_id: climate.thermostat_main_heating_1
+    state: cool
+  action:
+   - service: light.turn_on
+     entity_id: light.master_bedroom_master_fan
+########################################
+# Turn off master fan in the morning
+- alias: Turn off master fan in the morning
+  trigger:
+    - platform: time
+      at: '08:00:00'
+  action:
+   - service: light.turn_off
+     entity_id: light.master_bedroom_master_fan
+#########################################
+# on vacation, close the main water valve, set temperatures back, set water heater to vacation, & turn off recirculation pump
+- alias: "on vacation"
+  trigger:
+    - platform: state
+      entity_id: sensor.vacation_status
+      to: "true"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.water_main_shutoff_switch
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_basement_heating_1
+        temperature: 62
+        operation_mode: Heat
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_cooling_1
+          - climate.thermostat_main_cooling_1
+          - climate.thermostat_basement_cooling_1
+        temperature: 85
+        operation_mode: cool
+    - service: econet.add_vacation
+      data:
+        entity_id: water_heater.heat_pump_water_heater_gen_4
+    - service: homeassistant.turn_off
+      entity_id: switch.equipment_room_recirculation_pump
+    - service: notify.pushover
+      data:
+        title: "Ran vacation mode: on!"
+        message:  "turned off water main, set back temps, turned off recirc pump, set vacation mode on water heater"
+#########################################
+# on vacation, check the front door lock
+- alias: "on vacation, check the front door lock"
+  trigger:
+    - platform: state
+      entity_id: sensor.vacation_status
+      to: "true"
+  condition:
+    - condition: state
+      entity_id: lock.front_door_lock_locked
+      state: 'unlocked'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Front Door is UNLOCKED!"
+        message:  "Locking the front door"
+    - service: lock.lock
+      entity_id: lock.front_door_lock_locked
+#########################################
+# return from vacation, open the main water valve, remove the rheem water heater vacation hold, set temps back
+- alias: "return from vacation"
+  trigger:
+    - platform: state
+      entity_id: sensor.vacation_status
+      to: "false"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.water_main_shutoff_switch
+    - service: econet.delete_vacation
+      entity_id: water_heater.heat_pump_water_heater_gen_4
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_heating_1
+          - climate.thermostat_main_heating_1
+          - climate.thermostat_basement_heating_1
+        temperature: 69
+        operation_mode: Heat
+    - service: climate.set_temperature
+      data:
+        entity_id:
+          - climate.thermostat_upstairs_cooling_1
+          - climate.thermostat_main_cooling_1
+          - climate.thermostat_basement_cooling_1
+        temperature: 77
+        operation_mode: cool
+    - service: notify.pushover
+      data:
+        title: "Ran vacation mode: off!"
+        message:  "turned on water main, set temps to normal, turned on recirc pump, removed vacation mode on water heater"
+#########################################
+# armed away, check the front door lock
+- alias: "armed away, check the front door lock"
+  trigger:
+    - platform: state
+      entity_id: sensor.armed_status
+      to: "armed_away"
+  condition:
+    - condition: state
+      entity_id: lock.front_door_lock_locked
+      state: 'unlocked'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Front Door is UNLOCKED!"
+        message:  "Locking the front door"
+    - service: lock.lock
+      entity_id: lock.front_door_lock_locked
+#########################################
+# if main fridge temp goes >42 or <30, notify
+- alias: "main fridge temp goes >42 or <30, notify"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.main_fridge_temperature
+      above: '42'
+      for:
+        minutes: 5
+    - platform: numeric_state
+      entity_id: sensor.main_fridge_temperature
+      below: '30'
+      for:
+        minutes: 5
+  action:
+    - service: notify.pushover
+      data:
+        title: "Main Fridge Temperature Alert!"
+        message:  "Main Fridge temp is {{ states.sensor.main_fridge_temperature.state }}!"
+# #########################################
+# # if master entry >84 or <55, notify
+# - alias: "master entry >84 or <55, notify"
+#   trigger:
+#     - platform: numeric_state
+#       entity_id: sensor.master_entry_temperature
+#       above: '84'
+#     - platform: numeric_state
+#       entity_id: sensor.master_entry_temperature
+#       below: '55'
+#   condition: # workaround for wifi disconnects reporting a temp of 0.00
+#     - condition: template
+#       value_template: "{{ not is_state('sensor.master_entry_temperature', '0.00') }}"
+#   action:
+#     - service: notify.pushover
+#       data:
+#         title: "Master Temperature Alert!"
+#         message:  "Master temp is {{ states.sensor.master_entry_temperature.state }}!"
+# #########################################
+# # if basement >84 or <55, notify
+# - alias: "basement >84 or <55, notify"
+#   trigger:
+#     - platform: numeric_state
+#       entity_id: sensor.thermostat_basement_temperature
+#       above: '84'
+#     - platform: numeric_state
+#       entity_id: sensor.thermostat_basement_temperature
+#       below: '55'
+#   action:
+#     - service: notify.pushover
+#       data:
+#         title: "Basement Temperature Alert!"
+#         message:  "Basement temp is {{ states.sensor.thermostat_basement_temperature.state }}!"
+#########################################
+# if house temps >84 or <55, notify
+- alias: "if house temps >84 or <55, notify"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.thermostat_basement_temperature
+      above: '84'
+    - platform: numeric_state
+      entity_id: sensor.thermostat_basement_temperature
+      below: '55'
+    - platform: numeric_state
+      entity_id: sensor.master_entry_temperature
+      above: '84'
+    - platform: numeric_state
+      entity_id: sensor.master_entry_temperature
+      below: '55'
+  condition: # workaround temp of 0.00
+    - condition: template
+      value_template: "{{ not is_state(trigger.to_state.entity_id, '0.00') }}"
+  action:
+    - service: notify.pushover
+      data:
+        title: "Temperature Alert!"
+        message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
+#########################################
+# bedtime, garage check
+- id: bedtime, garage check
+  alias: "bedtime, garage check"
+  trigger:
+    - platform: state
+      entity_id: sensor.sleep_status
+      to: "true"
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: sensor.double_garage
+        state: 'Violated'
+      - condition: state
+        entity_id: sensor.single_garage
+        state: 'Violated'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Garage Door is Open!"
+        message:  "Check the garage doors"
+#########################################
+# bedtime, front door locked and notify
+- id: bedtime, front door lock check
+  alias: "bedtime, front door lock check"
+  trigger:
+    - platform: state
+      entity_id: sensor.sleep_status
+      to: "true"
+  condition:
+    - condition: state
+      entity_id: lock.front_door_lock_locked
+      state: 'unlocked'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Front Door is UNLOCKED!"
+        message:  "Locking the front door"
+    - service: lock.lock
+      entity_id: lock.front_door_lock_locked
+#########################################
+# lock notification
+# - alias: Unlock Front Door Notify
+#   trigger:
+#     - platform: state
+#       entity_id: lock.front_door_lock_locked
+#       to: 'unlocked'
+#       from: 'locked'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: template
+#         value_template: '{{ states.lock.front_door_lock_locked.attributes.notification == "Keypad Unlock"}}'
+#       - condition: template
+#         value_template: '{{ states.lock.front_door_lock_locked.attributes.lock_status != "Unlocked with Keypad by user 3"}}'
+#   action:
+#     - service: notify.pushover
+#       data_template:
+#         title: >
+#           Unlock by {% if states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 1' -%}
+#           Son
+#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 2' -%}
+#           Wife
+#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 4' -%}
+#           Daughter
+#           {%- endif -%}
+#         message: >
+#           {%- if states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 1' -%}
+#           Son
+#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 2' -%}
+#           Wife
+#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 4' -%}
+#           Daughter
+#           {%- endif %} unlocked the front door
+#########################################
+# zwave battery life notifications
+- id: Low Battery Notification
+  alias: Low Battery Notification
+  trigger:
+    - platform: template
+      value_template: >
+        {% for zwave in states.zwave if zwave.attributes.battery_level %}
+          {%- if zwave.attributes.battery_level | int < 20 -%}
+            {{true}}
+          {%- endif -%}
+        {%- endfor -%}
+  action:
+    - service: notify.pushover
+      data_template:
+        title: "Low Battery!"
+        message: >
+          {{ trigger.to_state.attributes.friendly_name }} needs new batteries.
+#########################################
+# indoor humidity check - winter - see if its below the high threshold
+- id: indoor humidity check - winter - see if its below the high threshold
+  alias: indoor humidity check - winter - see if its below the high threshold
+  trigger:
+    - platform: time_pattern
+      minutes: '/1440'
+      seconds: 00
+  condition:
+    - condition: template
+      value_template: "{{ ( states.sensor.house_humidity.state  ) > ( states.sensor.target_humidity_max_winter.state ) }}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: "Humidity Warning!"
+        message: "Humidity in the house is too high: {{ states.sensor.house_humidity.state }}"
+#########################################
+# indoor humidity check - winter - see if its above the low threshold
+- id: indoor humidity check - winter - see if its above the low threshold
+  alias: indoor humidity check - winter - see if its above the low threshold
+  trigger:
+    - platform: time_pattern
+      minutes: '/1440'
+      seconds: 00
+  condition:
+    - condition: template
+      value_template: "{{ ( states.sensor.house_humidity.state  ) < ( states.sensor.target_humidity_min_winter.state ) }}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title: "Humidity Warning!"
+        message: "Humidity in the house is too low: {{ states.sensor.house_humidity.state }}"
+#########################################
+# water leak, notify & close the water valve
+- alias: "water leak, notify"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.moisture_sensors
+      to: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.water_main_shutoff_switch
+    - service: notify.pushover
+      data_template:
+        title: "Water Leak!"
+        message: "HomeAssistant detected a water leak"
+#########################################
+# dog walker here between 9:30-3pm (while the alarm is not disarmed)
+- id: dog walker here
+  alias: "dog walker here"
+  trigger:
+    - platform: state
+      entity_id: sensor.garage_door
+      to: "Violated"
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
+      - condition: time
+        after: '09:30:00'
+      - condition: time
+        before: '15:00:00'
+  action:
+    - service: notify.pushover
+      data:
+        title: "Dog walker here"
+        data:
+          file:
+            url: !secret hik_daisy_pic
+#########################################
+# if 'alarm_state' turns to anything (except no_alarm_active or entrance_delay_active), notify!
+- alias: "alarm testing"
+  trigger:
+    - platform: template
+      value_template: "{{ not (is_state('sensor.alarm_state', 'no_alarm_active') or is_state('sensor.alarm_state', 'entrance_delay_active')) }}"
+  action:
+    - service: notify.pushover
+      data_template:
+        title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
+        message: "Changed to {{ trigger.to_state.state }}."
+########################################
+# Turn on recirculation pump in the AM (when we're not on vacation)
+- alias: Turn on recirculation pump in the AM (when we're not on vacation)
+  trigger:
+    - platform: time
+      at: '05:00:00'
+  condition:
+    - condition: state
+      entity_id: sensor.vacation_status
+      state: "false"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.equipment_room_recirculation_pump
+########################################
+# Christmas lights on
+# - alias: Christmas lights on
+#   trigger:
+#     - platform: time
+#       at: '18:00:00'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: sensor.vacation_status
+#         state: "false"
+#       - condition: state
+#         entity_id: sensor.occupancy_status
+#         state: 'true'
+#   action:
+#     - service: homeassistant.turn_on
+#       entity_id: group.christmaslights
+########################################
+# updater notification
+- alias: 'Update Available Notifications'
+  trigger:
+    platform: state
+    entity_id: updater.updater
+  action:
+    service: notify.pushover
+    data:
+      message: 'Update for Home Assistant is available.'
+########################################
+# master bed occupancy
+# - alias: 'master bed occupancy'
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.master_bed_occupied
+#       to: 'true'
+#       for:
+#         minutes: 1
+#     - platform: state
+#       entity_id: sensor.master_bed_occupied
+#       to: 'false'
+#       for:
+#         minutes: 1
+#   action:
+#     - service: notify.pushover
+#       data_template:
+#         title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
+#         message: "Changed to {{ trigger.to_state.state }}."
+########################################
+# pixel2 own tracks testing
+# - alias: 'pixel2 own tracks testing'
+#   trigger:
+#     platform: state
+#     entity_id: device_tracker.jon_pixel2ot
+#   action:
+#     service: notify.pushover
+#     data:
+#       message: 'Pixel2 changed status: {{ trigger.to_state.state }}'
+########################################
+# master entry motion light - bed unoccupied
+- alias: master entry motion light - bed unoccupied
+  trigger:
+    platform: state
+    entity_id: sensor.master_entry_pir
+    to: "motion detected"
+  condition:
+    - condition: state
+      entity_id: sensor.master_bed_occupied
+      state: 'unoccupied'
+    - condition: or
+      conditions:
+        - condition: time
+          after: '16:30'
+          before: '23:30'
+        - condition: time
+          after: '4:30'
+          before: '8:30'
+  action:
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.master_entry_lamp_lifx
+      data_template:
+        brightness: >
+          {% set hour=now().hour %}
+          {% set brightness = [10, 15, 20, 30, 55, 80, 125, 150, 175, 185, 240, 250, 255, 230, 205, 250, 230, 190, 170, 150, 140, 120, 100, 50] %}
+          {{ brightness[hour] }}
+        transition: 5
+        power: on
+########################################
+# master entry motion light - bed occupied
+- alias: master entry motion light - bed occupied
+  trigger:
+    platform: state
+    entity_id: sensor.master_entry_pir
+    to: "motion detected"
+  condition:
+    - condition: state
+      entity_id: sensor.master_bed_occupied
+      state: 'occupied'
+    - condition: or
+      conditions:
+        - condition: time
+          after: '16:30'
+          before: '23:30'
+        - condition: time
+          after: '4:30'
+          before: '8:30'
+  action:
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.master_entry_lamp_lifx
+      data_template:
+        brightness: >
+          {% set hour=now().hour %}
+          {% set brightness = [10, 15, 20, 30, 55, 80, 105, 130, 145, 180, 205, 230, 255, 230, 205, 180, 155, 130, 120, 100, 80, 70, 60, 15] %}
+          {{ brightness[hour] }}
+        transition: 5
+        power: on
+########################################
+# Master entry motion lights Off
+- alias: Master entry motion lights Off
+  trigger:
+    - platform: state
+      entity_id: sensor.master_entry_pir
+      to: 'standby'
+      for:
+        minutes: 10
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.master_entry_lamp_lifx
