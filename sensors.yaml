@@ -223,18 +223,12 @@
     unit_of_measurement: "lux"
 
   - platform: mqtt
-    name: "Office Temperature2"
-    state_topic: "esp8266/office"
-    unit_of_measurement: '°F'
-    value_template: "{{ value_json.temperature }}"
+    name: "Sitting Room PIR"
+    state_topic: "esp8266/sittingroom"
+    value_template: "{{ value_json.motion }}"
   - platform: mqtt
-    name: "Office Humidity2"
-    state_topic: "esp8266/office"
-    value_template: "{{ value_json.humidity }}"
-    unit_of_measurement: "%"
-  - platform: mqtt
-    name: "Office Lux2"
-    state_topic: "esp8266/office"
+    name: "Sitting Room Lux"
+    state_topic: "esp8266/sittingroom"
     value_template: "{{ value_json.ldr }}"
     unit_of_measurement: "lux"
 

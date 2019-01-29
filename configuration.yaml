@@ -7,6 +7,16 @@ homeassistant:
   time_zone: !secret ha_tz
   customize: !include customize.yaml
 
+# zwave:
+#   usb_path: /dev/ttyACM0
+# #  usb_path: /dev/zwave
+
+ # zha:
+ #   radio_type: ezsp
+ #   usb_path: /dev/ttyUSB1
+ #   baudrate: 115200
+ #   database_path: /config/zigbee.db
+
 cloud:
   google_actions:
     filter:
@@ -74,10 +84,6 @@ mqtt:
   discovery: true
   discovery_prefix: smartthings
 
-zwave:
-  usb_path: /dev/ttyACM0
-  network_key: !secret zwave_key
-
 elkm1:
   host: !secret url_elk
   temperature_unit: F
@@ -109,11 +115,6 @@ doorbird:
       hass_url_override: !secret hass_ip
       name: Front Door
 
-# isy994:
-#   host: !secret url_isy
-#   username: !secret isy_user
-#   password: !secret isy_passwd
-
 lutron:
   host: !secret rr_ip
   username: !secret rr_usr
@@ -136,11 +137,6 @@ device_tracker:
     ssid_filter:
       - 'ReedingRainbow'
 
-owntracks:
-  max_gps_accuracy: 200
-  waypoints: true
-
-
 # nest:
 #  client_id: !secret nest_usr
 #  client_secret: !secret nest_pwd
@@ -162,13 +158,11 @@ sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml
 automation: !include automation.yaml
 group: !include groups.yaml
-#alarm_control_panel: !include alarm_control_panel.yaml
 switch: !include switches.yaml
 script: !include scripts.yaml
 shell_command: !include shell_commands.yaml
 camera: !include cameras.yaml
 rest_command: !include rest_commands.yaml
-#climate: !include climate.yaml
 input_boolean: !include input_boolean.yaml
 zone: !include zones.yaml
 
@@ -181,7 +175,6 @@ sun:
 conversation:
 logbook:
 frontend:
-#  themes: !include_dir_merge_named themes/
 lovelace:
   mode: yaml
 config:

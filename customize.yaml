@@ -486,3 +486,27 @@ switch.front_door_open_door_2:
 #  friendly_name: Kitchen Fridge
 #switch.mqtt_switch:
 #  friendly_name: Basement Freezer
+
+# ########################
+# # ZIGBEE SENSORS
+# ########################
+binary_sensor.smartthings_moisturev4_0109af89_1_1280:
+  friendly_name: Main Fridge Moisture Sensor - 1
+sensor.smartthings_moisturev4_0109af89_1_1:
+  friendly_name: Main Fridge Moisture Sensor Battery - 1
+sensor.smartthings_moisturev4_0109af89_1_1026:
+  friendly_name: Main Fridge Temperature - 1
+zha.zha_smartthings_moisturev4_0109af89:
+  friendly_name: Main Fridge Moisture Sensor Status - 1
+#
+binary_sensor.smartthings_moisturev4_01059f69_1_1280:
+  friendly_name: Powder Room Moisture Sensor - 2
+sensor.smartthings_moisturev4_01059f69_1_1:
+  friendly_name: Powder Room Moisture Sensor Battery - 2
+sensor.smartthings_moisturev4_01059f69_1_1026:
+  friendly_name: Powder Room Temperature - 2
+zha.zha_smartthings_moisturev4_01059f69:
+  friendly_name: Powder Room Moisture Sensor Status - 2
+#
+
+#
