@@ -1033,7 +1033,7 @@
   action:
     - service: light.lifx_set_state
       data:
-        entity_id: light.master_entry_lamp_lifx
+        entity_id: light.master_entry_lifx
       data_template:
         brightness: >
           {% set hour=now().hour %}
@@ -1063,7 +1063,7 @@
   action:
     - service: light.lifx_set_state
       data:
-        entity_id: light.master_entry_lamp_lifx
+        entity_id: light.master_entry_lifx
       data_template:
         brightness: >
           {% set hour=now().hour %}
@@ -1082,4 +1082,63 @@
         minutes: 10
   action:
     - service: homeassistant.turn_off
-      entity_id: light.master_entry_lamp_lifx
+      entity_id: light.master_entry_lifx
+
+
+
+
+
+
+########################################
+# master sitting motion light - bed unoccupied
+- alias: master sitting motion light - bed unoccupied
+  trigger:
+    platform: state
+    entity_id: sensor.sitting_room_pir
+    to: "motion detected"
+  condition:
+    - condition: state
+      entity_id: sensor.master_bed_occupied
+      state: 'unoccupied'
+    - condition: or
+      conditions:
+        - condition: time
+          after: '16:30'
+          before: '23:30'
+        - condition: time
+          after: '4:30'
+          before: '8:30'
+  action:
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.sitting_room_lifx
+      data_template:
+        brightness: >
+          {% set hour=now().hour %}
+          {% set brightness = [10, 15, 20, 30, 55, 80, 125, 150, 175, 185, 240, 250, 255, 230, 205, 250, 230, 190, 170, 150, 140, 120, 100, 50] %}
+          {{ brightness[hour] }}
+        transition: 5
+        power: on
+########################################
+# sitting room motion lights Off
+- alias: sitting room motion lights Off
+  trigger:
+    - platform: state
+      entity_id: sensor.sitting_room_pir
+      to: 'standby'
+      for:
+        minutes: 10
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.sitting_room_lifx
+########################################
+# sitting room lights Off when bed occupied
+- alias: sitting room lights Off when bed occupied
+  trigger:
+    - platform: state
+      entity_id: sensor.master_bed_occupied
+      from: 'unoccupied'
+      to: 'occupied'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.sitting_room_lifx

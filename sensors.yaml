@@ -224,11 +224,11 @@
 
   - platform: mqtt
     name: "Sitting Room PIR"
-    state_topic: "esp8266/sittingroom"
+    state_topic: "esp8266/sensornode3"
     value_template: "{{ value_json.motion }}"
   - platform: mqtt
     name: "Sitting Room Lux"
-    state_topic: "esp8266/sittingroom"
+    state_topic: "esp8266/sensornode3"
     value_template: "{{ value_json.ldr }}"
     unit_of_measurement: "lux"
 
