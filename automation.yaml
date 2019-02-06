@@ -1142,3 +1142,14 @@
   action:
     - service: homeassistant.turn_off
       entity_id: light.sitting_room_lifx
+# ########################################
+# # testing temp
+# - alias: testing temp
+#   trigger:
+#     - platform: state
+#       entity_id: climate.main_floor_t_stat_16
+#   action:
+#     - service: notify.pushover
+#       data_template:
+#         title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
+#         message: "Changed to {{ trigger.to_state.state }}."

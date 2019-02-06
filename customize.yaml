@@ -508,5 +508,29 @@ sensor.smartthings_moisturev4_01059f69_1_1026:
 zha.zha_smartthings_moisturev4_01059f69:
   friendly_name: Powder Room Moisture Sensor Status - 2
 #
-
+binary_sensor.smartthings_moisturev4_01027d35_1_1280:
+  friendly_name: Moisture Sensor - 5
+sensor.smartthings_moisturev4_01027d35_1_1:
+  friendly_name: Moisture Sensor Battery - 5
+sensor.smartthings_moisturev4_01027d35_1_1026:
+  friendly_name: Temperature - 5
+zha.zha_smartthings_moisturev4_01027d35:
+  friendly_name: Moisture Sensor Status - 5
 #
+binary_sensor.smartthings_moisturev4_01045ee1_1_1280:
+  friendly_name: Moisture Sensor - 4
+sensor.smartthings_moisturev4_01045ee1_1_1:
+  friendly_name: Moisture Sensor Battery - 4
+sensor.smartthings_moisturev4_01045ee1_1_1026:
+  friendly_name: Temperature - 4
+zha.zha_smartthings_moisturev4_01045ee1:
+  friendly_name: Moisture Sensor Status - 4
+#
+binary_sensor.smartthings_moisturev4_0105a0f7_1_1280:
+  friendly_name: Moisture Sensor - 3
+sensor.smartthings_moisturev4_0105a0f7_1_1:
+  friendly_name: Moisture Sensor Battery - 3
+sensor.smartthings_moisturev4_0105a0f7_1_1026:
+  friendly_name: Temperature - 3
+zha.zha_smartthings_moisturev4_0105a0f7:
+  friendly_name: Moisture Sensor Status - 3

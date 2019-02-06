@@ -422,7 +422,6 @@ views:
   - id: 4
     title: TV
     icon: mdi:television-classic
-    id: roku
     cards:
       - type: media-control
         entity: media_player.great_room
@@ -511,7 +510,7 @@ views:
           - switch.upstairs_hall_hall
           - switch.upstairs_hall_main_stairs
           - switch.upstairs_hall_treads
-          - switch.basement_dehumidifier_switch
+          - switch.aeotec1_switch
           - switch.master_closet_switch
           - switch.pantry_switch
 #########################
@@ -543,10 +542,10 @@ views:
         title: energy
         show_header_toggle: false
         entities:
-          - sensor.basement_dehumidifier_energy
-          - sensor.basement_dehumidifier_power
-          - sensor.garage_fridge_energy
-          - sensor.garage_fridge_power
+          - sensor.aeotec1_energy
+          - sensor.aeotec1_power
+          - sensor.aeotec2_energy
+          - sensor.aeotec2_power
           - sensor.aeotec_hem_energy
           - sensor.aeotec_hem_energy_2
           - sensor.aeotec_hem_energy_3
