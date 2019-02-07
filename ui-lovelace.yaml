@@ -74,6 +74,7 @@ views:
           - switch.great_room_lamp
           - scene.master_bedroom_jons_keypad_all_on
           - scene.master_bedroom_jons_keypad_all_off
+          - switch.aeotec2_switch
       - id: lightsOn
         type: entity-filter
         entities:

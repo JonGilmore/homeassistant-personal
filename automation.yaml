@@ -516,6 +516,20 @@
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
 #########################################
+# away during the day, turn lights off
+- alias: "away during the day, turn lights off"
+  trigger:
+    - platform: state
+      entity_id: sensor.occupancy_status
+      to: "false"
+  condition:
+    - condition: state
+      entity_id: sensor.dark_inside
+      state: 'False'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_jons_keypad_all_off
+#########################################
 # home, turn the HVAC fans off & the recirculation on
 - alias: "home, set the fans to off - thermostat"
   trigger:
