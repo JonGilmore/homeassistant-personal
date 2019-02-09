@@ -75,6 +75,7 @@ views:
           - scene.master_bedroom_jons_keypad_all_on
           - scene.master_bedroom_jons_keypad_all_off
           - switch.aeotec2_switch
+          - binary_sensor.kitchen_outlet
       - id: lightsOn
         type: entity-filter
         entities:
@@ -511,9 +512,13 @@ views:
           - switch.upstairs_hall_hall
           - switch.upstairs_hall_main_stairs
           - switch.upstairs_hall_treads
-          - switch.aeotec1_switch
           - switch.master_closet_switch
           - switch.pantry_switch
+          - light.sitting_room_lifx
+          - light.master_entry_lifx
+          - light.living_room_lifx
+          - light.lauras_lamp_lifx
+          - light.sunroom_lifx
 #########################
 # SMARTTHINGS TAB
 #########################

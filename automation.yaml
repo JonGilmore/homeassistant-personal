@@ -29,83 +29,6 @@
         title: "Garage Door Open"
         message:  "Garage Door(s) open!"
 #########################################
-# Turn on light with sensor value change
-#- id: hall
-#  alias: "Hall Light"
-#  trigger:
-#    - platform: state
-#      entity_id: sensor.kitchen_motion
-#      from: "False"
-#      to: "True"
-#  action:
-#    - service: homeassistant.turn_on
-#      entity_id: switch.switch
-#########################################
-# Turn light on with motion (if it is off).
-# Continue to keep it on when there is motion detected for 20 seconds
-#- alias: Lights on when motion on
-#  trigger:
-#    - platform: state
-#      entity_id: sensor.kitchen_motion
-#      to: 'Violated'
-#  condition:
-#    - condition: state
-#      entity_id: light.zwave1_level
-#      state: 'off'
-#  action:
-#    - service: light.turn_on
-#      entity_id: light.zwave1_level
-#
-#- alias: Light off after 20 sec when motion off
-#  trigger:
-#    - platform: state
-#      entity_id: sensor.kitchen_motion
-#      to: 'Normal'
-#      for:
-#        seconds: 20
-#  condition:
-#    - condition: state
-#      entity_id: light.zwave1_level
-#      state: 'on'
-#  action:
-#    - service_template: light.turn_off
-#      entity_id: light.zwave1_level
-#########################################
-# Turn on light at x minutes after sunrise
-#- alias: Lights on at X after sunrise
-#  trigger:
-#    - platform: sun
-#      event: sunrise
-#      offset: '+00:19:00'
-#  action:
-#    - service: light.turn_on
-#      entity_id: light.zwave1_level
-#########################################
-# Turn light on when doorbell rings (and elk is disarmed)
-#- alias: Hall lights on when doorbell rings (and elk is disarmed)
-#  trigger:
-#    - platform: state
-#      entity_id: sensor.zone011
-#      to: 'Violated'
-#  condition:
-#    - condition: state
-#      entity_id: alarm_control_panel.area001
-#      state: 'disarmed'
-#  action:
-#    - service: light.turn_on
-#### change to front hall light ###
-#      entity_id: light.zwave1_level
-#########################################
-# Turn light on when elk is armed
-#- alias: Hall lights on when elk is armed
-#  trigger:
-#    - platform: state
-#      entity_id: alarm_control_panel.area001
-#      to: 'armed'
-#  action:
-#    service: light.turn_on
-#    entity_id: light.zwave1_level
-#########################################
 # Send pushover with driveway motion
 - id: pushover driveway line
   alias: "pushover driveway line"
@@ -199,28 +122,6 @@
         - switch.upstairs_hall_treads
         - switch.great_room_lamp
 #########################################
-# bright out (in morning)
-# - id: bright out (in morning)
-#   alias: "bright out (in morning)"
-#   trigger:
-#     - platform: state
-#       entity_id: sensor.dark_inside
-#       from: 'True'
-#       to: 'False'
-#   condition:
-#     condition: and
-#     conditions:
-#       - condition: state
-#         entity_id: input_boolean.morning_lights_run_once
-#         state: 'off'
-#       - condition: sun
-#         after: sunrise
-#   action:
-#     - service: scene.turn_on
-#       entity_id: scene.master_bedroom_jons_keypad_all_off
-#     - service: homeassistant.turn_on
-#       entity_id: input_boolean.morning_lights_run_once
-#########################################
 - id: motion_lights
   alias: Motion Lights
   trigger:
@@ -242,8 +143,7 @@
       to: 'Normal'
       for:
         minutes: 5
-  condition:
-    ## Ensure Motion Lights aren't disabled
+  condition: ## Ensure Motion Lights aren't disabled
     - condition: state
       entity_id: input_boolean.block_all_motion_lights
       state: 'off'
@@ -331,8 +231,8 @@
       data:
         message: 'Master Bed changed status: {{ trigger.to_state.state }}'
 #########################################
-# reset run-once variables
-- alias: Master Blinds - reset
+# reset run-once variables - noon
+- alias: reset run-once variables - noon
   trigger:
     platform: time
     at: '12:00:00'
@@ -1053,7 +953,7 @@
           {% set hour=now().hour %}
           {% set brightness = [10, 15, 20, 30, 55, 80, 125, 150, 175, 185, 240, 250, 255, 230, 205, 250, 230, 190, 170, 150, 140, 120, 100, 50] %}
           {{ brightness[hour] }}
-        transition: 5
+        transition: 0
         power: on
 ########################################
 # master entry motion light - bed occupied
@@ -1083,7 +983,7 @@
           {% set hour=now().hour %}
           {% set brightness = [10, 15, 20, 30, 55, 80, 105, 130, 145, 180, 205, 230, 255, 230, 205, 180, 155, 130, 120, 100, 80, 70, 60, 15] %}
           {{ brightness[hour] }}
-        transition: 5
+        transition: 0
         power: on
 ########################################
 # Master entry motion lights Off
@@ -1097,12 +997,6 @@
   action:
     - service: homeassistant.turn_off
       entity_id: light.master_entry_lifx
-
-
-
-
-
-
 ########################################
 # master sitting motion light - bed unoccupied
 - alias: master sitting motion light - bed unoccupied
@@ -1131,7 +1025,7 @@
           {% set hour=now().hour %}
           {% set brightness = [10, 15, 20, 30, 55, 80, 125, 150, 175, 185, 240, 250, 255, 230, 205, 250, 230, 190, 170, 150, 140, 120, 100, 50] %}
           {{ brightness[hour] }}
-        transition: 5
+        transition: 0
         power: on
 ########################################
 # sitting room motion lights Off
@@ -1156,14 +1050,3 @@
   action:
     - service: homeassistant.turn_off
       entity_id: light.sitting_room_lifx
-# ########################################
-# # testing temp
-# - alias: testing temp
-#   trigger:
-#     - platform: state
-#       entity_id: climate.main_floor_t_stat_16
-#   action:
-#     - service: notify.pushover
-#       data_template:
-#         title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
-#         message: "Changed to {{ trigger.to_state.state }}."

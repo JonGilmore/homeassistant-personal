@@ -27,8 +27,8 @@ motions:
     - sensor.bsmt_storage_mtn
     - sensor.master_closet_pir
     - sensor.pantry_pir
-    - sensor.aeotec_multisensor_motion_template_lr
-    - sensor.aeotec_multisensor_motion_template_office
+    - sensor.living_room_pir
+    - sensor.office_pir
 
 motions_main:
   name: Main Motions

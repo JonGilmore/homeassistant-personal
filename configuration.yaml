@@ -57,7 +57,8 @@ tts:
   - platform: google
 recorder:
   db_url: !secret url_db
-
+system_health:
+  
 influxdb:
   host: localhost
   username: !secret influx_usr
