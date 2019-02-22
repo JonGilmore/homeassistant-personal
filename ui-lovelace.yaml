@@ -36,8 +36,9 @@ views:
         entities:
           - group.exterior_lights
           - group.interior_lights
-          - switch.equipment_room_recirculation_pump
           - switch.sundown1
+          - scene.master_bedroom_jons_keypad_all_on
+          - scene.master_bedroom_jons_keypad_all_off
       - id: cameraGlance
         type: picture-glance
         image:
@@ -50,7 +51,7 @@ views:
         title: Moisture Sensors
         show_header_toggle: false
         entities:
-          - binary_sensor.basement_freezer_moisture
+          - binary_sensor.powder_room_moisture
           - binary_sensor.basement_fridge_moisture
           - binary_sensor.kitchen_dishwasher_moisture
           - binary_sensor.kitchen_fridge_moisture
@@ -67,15 +68,11 @@ views:
           title: People that are home
       - id: testing
         type: entities
+        show_header_toggle: false
         title: Testing
         entities:
-          - sensor.dark_inside
-          - sensor.living_room_lux2
           - switch.great_room_lamp
-          - scene.master_bedroom_jons_keypad_all_on
-          - scene.master_bedroom_jons_keypad_all_off
           - switch.aeotec2_switch
-          - binary_sensor.kitchen_outlet
       - id: lightsOn
         type: entity-filter
         entities:
@@ -154,6 +151,16 @@ views:
           - 'on'
         card:
           title: Enabled Lights
+      - id: equipment
+        type: entities
+        title: Equipment
+        show_header_toggle: false
+        entities:
+          - binary_sensor.kitchen_outlet
+          - switch.water_main_shutoff_switch
+          - switch.equipment_room_recirculation_pump
+          - sensor.dark_inside
+          - sensor.living_room_lux2
 
 #########################
 # THERMOSTAT TAB
@@ -222,7 +229,7 @@ views:
         entities:
           - camera.driveway
           - camera.front_door
-          #- camera.garage
+          - camera.garage
           - camera.daisy
           - camera.deck
           - camera.front_door_live
@@ -532,10 +539,12 @@ views:
         show_header_toggle: false
         entities:
           - sensor.kitchen_fridge
-          - sensor.basement_freezer
+          - sensor.powder_room
           - sensor.basement_fridge
           - sensor.kitchen_dishwasher
           - sensor.kitchen_sink
+          - sensor.basement_storage
+          - sensor.laundry
 #########################
 # ENERGY TAB
 #########################

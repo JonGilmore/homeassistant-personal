@@ -50,7 +50,7 @@ cloud:
         - climate
 
 http:
-  api_password: !secret api_password
+#  api_password: !secret api_password
 updater:
   reporting: false
 tts:
@@ -58,7 +58,7 @@ tts:
 recorder:
   db_url: !secret url_db
 system_health:
-  
+
 influxdb:
   host: localhost
   username: !secret influx_usr
@@ -69,6 +69,8 @@ influxdb:
       - sensor
       - binary_sensor
       - climate
+      - device_tracker
+      - lock
 
 weather:
   - platform: darksky
@@ -120,9 +122,6 @@ water_heater:
     username: !secret econet_user
     password: !secret econet_pwd
 
-light:
- - platform: lifx
-
 device_tracker:
   - platform: unifi
     host: !secret unifi_ip
@@ -141,10 +140,18 @@ scene:
   address: !secret powerview_ip
 
 notify:
-  - name: pushover
-    platform: pushover
-    api_key: !secret pushover_api_key
-    user_key: !secret pushover_user_key
+  # - name: pushover
+  #   platform: pushover
+  #   api_key: !secret pushover_api_key
+  #   user_key: !secret pushover_user_key
+  - name: telegram_jon
+    platform: telegram
+    chat_id: !secret telegram_chat
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_api
+    allowed_chat_ids:
+      - !secret telegram_chat
 
 ####################################################
 #                     Includes                     #
@@ -181,10 +188,10 @@ discovery:
     - plex_mediaserver
 
 panel_iframe:
-  nodered_flows:
-    title: 'TasmoAdmin'
-    url: 'http://192.168.45.249:9541'
-    icon: mdi:power-socket-us
+  # nodered_flows:
+  #   title: 'TasmoAdmin'
+  #   url: 'http://192.168.45.249:9541'
+  #   icon: mdi:power-socket-us
   grafana:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'

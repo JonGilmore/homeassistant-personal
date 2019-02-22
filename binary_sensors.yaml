@@ -29,11 +29,16 @@
     payload_off: "dry"
     device_class: moisture
   - platform: mqtt
-    name: "Basement Freezer Moisture"
-    state_topic: "smartthings/Basement Freezer/water"
+    name: "Powder Room Moisture"
+    state_topic: "smartthings/Powder Room/water"
     payload_on: "wet"
     payload_off: "dry"
     device_class: moisture
+  - platform: mqtt
+    name: "Washing Machine"
+    state_topic: "smartthings/Washer/acceleration"
+    payload_on: active
+    payload_off: inactive
   - platform: hikvision
     host: 192.168.45.233
     username: !secret hik_usr
@@ -102,7 +107,7 @@
         value_template: >-
           {%- if is_state("sensor.watr_htr_snsr", "Violated")
           or is_state("sensor.frdge_leak_snsr", "Violated")
-          or is_state("binary_sensor.basement_freezer_moisture", "on")
+          or is_state("binary_sensor.powder_room_moisture", "on")
           or is_state("binary_sensor.basement_fridge_moisture", "on")
           or is_state("binary_sensor.kitchen_dishwasher_moisture", "on")
           or is_state("binary_sensor.kitchen_fridge_moisture", "on")

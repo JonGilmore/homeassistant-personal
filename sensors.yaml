@@ -3,7 +3,6 @@
     name: House Humidity
     round_digits: 0
     type: mean
-    hidden: true
     entity_ids:
       - sensor.living_room_multisensor_relative_humidity
       - sensor.office_multisensor_relative_humidity
@@ -40,8 +39,8 @@
 
 # SMARTTHINGS SENSORS
   - platform: mqtt
-    name: "Basement Freezer"
-    state_topic: "smartthings/Basement Freezer/temperature"
+    name: "Powder Room"
+    state_topic: "smartthings/Powder Room/temperature"
     device_class: temperature
     unit_of_measurement: "°F"
   - platform: mqtt
@@ -65,8 +64,19 @@
     device_class: temperature
     unit_of_measurement: "°F"
   - platform: mqtt
+    name: "Laundry"
+    state_topic: "smartthings/Washer/temperature"
+    device_class: temperature
+    unit_of_measurement: "°F"
+  - platform: mqtt
+    name: "Basement Storage"
+    state_topic: "smartthings/Basement Multi/temperature"
+    device_class: temperature
+    unit_of_measurement: "°F"
+  - platform: mqtt
     state_topic: "reeder/master/bed"
     name: "Master Bed"
+
 
 # DARK SKY
   - platform: darksky
@@ -122,14 +132,14 @@
       #   friendly_name: 'Solar Angle'
       #   value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
       #   unit_of_measurement: '°'
-      time_of_day:
-        friendly_name: "Time of Day"
-        value_template: >-
-          {% if   (states.sensor.living_room_lux2.state | int < 600) and (sensor.time_of_day.state == "day"  ) %}dusk
-          {% elif (states.sensor.living_room_lux2.state | int < 300) and (sensor.time_of_day.state == "dusk" ) %}night
-          {% elif (states.sensor.living_room_lux2.state | int > 100) and (sensor.time_of_day.state == "night") %}dawn
-          {% elif (states.sensor.living_room_lux2.state | int > 250) and (sensor.time_of_day.state == "dawn" ) %}day
-          {% else %} error {% endif %}
+      # time_of_day:
+      #   friendly_name: "Time of Day"
+      #   value_template: >-
+      #     {% if   (states.sensor.living_room_lux2.state | int < 600) and (sensor.time_of_day.state == "day"  ) %}dusk
+      #     {% elif (states.sensor.living_room_lux2.state | int < 300) and (sensor.time_of_day.state == "dusk" ) %}night
+      #     {% elif (states.sensor.living_room_lux2.state | int > 100) and (sensor.time_of_day.state == "night") %}dawn
+      #     {% elif (states.sensor.living_room_lux2.state | int > 250) and (sensor.time_of_day.state == "dawn" ) %}day
+      #     {% else %} error {% endif %}
       # period_of_day:
       #   friendly_name: 'period of the day'
       #   value_template: >-

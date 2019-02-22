@@ -1,7 +1,7 @@
 #########################################
-# Garage open pushover
-- id: Garage open pushover
-  alias: "Garage open pushover"
+# Garage open notify
+- id: Garage open notify
+  alias: "Garage open notify"
   trigger:
     - platform: state
       entity_id: sensor.double_garage
@@ -24,30 +24,30 @@
       for:
         minutes: 15
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Garage Door Open"
         message:  "Garage Door(s) open!"
 #########################################
-# Send pushover with driveway motion
-- id: pushover driveway line
-  alias: "pushover driveway line"
+# telegram with driveway line crossing (motion)
+- id: telegram driveway line
+  alias: "telegram driveway line"
   trigger:
     - platform: state
       entity_id: binary_sensor.driveway_line_crossing
       to: "on"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
-        title: "Driveway Motion"
-        message:  "Line crossing from HASS"
+        title: Driveway Motion
+        message: "Driveway line crossed"
         data:
-          file:
-            url: !secret hik_driveway_pic
+          photo:
+            - url: !secret hik_driveway_pic
 #########################################
-# Send pushover with deck motion (but only while alarm is armed)
-- id: pushover deck line (when alarm is armed)
-  alias: "pushover deck line (when alarm is armed)"
+# Send telegram with deck motion (but only while alarm is armed)
+- id: telegram deck line (when alarm is armed)
+  alias: "telegram deck line (when alarm is armed)"
   trigger:
     - platform: state
       entity_id: binary_sensor.deck_motion
@@ -56,28 +56,28 @@
     - condition: template
       value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Deck Motion"
         message:  "Line crossing from HASS"
         data:
-          file:
+          photo:
             url: !secret hik_deck_pic
 #########################################
-# Send pushover with front door motion
-- id: pushover front door line
-  alias: "pushover front door line"
+# Send telegram with front door motion
+- id: telegram front door line
+  alias: "telegram front door line"
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_line_crossing
       to: "on"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Front door Motion"
         message:  "Line crossing from HASS"
         data:
-          file:
+          photo:
             url: !secret db_pic
 #########################################
 # front door motion, dark out, occupied, foyer on
@@ -227,7 +227,7 @@
       entity_id: scene.24273
     - service: homeassistant.turn_on
       entity_id: input_boolean.master_am_run_once
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         message: 'Master Bed changed status: {{ trigger.to_state.state }}'
 #########################################
@@ -447,14 +447,14 @@
     - service: homeassistant.turn_on
       entity_id: switch.equipment_room_recirculation_pump
 #########################################
-# elk disconnected - send pushover
-- alias: "elk disconnected - send pushover"
+# elk disconnected - send telegram
+- alias: "elk disconnected - send telegram"
   trigger:
     - platform: state
       entity_id: sensor.elkm1
       to: "Disconnected"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Elk Disconnected"
         message:  "Check the Elk M1XEP connection"
@@ -533,7 +533,7 @@
         entity_id: water_heater.heat_pump_water_heater_gen_4
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Ran vacation mode: on!"
         message:  "turned off water main, set back temps, turned off recirc pump, set vacation mode on water heater"
@@ -549,7 +549,7 @@
       entity_id: lock.front_door_lock_locked
       state: 'unlocked'
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Front Door is UNLOCKED!"
         message:  "Locking the front door"
@@ -583,7 +583,7 @@
           - climate.thermostat_basement_cooling_1
         temperature: 77
         operation_mode: cool
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Ran vacation mode: off!"
         message:  "turned on water main, set temps to normal, turned on recirc pump, removed vacation mode on water heater"
@@ -599,7 +599,7 @@
       entity_id: lock.front_door_lock_locked
       state: 'unlocked'
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Front Door is UNLOCKED!"
         message:  "Locking the front door"
@@ -620,7 +620,7 @@
       for:
         minutes: 5
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Main Fridge Temperature Alert!"
         message:  "Main Fridge temp is {{ states.sensor.main_fridge_temperature.state }}!"
@@ -638,7 +638,7 @@
 #     - condition: template
 #       value_template: "{{ not is_state('sensor.master_entry_temperature', '0.00') }}"
 #   action:
-#     - service: notify.pushover
+#     - service: notify.telegram_jon
 #       data:
 #         title: "Master Temperature Alert!"
 #         message:  "Master temp is {{ states.sensor.master_entry_temperature.state }}!"
@@ -653,7 +653,7 @@
 #       entity_id: sensor.thermostat_basement_temperature
 #       below: '55'
 #   action:
-#     - service: notify.pushover
+#     - service: notify.telegram_jon
 #       data:
 #         title: "Basement Temperature Alert!"
 #         message:  "Basement temp is {{ states.sensor.thermostat_basement_temperature.state }}!"
@@ -677,7 +677,7 @@
     - condition: template
       value_template: "{{ not is_state(trigger.to_state.entity_id, '0.00') }}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Temperature Alert!"
         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
@@ -699,7 +699,7 @@
         entity_id: sensor.single_garage
         state: 'Violated'
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Garage Door is Open!"
         message:  "Check the garage doors"
@@ -716,7 +716,7 @@
       entity_id: lock.front_door_lock_locked
       state: 'unlocked'
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Front Door is UNLOCKED!"
         message:  "Locking the front door"
@@ -738,7 +738,7 @@
 #       - condition: template
 #         value_template: '{{ states.lock.front_door_lock_locked.attributes.lock_status != "Unlocked with Keypad by user 3"}}'
 #   action:
-#     - service: notify.pushover
+#     - service: notify.telegram_jon
 #       data_template:
 #         title: >
 #           Unlock by {% if states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 1' -%}
@@ -769,7 +769,7 @@
           {%- endif -%}
         {%- endfor -%}
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data_template:
         title: "Low Battery!"
         message: >
@@ -779,14 +779,13 @@
 - id: indoor humidity check - winter - see if its below the high threshold
   alias: indoor humidity check - winter - see if its below the high threshold
   trigger:
-    - platform: time_pattern
-      minutes: '/1440'
-      seconds: 00
+    - platform: time
+      at: '10:00:00'
   condition:
     - condition: template
       value_template: "{{ ( states.sensor.house_humidity.state  ) > ( states.sensor.target_humidity_max_winter.state ) }}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data_template:
         title: "Humidity Warning!"
         message: "Humidity in the house is too high: {{ states.sensor.house_humidity.state }}"
@@ -795,31 +794,50 @@
 - id: indoor humidity check - winter - see if its above the low threshold
   alias: indoor humidity check - winter - see if its above the low threshold
   trigger:
-    - platform: time_pattern
-      minutes: '/1440'
-      seconds: 00
+    - platform: time
+      at: '10:01:00'
   condition:
     - condition: template
       value_template: "{{ ( states.sensor.house_humidity.state  ) < ( states.sensor.target_humidity_min_winter.state ) }}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data_template:
         title: "Humidity Warning!"
         message: "Humidity in the house is too low: {{ states.sensor.house_humidity.state }}"
+# #########################################
+# # water leak, notify, close the water valve, turn off recirc pump
+# - alias: "water leak, notify, close the water valve, turn off recirc pump"
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.moisture_sensors
+#       to: "on"
+#   action:
+#     - service: homeassistant.turn_off
+#       entity_id: switch.equipment_room_recirculation_pump
+#     - service: homeassistant.turn_off
+#       entity_id: switch.water_main_shutoff_switch
+#     - service: notify.telegram_jon
+#       data_template:
+#         title: "Water Leak!"
+#         message: "HomeAssistant detected a water leak"
+
+
+
 #########################################
-# water leak, notify & close the water valve
-- alias: "water leak, notify"
+# water leak, notify, close the water valve, turn off recirc pump
+- alias: "water leak, notify, close the water valve, turn off recirc pump"
   trigger:
     - platform: state
       entity_id: binary_sensor.moisture_sensors
       to: "on"
   action:
-    - service: homeassistant.turn_off
-      entity_id: switch.water_main_shutoff_switch
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data_template:
         title: "Water Leak!"
         message: "HomeAssistant detected a water leak"
+
+
+
 #########################################
 # dog walker here between 9:30-3pm (while the alarm is not disarmed)
 - id: dog walker here
@@ -838,11 +856,11 @@
       - condition: time
         before: '15:00:00'
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data:
         title: "Dog walker here"
         data:
-          file:
+          photo:
             url: !secret hik_daisy_pic
 #########################################
 # if 'alarm_state' turns to anything (except no_alarm_active or entrance_delay_active), notify!
@@ -851,10 +869,34 @@
     - platform: template
       value_template: "{{ not (is_state('sensor.alarm_state', 'no_alarm_active') or is_state('sensor.alarm_state', 'entrance_delay_active')) }}"
   action:
-    - service: notify.pushover
+    - service: notify.telegram_jon
       data_template:
         title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
         message: "Changed to {{ trigger.to_state.state }}."
+#########################################
+# fire active, unlock locks, lights on
+- alias: "fire active, unlock locks, lights on"
+  trigger:
+    - platform: state
+      entity_id: sensor.alarm_state
+      to: "fire_alarm"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_jons_keypad_all_on
+    - service: lock.unlock
+      entity_id: lock.garage_door_lock_locked
+    - service: lock.unlock
+      entity_id: lock.front_door_lock_locked
+#########################################
+# burglar active, lights on
+- alias: "burglar active, lights on"
+  trigger:
+    - platform: state
+      entity_id: sensor.alarm_state
+      to: "burglar_alarm"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.master_bedroom_jons_keypad_all_on
 ########################################
 # Turn on recirculation pump in the AM (when we're not on vacation)
 - alias: Turn on recirculation pump in the AM (when we're not on vacation)
@@ -893,7 +935,7 @@
     platform: state
     entity_id: updater.updater
   action:
-    service: notify.pushover
+    service: notify.telegram_jon
     data:
       message: 'Update for Home Assistant is available.'
 ########################################
@@ -911,7 +953,7 @@
 #       for:
 #         minutes: 1
 #   action:
-#     - service: notify.pushover
+#     - service: notify.telegram_jon
 #       data_template:
 #         title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
 #         message: "Changed to {{ trigger.to_state.state }}."
@@ -922,7 +964,7 @@
 #     platform: state
 #     entity_id: device_tracker.jon_pixel2ot
 #   action:
-#     service: notify.pushover
+#     service: notify.telegram_jon
 #     data:
 #       message: 'Pixel2 changed status: {{ trigger.to_state.state }}'
 ########################################

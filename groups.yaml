@@ -9,14 +9,14 @@ moistureSensors:
   view: no
   name: Leak Sensors
   entities:
-    - binary_sensor.leakbasement_freezer
-    - binary_sensor.leakbasement_fridge
-    - binary_sensor.leakkitchen_dishwasher
-    - binary_sensor.leakkitchen_fridge
-    - binary_sensor.leakkitchen_sink
+    - binary_sensor.powder_room_moisture
+    - binary_sensor.basement_fridge_moisture
+    - binary_sensor.kitchen_dishwasher_moisture
+    - binary_sensor.kitchen_fridge_moisture
+    - binary_sensor.kitchen_sink_moisture
 
 motions:
-  view: yes
+  view: no
   name: Motion Sensors
   entities:
     - sensor.foyer_motion

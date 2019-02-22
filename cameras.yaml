@@ -8,11 +8,11 @@
   name: Front Door
   username: admin
   password: !secret hik_pwd
-# - platform: mjpeg
-#   mjpeg_url: http://192.168.45.232:80/Streaming/Channels/2/preview
-#   name: Garage
-#   username: admin
-#   password: !secret hik_pwd
+- platform: mjpeg
+  mjpeg_url: http://192.168.45.232/snap.jpeg
+  name: Garage
+  username: ubnt
+  password: !secret hik_pwd
 - platform: mjpeg
   mjpeg_url: http://192.168.45.233:80/Streaming/Channels/2/preview
   name: Driveway
