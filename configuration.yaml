@@ -71,6 +71,9 @@ influxdb:
       - climate
       - device_tracker
       - lock
+    entities:
+      - switch.equipment_room_recirculation_pump
+      - switch.water_main_shutoff_switch
 
 weather:
   - platform: darksky

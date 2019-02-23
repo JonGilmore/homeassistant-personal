@@ -228,7 +228,7 @@
     - service: homeassistant.turn_on
       entity_id: input_boolean.master_am_run_once
     - service: notify.telegram_jon
-      data:
+      data_template:
         message: 'Master Bed changed status: {{ trigger.to_state.state }}'
 #########################################
 # reset run-once variables - noon
@@ -804,25 +804,6 @@
       data_template:
         title: "Humidity Warning!"
         message: "Humidity in the house is too low: {{ states.sensor.house_humidity.state }}"
-# #########################################
-# # water leak, notify, close the water valve, turn off recirc pump
-# - alias: "water leak, notify, close the water valve, turn off recirc pump"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.moisture_sensors
-#       to: "on"
-#   action:
-#     - service: homeassistant.turn_off
-#       entity_id: switch.equipment_room_recirculation_pump
-#     - service: homeassistant.turn_off
-#       entity_id: switch.water_main_shutoff_switch
-#     - service: notify.telegram_jon
-#       data_template:
-#         title: "Water Leak!"
-#         message: "HomeAssistant detected a water leak"
-
-
-
 #########################################
 # water leak, notify, close the water valve, turn off recirc pump
 - alias: "water leak, notify, close the water valve, turn off recirc pump"
@@ -831,13 +812,14 @@
       entity_id: binary_sensor.moisture_sensors
       to: "on"
   action:
+    - service: homeassistant.turn_off
+      entity_id: switch.equipment_room_recirculation_pump
+    - service: homeassistant.turn_off
+      entity_id: switch.water_main_shutoff_switch
     - service: notify.telegram_jon
       data_template:
         title: "Water Leak!"
         message: "HomeAssistant detected a water leak"
-
-
-
 #########################################
 # dog walker here between 9:30-3pm (while the alarm is not disarmed)
 - id: dog walker here
