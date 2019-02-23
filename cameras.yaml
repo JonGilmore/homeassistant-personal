@@ -9,11 +9,6 @@
   username: admin
   password: !secret hik_pwd
 - platform: mjpeg
-  mjpeg_url: http://192.168.45.232/snap.jpeg
-  name: Garage
-  username: ubnt
-  password: !secret hik_pwd
-- platform: mjpeg
   mjpeg_url: http://192.168.45.233:80/Streaming/Channels/2/preview
   name: Driveway
   username: admin
@@ -24,3 +19,9 @@
   username: admin
   password: !secret hik_pwd
 - platform: doorbird
+- platform: ffmpeg
+  name: Kitchen Camera
+  input: !secret kitchen_cam
+- platform: ffmpeg
+  name: Garage
+  input: !secret garage_cam

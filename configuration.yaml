@@ -175,6 +175,9 @@ zone: !include zones.yaml
 #                     Enables                      #
 ####################################################
 logger:
+  default: info
+  logs:
+    pylutron: debug
 history:
 sun:
 conversation:
@@ -189,12 +192,9 @@ discovery:
   ignore:
     - axis
     - plex_mediaserver
+    - igd
 
 panel_iframe:
-  # nodered_flows:
-  #   title: 'TasmoAdmin'
-  #   url: 'http://192.168.45.249:9541'
-  #   icon: mdi:power-socket-us
   grafana:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'

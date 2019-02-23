@@ -233,6 +233,7 @@ views:
           - camera.daisy
           - camera.deck
           - camera.front_door_live
+          - camera.kitchen_camera
 
 #########################
 # MUSIC TAB
