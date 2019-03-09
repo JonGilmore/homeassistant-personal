@@ -1,9 +1,7 @@
   block_all_motion_lights:
     name: Block All Motion Lights
-  master_pm_run_once:
-    name: Master Blinds Once - PM
-  master_am_run_once:
-    name: Master Blinds Once - AM
+  master_blinds_run_once:
+    name: Master Blinds Once
   sunset_run_once:
     name: Sunset Run Once
   morning_lights_run_once:

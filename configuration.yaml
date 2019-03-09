@@ -169,15 +169,16 @@ shell_command: !include shell_commands.yaml
 camera: !include cameras.yaml
 rest_command: !include rest_commands.yaml
 input_boolean: !include input_boolean.yaml
+timer: !include timers.yaml
 zone: !include zones.yaml
 
 ####################################################
 #                     Enables                      #
 ####################################################
 logger:
-  default: info
-  logs:
-    pylutron: debug
+  # default: info
+  # logs:
+  #   pylutron: debug
 history:
 sun:
 conversation:
@@ -199,3 +200,11 @@ panel_iframe:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
+  ide:
+    title: 'IDE'
+    url: 'http://192.168.45.249:8321/ide.html'
+    icon: mdi:border-outside
+  esphome:
+    title: 'ESPHome'
+    url: 'http://192.168.45.249:6052'
+    icon: mdi:car-esp

@@ -118,7 +118,7 @@
       dark_inside:
         friendly_name: "Dark Inside?"
         value_template: >-
-          {% if states.sensor.living_room_lux2.state | int < 375 %}True
+          {% if states.sensor.main_tv_lux.state | int < 100 %}True
           {% else %}False{% endif %}
       # dark_outside:
       #   friendly_name: 'Dark? (solar angle)'
@@ -135,10 +135,10 @@
       # time_of_day:
       #   friendly_name: "Time of Day"
       #   value_template: >-
-      #     {% if   (states.sensor.living_room_lux2.state | int < 600) and (sensor.time_of_day.state == "day"  ) %}dusk
-      #     {% elif (states.sensor.living_room_lux2.state | int < 300) and (sensor.time_of_day.state == "dusk" ) %}night
-      #     {% elif (states.sensor.living_room_lux2.state | int > 100) and (sensor.time_of_day.state == "night") %}dawn
-      #     {% elif (states.sensor.living_room_lux2.state | int > 250) and (sensor.time_of_day.state == "dawn" ) %}day
+      #     {% if   (states.sensor.main_tv_lux.state | int < 250) and (sensor.time_of_day.state == "day"  ) %}dusk
+      #     {% elif (states.sensor.main_tv_lux.state | int < 125) and (sensor.time_of_day.state == "dusk" ) %}night
+      #     {% elif (states.sensor.main_tv_lux.state | int > 25) and (sensor.time_of_day.state == "night") %}dawn
+      #     {% elif (states.sensor.main_tv_lux.state | int > 75) and (sensor.time_of_day.state == "dawn" ) %}day
       #     {% else %} error {% endif %}
       # period_of_day:
       #   friendly_name: 'period of the day'
@@ -173,69 +173,20 @@
           {% else %} 40 {% endif %}
         friendly_name: 'Target Humidity - Min'
 
-# BRUH SENSORS
-  - platform: mqtt
-    name: "Master Entry PIR"
-    state_topic: "esp8266/sensornode1"
-    value_template: "{{ value_json.motion }}"
-  - platform: mqtt
-    name: "Master Entry Temperature"
-    state_topic: "esp8266/sensornode1"
-    unit_of_measurement: '°F'
-    value_template: "{{ value_json.temperature }}"
-  - platform: mqtt
-    name: "Master Entry Humidity"
-    state_topic: "esp8266/sensornode1"
-    value_template: "{{ value_json.humidity }}"
-    unit_of_measurement: "%"
-
-  - platform: mqtt
-    name: "Living Room Temperature"
-    state_topic: "esp8266/sensornode2"
-    unit_of_measurement: '°F'
-    value_template: "{{ value_json.temperature }}"
-  - platform: mqtt
-    name: "Living Room Humidity"
-    state_topic: "esp8266/sensornode2"
-    value_template: "{{ value_json.humidity }}"
-    unit_of_measurement: "%"
-  - platform: mqtt
-    name: "Living Room Lux2"
-    state_topic: "esp8266/sensornode2"
-    value_template: "{{ value_json.ldr }}"
-    unit_of_measurement: "lux"
-
-  - platform: mqtt
-    name: "Sitting Room PIR"
-    state_topic: "esp8266/sensornode3"
-    value_template: "{{ value_json.motion }}"
-  - platform: mqtt
-    name: "Sitting Room Lux"
-    state_topic: "esp8266/sensornode3"
-    value_template: "{{ value_json.ldr }}"
-    unit_of_measurement: "lux"
-
-# TESTING SENSORS
-  # - platform: template
-  #   sensors:
-  #     master_bed_occupied:
-  #       friendly_name: "Master Bed Occupied"
-  #       value_template: >-
-  #         {% if states.sensor.master_bed.state |int > 8151000 %}true
-  #         {% else %} false {% endif %}
+# LOAD SENSORS
   - platform: template
     sensors:
       master_bed_occupied:
-        # value_template: >-
-        #   {% if states.sensor.master_bed.state   | int < 6270000 %}both
-        #   {% elif states.sensor.master_bed.state | int < 6550000 %}jon
-        #   {% elif states.sensor.master_bed.state | int < 6750000 %}laura
-        #   {% else %} unoccupied {% endif %}
         value_template: >-
-          {% if states.sensor.master_bed.state | int < 6880000 %}occupied
+          {% if states.sensor.master_bed_value.state | int < 22400000 %}occupied
           {% else %} unoccupied {% endif %}
         friendly_name: 'Master Bed Occupied'
-
+      master_bed_people:
+        value_template: >-
+          {% if   states.sensor.master_bed_value.state | int < 21600000 %}both
+          {% elif states.sensor.master_bed_value.state | int < 22400000 %}one
+          {% else %} nobody {% endif %}
+        friendly_name: 'Master Bed People'
 
 # VIRTUAL DEVICES
   - platform: template
@@ -262,37 +213,35 @@
     sensors:
       living_room_pir:
         value_template: >-
-          {% if is_state("sensor.living_room_multisensor_burglar", "8") %}
-          Violated
-          {% elif is_state("sensor.living_room_multisensor_burglar", "3") %}
-          Tamper Detected
-          {% else %}
-          Normal
+          {% if   is_state("sensor.living_room_multisensor_burglar", "8") %}Violated
+          {% elif is_state("sensor.living_room_multisensor_burglar", "3") %}Tamper Detected
+          {% else %}Normal
           {% endif %}
         friendly_name: "Living Room PIR"
       office_pir:
         value_template: >-
-          {% if is_state("sensor.office_multisensor_burglar", "8") %}
-          Violated
-          {% elif is_state("sensor.office_multisensor_burglar", "3") %}
-          Tamper Detected
-          {% else %}
-          Normal
+          {% if   is_state("sensor.office_multisensor_burglar", "8") %}Violated
+          {% elif is_state("sensor.office_multisensor_burglar", "3") %}Tamper Detected
+          {% else %}Normal
           {% endif %}
         friendly_name: "Office PIR"
       master_closet_pir:
         value_template: >-
-          {% if is_state("sensor.master_closet_burglar", "8") %}
-          Violated
-          {% else %}
-          Normal
+          {% if is_state("sensor.master_closet_burglar", "8") %}Violated
+          {% else %}Normal
           {% endif %}
         friendly_name: "Master Closet PIR"
       pantry_pir:
         value_template: >-
-          {% if is_state("sensor.pantry_burglar", "8") %}
-          Violated
-          {% else %}
-          Normal
+          {% if is_state("sensor.pantry_burglar", "8") %}Violated
+          {% else %}Normal
           {% endif %}
         friendly_name: "Pantry PIR"
+
+# GRAFANA
+  - platform: command_line
+    name: "Download Grafana Pwr"
+    command: !secret grafana_pwr
+  - platform: command_line
+    name: "Download Grafana Temp"
+    command: !secret grafana_tmp

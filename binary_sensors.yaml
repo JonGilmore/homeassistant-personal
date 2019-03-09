@@ -59,7 +59,7 @@
     password: !secret hik_pwd
     customize:
       motion:
-        delay: 30
+        delay: 240
 
   - platform: template
     sensors:

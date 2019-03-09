@@ -42,6 +42,7 @@ views:
       - id: cameraGlance
         type: picture-glance
         image:
+        #camera_image: camera.power_usage
         camera_image: camera.driveway
         title: Exterior
         entities:
@@ -59,7 +60,7 @@ views:
       - id: deviceTracker
         type: entity-filter
         entities:
-          - device_tracker.jonspixel
+          - device_tracker.jons_iphone
           - device_tracker.laurasiphone_2
         state_filter:
           - 'home'
@@ -160,7 +161,7 @@ views:
           - switch.water_main_shutoff_switch
           - switch.equipment_room_recirculation_pump
           - sensor.dark_inside
-          - sensor.living_room_lux2
+          - sensor.main_tv_lux
 
 #########################
 # THERMOSTAT TAB
@@ -185,9 +186,9 @@ views:
         entities:
           - sensor.keypad004
           - sensor.living_room_multisensor_temperature
-          - sensor.living_room_temperature
           - sensor.master_entry_temperature
           - sensor.office_multisensor_temperature
+          - sensor.sunroom_temperature
       - id: humidity
         type: entities
         title: Humidity
@@ -195,9 +196,9 @@ views:
         entities:
           - sensor.dark_sky_humidity
           - sensor.living_room_multisensor_relative_humidity
-          - sensor.living_room_humidity
           - sensor.master_entry_humidity
           - sensor.office_multisensor_relative_humidity
+          - sensor.sunroom_humidity
           - sensor.house_humidity
           - sensor.target_humidity_max_winter
           - sensor.target_humidity_min_winter
@@ -213,7 +214,15 @@ views:
           - sensor.dark_sky_cloud_coverage
       - type: weather-forecast
         entity: weather.dark_sky
-
+      - id: temperatures
+        type: picture-glance
+        image:
+        camera_image: camera.temperatures
+        title: Temperatures
+        entities:
+          - sensor.thermostat_basement_temperature
+          - sensor.thermostat_main_temperature
+          - sensor.thermostat_upstairs_temperature
 
 #########################
 # CAMERA TAB
