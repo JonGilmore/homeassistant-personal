@@ -56,7 +56,9 @@ updater:
 tts:
   - platform: google
 recorder:
-  db_url: !secret url_db
+  # db_url: !secret url_db
+  purge_keep_days: 3
+  
 system_health:
 
 influxdb:

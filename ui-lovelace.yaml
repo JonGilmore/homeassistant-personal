@@ -39,6 +39,7 @@ views:
           - switch.sundown1
           - scene.master_bedroom_jons_keypad_all_on
           - scene.master_bedroom_jons_keypad_all_off
+          - scene.basement_workshop_keypad_lower_off
       - id: cameraGlance
         type: picture-glance
         image:

@@ -7,6 +7,7 @@
       - sensor.living_room_multisensor_relative_humidity
       - sensor.office_multisensor_relative_humidity
       - sensor.master_entry_humidity
+      - sensor.sunroom_humidity
 
 # Elk sensors
   - platform: template
