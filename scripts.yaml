@@ -37,3 +37,23 @@
     alias: Second On
     sequence:
       - service: rest_command.second_on
+
+  garage_momentary_single:
+    alias: Garage Momentary Single
+    sequence:
+      - service: homeassistant.turn_on
+        entity_id: switch.output010
+      - delay:
+          milliseconds: 300
+      - service: homeassistant.turn_off
+        entity_id: switch.output010
+  
+  garage_momentary_double:
+    alias: Garage Momentary Double
+    sequence:
+      - service: homeassistant.turn_on
+        entity_id: switch.output009
+      - delay:
+          milliseconds: 300
+      - service: homeassistant.turn_off
+        entity_id: switch.output009
