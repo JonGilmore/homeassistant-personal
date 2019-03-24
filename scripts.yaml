@@ -39,7 +39,7 @@
       - service: rest_command.second_on
 
   garage_momentary_single:
-    alias: Garage Momentary Single
+    alias: Single Garage
     sequence:
       - service: homeassistant.turn_on
         entity_id: switch.output010
@@ -49,7 +49,7 @@
         entity_id: switch.output010
   
   garage_momentary_double:
-    alias: Garage Momentary Double
+    alias: Double Garage
     sequence:
       - service: homeassistant.turn_on
         entity_id: switch.output009
