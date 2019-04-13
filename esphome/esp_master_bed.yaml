@@ -1,0 +1,27 @@
+esphome:
+  name: esp_master_bed
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: 'iot'
+  password: !secret iot_pw
+
+# Enable logging
+logger:
+  level: ERROR
+
+# Enable Home Assistant API
+api:
+  password: !secret hass_api
+
+ota:
+  password: !secret esp_ota
+
+sensor:
+  - platform: hx711
+    name: "Master Bed"
+    dout_pin: D0
+    clk_pin: D1
+    gain: 128
+    update_interval: 15s
