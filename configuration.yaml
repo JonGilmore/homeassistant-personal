@@ -196,6 +196,7 @@ discovery:
     - axis
     - plex_mediaserver
     - igd
+# stream:
 
 panel_iframe:
   grafana:

@@ -18,16 +18,59 @@
   name: Daisy
   username: admin
   password: !secret hik_pwd
+- platform: mjpeg
+  mjpeg_url: http://192.168.45.237:80/Streaming/Channels/2/preview
+  name: Garage
+  username: admin
+  password: !secret hik_pwd
 - platform: doorbird
 - platform: ffmpeg
   name: Kitchen Camera
   input: !secret kitchen_cam
 - platform: ffmpeg
-  name: Garage
-  input: !secret garage_cam
+  name: Patio
+  input: !secret patio_cam
 - platform: local_file
   name: Power Usage
   file_path: /config/temp/power.png
 - platform: local_file
   name: Temperatures
   file_path: /config/temp/tmp.png
+
+
+
+# - platform: generic
+#   still_image_url: http://192.168.45.230:80/ISAPI/Streaming/channels/2/picture
+#   stream_source: rtsp://192.168.45.230:554
+#   authentication: digest
+#   name: Deck
+#   username: admin
+#   password: !secret hik_pwd
+# - platform: generic
+#   still_image_url: http://192.168.45.231:80/ISAPI/Streaming/channels/2/picture
+#   stream_source: rtsp://192.168.45.231:554
+#   authentication: digest
+#   name: Front Door
+#   username: admin
+#   password: !secret hik_pwd
+# - platform: generic
+#   still_image_url: http://192.168.45.233:80/ISAPI/Streaming/channels/2/picture
+#   stream_source: rtsp://192.168.45.233:554
+#   authentication: digest
+#   name: Driveway
+#   username: admin
+#   password: !secret hik_pwd
+# - platform: generic
+#   still_image_url: http://192.168.45.235:80/ISAPI/Streaming/channels/2/picture
+#   stream_source: rtsp://192.168.45.235:554
+#   authentication: digest
+#   name: Daisy
+#   username: admin
+#   password: !secret hik_pwd
+# - platform: generic
+#   still_image_url: http://192.168.45.237:80/ISAPI/Streaming/channels/2/picture
+#   stream_source: rtsp://192.168.45.237:554
+#   authentication: digest
+#   name: Garage
+#   username: admin
+#   password: !secret hik_pwd

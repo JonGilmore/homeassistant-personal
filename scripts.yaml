@@ -44,7 +44,7 @@
       - service: homeassistant.turn_on
         entity_id: switch.output010
       - delay:
-          milliseconds: 300
+          milliseconds: 150
       - service: homeassistant.turn_off
         entity_id: switch.output010
   
@@ -54,6 +54,6 @@
       - service: homeassistant.turn_on
         entity_id: switch.output009
       - delay:
-          milliseconds: 300
+          milliseconds: 150
       - service: homeassistant.turn_off
         entity_id: switch.output009
