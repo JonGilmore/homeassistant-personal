@@ -217,7 +217,7 @@ views:
         entities:
           - sensor.dark_sky_temperature
           - sensor.dark_sky_summary
-          - sensor.dark_sky_daytime_high_temperature_0
+          - sensor.dark_sky_daytime_high_temperature_0d
           - sensor.dark_sky_daily_summary
           - sensor.dark_sky_cloud_coverage
       - type: weather-forecast

@@ -1,6 +1,3 @@
-# ########################
-# # AEOTEC MULTI'S
-# ########################
 binary_sensor.living_room_multisensor_sensor:
   friendly_name: Living Room Multi - Sensor
 sensor.living_room_multisensor_alarm_level:
@@ -47,18 +44,10 @@ sensor.office_multisensor_ultraviolet:
   hidden: true
 zwave.office_multisensor:
   friendly_name: Office Multi
-
-# ########################
-# # DARK SKY
-# ########################
 sensor.dark_sky_humidity:
   friendly_name: Exterior Humidity
 sensor.dark_sky_apparent_temperature:
   friendly_name: Outside Feels
-
-########################
-# RADIO RA2 LIGHTS
-########################
 light.exterior_light:
   friendly_name: Exterior Roof Outlet
 light.great_room_great_room_cans:
@@ -121,10 +110,6 @@ switch.princess_light:
   friendly_name: Princess Bathroom Light
 switch.princess_toilet_fan:
   friendly_name: Princess Bathroom Fan
-
-########################
-# ELK M1 STUFF
-########################
 sensor.double_garage:
   hidden: true
 sensor.single_garage:
@@ -147,111 +132,17 @@ switch.output010:
   hidden: true
 sensor.counter001:
   friendly_name: Beep Status
-
-########################
-# HA STUFF
-########################
 group.all_lights:
   hidden: false
-
-########################
-# DOORBIRD
-########################
 switch.front_door_light_on:
   friendly_name: Doorbird IR
 switch.front_door_open_door:
   hidden: true
 switch.front_door_open_door_2:
   hidden: true
-
-########################
-# NEST
-########################
-# binary_sensor.basement_nest_protect_online:
-#   friendly_name: Basement Nest Protect
-# binary_sensor.gym_nest_protect_online:
-#   friendly_name: Gym Nest Protect
-# binary_sensor.bedroom_nest_protect_online:
-#   friendly_name: Bedroom Nest Protect
-# binary_sensor.entryway_nest_protect_online:
-#   friendly_name: Entryway Nest Protect
-# binary_sensor.hallway_nest_protect_online:
-#   friendly_name: Hallway Nest Protect
-# binary_sensor.master_bedroom_nest_protect_online:
-#   friendly_name: Master Bedroom Nest Protect
-# binary_sensor.princess_hallway_nest_protect_online:
-#   friendly_name: Princess Hallway Nest Protect
-# binary_sensor.princess_nest_protect_online:
-#   friendly_name: Princess Nest Protect
-# sensor.basement_nest_protect_battery_health:
-#   friendly_name: Basement Nest Protect battery
-# sensor.gym_nest_protect_battery_health:
-#   friendly_name: Gym Nest Protect battery
-# sensor.bedroom_nest_protect_battery_health:
-#   friendly_name: Bedroom Nest Protect battery
-# sensor.entryway_nest_protect_battery_health:
-#   friendly_name: Entryway Nest Protect battery
-# sensor.hallway_nest_protect_battery_health:
-#   friendly_name: Hallway Nest Protect battery
-# sensor.master_bedroom_nest_protect_battery_health:
-#   friendly_name: Master Bedroom Nest Protect battery
-# sensor.princess_hallway_nest_protect_battery_health:
-#   friendly_name: Princess Hallway Nest Protect battery
-# sensor.princess_nest_protect_battery_health:
-#   friendly_name: Princess Nest Protect battery
-# sensor.basement_nest_protect_co_status:
-#   friendly_name: Basement Nest Protect co
-# sensor.gym_nest_protect_co_status:
-#   friendly_name: Gym Nest Protect co
-# sensor.bedroom_nest_protect_co_status:
-#   friendly_name: Bedroom Nest Protect co
-# sensor.entryway_nest_protect_co_status:
-#   friendly_name: Entryway Nest Protect co
-# sensor.hallway_nest_protect_co_status:
-#   friendly_name: Hallway Nest Protect co
-# sensor.master_bedroom_nest_protect_co_status:
-#   friendly_name: Master Bedroom Nest Protect co
-# sensor.princess_hallway_nest_protect_co_status:
-#   friendly_name: Princess Hallway Nest Protect co
-# sensor.princess_nest_protect_co_status:
-#   friendly_name: Princess Nest Protect co
-# sensor.basement_nest_protect_color_status:
-#   friendly_name: Basement Nest Protect color
-#   hidden: true
-# sensor.gym_nest_protect_color_status:
-#   friendly_name: Gym Nest Protect color
-#   hidden: true
-# sensor.bedroom_nest_protect_color_status:
-#   friendly_name: Bedroom Nest Protect color
-#   hidden: true
-# sensor.entryway_nest_protect_color_status:
-#   friendly_name: Entryway Nest Protect color
-#   hidden: true
-# sensor.hallway_nest_protect_color_status:
-#   friendly_name: Hallway Nest Protect color
-#   hidden: true
-# sensor.master_bedroom_nest_protect_color_status:
-#   friendly_name: Master Bedroom Nest Protect color
-#   hidden: true
-# sensor.princess_hallway_nest_protect_color_status:
-#   friendly_name: Princess Hallway Nest Protect color
-#   hidden: true
-# sensor.princess_nest_protect_color_status:
-#   friendly_name: Princess Nest Protect color
-#   hidden: true
-# sensor.basement_nest_protect_smoke_status:
-#   friendly_name: Basement Nest Protect smoke
-# sensor.gym_nest_protect_smoke_status:
-#   friendly_name: Gym Nest Protect smoke
-# sensor.bedroom_nest_protect_smoke_status:
-#   friendly_name: Bedroom Nest Protect smoke
-# sensor.entryway_nest_protect_smoke_status:
-#   friendly_name: Entryway Nest Protect smoke
-# sensor.hallway_nest_protect_smoke_status:
-#   friendly_name: Hallway Nest Protect smoke
-# sensor.master_bedroom_nest_protect_smoke_status:
-#   friendly_name: Master Bedroom Nest Protect smoke
-# sensor.princess_hallway_nest_protect_smoke_status:
-#   friendly_name: Princess Hallway Nest Protect smoke
-# sensor.princess_nest_protect_smoke_status:
-#   friendly_name: Princess Nest Protect smoke
+sensor.dark_sky_daytime_high_temperature_0d:
+  friendly_name: Today's High
+sensor.dark_sky_temperature:
+  friendly_name: Current Temperature
+sensor.dark_sky_daily_summary:
+  friendly_name: Daily Summary
