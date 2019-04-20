@@ -106,6 +106,10 @@
         data:
           photo:
             - url: !secret hik_driveway_pic
+    - service: tts.google_say
+      entity_id: media_player.kitchen_ghm
+      data:
+        message: 'Driveway activity detected'
 #########################################
 # deck motion (only while alarm is not disarmed) - telegram
 - id: deck motion (only while alarm is not disarmed) - telegram
@@ -496,7 +500,7 @@
           - climate.thermostat_basement_heating_1
         fan_mode: 'Auto Low'
 #########################################
-# away, turn the HVAC fans on & the recirculation pump off
+# away, turn the HVAC fans on & the recirculation pump off, enable remote UI
 - alias: "away, turn the HVAC fans on & the recirculation pump off"
   trigger:
     - platform: state
@@ -512,6 +516,7 @@
         fan_mode: 'On Low'
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
+    - service: cloud.remote_connect
 #########################################
 # away during the day, turn lights off
 - alias: "away during the day, turn lights off"
@@ -540,8 +545,8 @@
     - service: scene.turn_on
       entity_id: scene.master_bedroom_jons_keypad_all_off
 #########################################
-# home, turn the HVAC fans off & the recirculation on
-- alias: "home, set the fans to off - thermostat"
+# home, turn the HVAC fans off, recirc on, disable remote UI
+- alias: home, turn the HVAC fans off & the recirc on, stop daisy cam timer
   trigger:
     - platform: state
       entity_id: sensor.occupancy_status
@@ -556,6 +561,9 @@
         fan_mode: 'Auto Low'
     - service: homeassistant.turn_on
       entity_id: switch.equipment_room_recirculation_pump
+    - service: timer.cancel
+      entity_id: timer.daisy_cam_timer
+    - service: cloud.remote_disconnect
 #########################################
 # elk disconnected - send telegram
 - alias: "elk disconnected - send telegram"
@@ -1189,16 +1197,86 @@
 #########################################
 # master entry pir testing
 - id: master entry pir testing
-  alias: master entry pir testing
   trigger:
     - platform: state
       entity_id: binary_sensor.master_entry_pir
       to: "on"
   condition:
-    - condition: template
-      value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: sensor.dark_inside
+        state: 'True'
+      - condition: template
+        value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
   action:
     - service: notify.telegram_jon
       data_template:
-        title: "Master Entry PIR"
+        title: "Master Entry PIR violated"
         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
+########################################
+# kitchen off with no motion
+- id: kitchen off with no motion
+  alias: kitchen off with no motion
+  trigger:
+    - platform: state
+      entity_id: sensor.kitchen_motion
+      to: 'Normal'
+      for:
+        minutes: 10
+  condition:
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: switch.kitchen_cabinets
+          state: 'on'
+        - condition: state
+          entity_id: switch.mudroom_kitchen_pendants
+          state: 'on'
+        - condition: state
+          entity_id: switch.mudroom_kitchen_cans
+          state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kitchen_off
+########################################
+# daisy cam photo every 45 minutes when armed away and kennel closed
+- id: daisy cam photo every 45 minutes when armed away and kennel closed
+  trigger:
+    - platform: state
+      entity_id: sensor.occupancy_status
+      to: "false"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.daisy_kennel
+      state: 'off'
+  action:
+    - service: timer.start
+      data:
+        entity_id: timer.daisy_cam_timer
+- id: daisy timer completed
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.daisy_cam_timer
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: sensor.occupancy_status
+          state: 'false'
+        - condition: state
+          entity_id: binary_sensor.daisy_kennel
+          state: 'off'
+  action:
+    - service: notify.telegram_jon
+      data:
+        title: Daisy Cam
+        message: "Daisy Cam"
+        data:
+          photo:
+            - url: !secret hik_daisy_pic
+    - service: timer.start
+      data:
+        entity_id: timer.daisy_cam_timer

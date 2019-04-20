@@ -70,14 +70,15 @@
     device_class: temperature
     unit_of_measurement: "°F"
   - platform: mqtt
+    name: "Laundry Dryer"
+    state_topic: "smartthings/Dryer/temperature"
+    device_class: temperature
+    unit_of_measurement: "°F"
+  - platform: mqtt
     name: "Basement Storage"
     state_topic: "smartthings/Basement Multi/temperature"
     device_class: temperature
     unit_of_measurement: "°F"
-  - platform: mqtt
-    state_topic: "reeder/master/bed"
-    name: "Master Bed"
-
 
 # DARK SKY
   - platform: darksky
@@ -177,15 +178,26 @@
 # LOAD SENSORS
   - platform: template
     sensors:
+      # master_bed_occupied:
+      #   value_template: >-
+      #     {% if states.sensor.master_bed_value.state | int < 22400000 %}occupied
+      #     {% else %} unoccupied {% endif %}
+      #   friendly_name: 'Master Bed Occupied'
+      # master_bed_people:
+      #   value_template: >-
+      #     {% if   states.sensor.master_bed_value.state | int < 21600000 %}both
+      #     {% elif states.sensor.master_bed_value.state | int < 22400000 %}one
+      #     {% else %} nobody {% endif %}
+      #   friendly_name: 'Master Bed People'
       master_bed_occupied:
         value_template: >-
-          {% if states.sensor.master_bed_value.state | int < 22400000 %}occupied
+          {% if states.sensor.master_bed_value.state | int < 20400000 %}occupied
           {% else %} unoccupied {% endif %}
         friendly_name: 'Master Bed Occupied'
       master_bed_people:
         value_template: >-
-          {% if   states.sensor.master_bed_value.state | int < 21600000 %}both
-          {% elif states.sensor.master_bed_value.state | int < 22400000 %}one
+          {% if   states.sensor.master_bed_value.state | int < 19500000 %}both
+          {% elif states.sensor.master_bed_value.state | int < 20400000 %}one
           {% else %} nobody {% endif %}
         friendly_name: 'Master Bed People'
 

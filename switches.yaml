@@ -2,85 +2,38 @@
 #    switches:
 #      - light_on
 
-#  ra2_all_off:
-#    alias: RA2 All Off
-#    sequence:
-#    - service: shell_command.zzall_off
-
-
-  # - platform: template
-  #   switches:
-  #     garage_double:
-  #       value_template: "{{ False }}"
-  #       friendly_name: "Garage Door - double"
-  #       turn_on:
-  #         - service: switch.turn_on
-  #           entity_id: switch.output009
-  #         - delay:
-  #             seconds: 0.4
-  #         - service: switch.turn_off
-  #           entity_id: switch.output009
-  #       turn_off:
-  #         service: switch.turn_off
-  #         entity_id: switch.output009
-  #
-  # - platform: template
-  #   switches:
-  #     garage_double:
-  #       value_template: "{{ False }}"
-  #       friendly_name: "Garage Door - single"
-  #       turn_on:
-  #         - service: switch.turn_on
-  #           entity_id: switch.output010
-  #         - delay:
-  #             seconds: 0.4
-  #         - service: switch.turn_off
-  #           entity_id: switch.output010
-  #       turn_off:
-  #         service: switch.turn_off
-  #         entity_id: switch.output010
-
-  # - platform: mqtt
-  #   command_topic: "reeder/homeseer/aeotec1/state"
-  #   name: "Aeotec1"
-  #   payload_on: 255
-  #   payload_off: 0
-  #   retain: true
-  #   icon: mdi:toggle-switch
-  # - platform: mqtt
-  #   command_topic: "reeder/homeseer/aeotec2/state"
-  #   name: "Aeotec2"
-  #   payload_on: 255
-  #   payload_off: 0
-  #   retain: true
-  #   icon: mdi:toggle-switch
-
   - platform: command_line
     switches:
       all:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=all_on"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=all_on"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=all_off"'
       all_but_master:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=all_but_master"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=all_but_master"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=all_but_master"'
       basement:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=basement_on"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=basement_on"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=basement_off"'
       exterior:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=exterior_on"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=exterior_on"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=exterior_off"'
       kitchen_hall_off:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_hall_off"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_hall_off"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_hall_off"'
+      kitchen_off:
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_off"'
+        command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_off"'
+      kitchen_on:
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_on"'
+        command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=kitchen_on"'
       main:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=main_on"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=main_on"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=main_off"'
       second:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=second_on"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=second_on"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=second_off"'
       sundown1:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=sundown1"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=sundown1"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=sundown1"'
       sundown2:
-        command_on: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=sundown2"'
+        command_on:  'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=sundown2"'
         command_off: 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "http://192.168.45.249:80/JSON?request=runevent&group=Light_Groups&name=sundown2"'

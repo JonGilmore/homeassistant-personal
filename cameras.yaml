@@ -23,6 +23,7 @@
   name: Garage
   username: admin
   password: !secret hik_pwd
+###################################
 - platform: doorbird
 - platform: ffmpeg
   name: Kitchen Camera
@@ -41,35 +42,42 @@
 
 # - platform: generic
 #   still_image_url: http://192.168.45.230:80/ISAPI/Streaming/channels/2/picture
-#   stream_source: rtsp://192.168.45.230:554
+#   stream_source: rtsp://192.168.45.230:554/Streaming/Channels/1 
 #   authentication: digest
 #   name: Deck
 #   username: admin
 #   password: !secret hik_pwd
 # - platform: generic
 #   still_image_url: http://192.168.45.231:80/ISAPI/Streaming/channels/2/picture
-#   stream_source: rtsp://192.168.45.231:554
+#   stream_source: rtsp://192.168.45.231:554/Streaming/Channels/1
 #   authentication: digest
 #   name: Front Door
 #   username: admin
 #   password: !secret hik_pwd
 # - platform: generic
-#   still_image_url: http://192.168.45.233:80/ISAPI/Streaming/channels/2/picture
-#   stream_source: rtsp://192.168.45.233:554
+#   still_image_url: http://admin:Zbjbw1NvA@192.168.45.233:80/ISAPI/Streaming/channels/2/picture
+#   stream_source: rtsp://admin:Zbjbw1NvA@192.168.45.233:554
 #   authentication: digest
 #   name: Driveway
-#   username: admin
-#   password: !secret hik_pwd
+#   # username: admin
+#   # password: !secret hik_pwd
+# # - platform: generic
+# #   still_image_url: http://192.168.45.233:80/ISAPI/Streaming/channels/2/picture
+# #   stream_source: rtsp://192.168.45.233:554
+# #   authentication: digest
+# #   name: Driveway
+# #   username: admin
+# #   password: !secret hik_pwd
 # - platform: generic
 #   still_image_url: http://192.168.45.235:80/ISAPI/Streaming/channels/2/picture
-#   stream_source: rtsp://192.168.45.235:554
+#   stream_source: rtsp://192.168.45.235:554/Streaming/Channels/1
 #   authentication: digest
 #   name: Daisy
 #   username: admin
 #   password: !secret hik_pwd
 # - platform: generic
 #   still_image_url: http://192.168.45.237:80/ISAPI/Streaming/channels/2/picture
-#   stream_source: rtsp://192.168.45.237:554
+#   stream_source: rtsp://192.168.45.237:554/Streaming/Channels/1
 #   authentication: digest
 #   name: Garage
 #   username: admin
