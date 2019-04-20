@@ -82,6 +82,8 @@ views:
         entities:
           - switch.great_room_lamp
           - switch.aeotec2_switch
+          - sensor.living_room_multisensor_luminance
+          - sensor.main_tv_lux
       - id: lightsOn
         type: entity-filter
         entities:
