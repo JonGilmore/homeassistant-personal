@@ -1217,25 +1217,12 @@
 ########################################
 # kitchen off with no motion
 - id: kitchen off with no motion
-  alias: kitchen off with no motion
   trigger:
     - platform: state
       entity_id: sensor.kitchen_motion
       to: 'Normal'
       for:
         minutes: 10
-  condition:
-    - condition: or
-      conditions:
-        - condition: state
-          entity_id: switch.kitchen_cabinets
-          state: 'on'
-        - condition: state
-          entity_id: switch.mudroom_kitchen_pendants
-          state: 'on'
-        - condition: state
-          entity_id: switch.mudroom_kitchen_cans
-          state: 'on'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.kitchen_off
