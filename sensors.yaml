@@ -120,7 +120,7 @@
       dark_inside:
         friendly_name: "Dark Inside?"
         value_template: >-
-          {% if states.sensor.main_tv_lux.state | int < 100 %}True
+          {% if states.sensor.main_tv_lux.state | int < 110 %}True
           {% else %}False{% endif %}
       # dark_outside:
       #   friendly_name: 'Dark? (solar angle)'
@@ -178,17 +178,6 @@
 # LOAD SENSORS
   - platform: template
     sensors:
-      # master_bed_occupied:
-      #   value_template: >-
-      #     {% if states.sensor.master_bed_value.state | int < 22400000 %}occupied
-      #     {% else %} unoccupied {% endif %}
-      #   friendly_name: 'Master Bed Occupied'
-      # master_bed_people:
-      #   value_template: >-
-      #     {% if   states.sensor.master_bed_value.state | int < 21600000 %}both
-      #     {% elif states.sensor.master_bed_value.state | int < 22400000 %}one
-      #     {% else %} nobody {% endif %}
-      #   friendly_name: 'Master Bed People'
       master_bed_occupied:
         value_template: >-
           {% if states.sensor.master_bed_value.state | int < 20400000 %}occupied
