@@ -481,8 +481,8 @@
         fan_mode: 'On Low'
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
-    - service: homeassistant.turn_off
-      entity_id: switch.all_but_master
+    - service: scene.turn_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_all_but_master
 #########################################
 # done sleeping, turn the HVAC fan off
 - alias: "done sleeping, turn the HVAC fan off"
@@ -529,7 +529,7 @@
       state: 'False'
   action:
     - service: scene.turn_on
-      entity_id: scene.master_bedroom_jons_keypad_all_off
+      entity_id: scene.equipment_room_enclosure_device_001_ph_all_off
 #########################################
 # while on vacation, turn off all lights at 23:30
 - alias: "while on vacation, turn off all lights at 23:30"
@@ -542,7 +542,7 @@
       state: "true"
   action:
     - service: scene.turn_on
-      entity_id: scene.master_bedroom_jons_keypad_all_off
+      entity_id: scene.equipment_room_enclosure_device_001_ph_all_off
 #########################################
 # home, turn the HVAC fans off, recirc on, disable remote UI
 - alias: home, turn the HVAC fans off & the recirc on, stop daisy cam timer
@@ -595,8 +595,8 @@
         entity_id: input_boolean.sunset_run_once
         state: 'off'
   action:
-    - service: homeassistant.turn_on
-      entity_id: switch.sundown1
+    - service: scene.turn_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_sunset1
     - service: homeassistant.turn_on
       entity_id: input_boolean.sunset_run_once
 ########################################
@@ -983,7 +983,7 @@
       to: "fire_alarm"
   action:
     - service: scene.turn_on
-      entity_id: scene.master_bedroom_jons_keypad_all_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
     - service: lock.unlock
       entity_id: lock.garage_door_lock_locked
     - service: lock.unlock
@@ -997,7 +997,7 @@
       to: "burglar_alarm"
   action:
     - service: scene.turn_on
-      entity_id: scene.master_bedroom_jons_keypad_all_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
 ########################################
 # Turn on recirculation pump in the AM (when we're not on vacation)
 - alias: Turn on recirculation pump in the AM (when we're not on vacation)
@@ -1178,26 +1178,6 @@
   action:
     - service: homeassistant.turn_off
       entity_id: light.sitting_room_lifx
-#########################################
-# master entry pir testing
-- id: master entry pir testing
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.master_entry_pir
-      to: "on"
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: sensor.dark_inside
-        state: 'True'
-      - condition: template
-        value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
-  action:
-    - service: notify.telegram_jon
-      data_template:
-        title: "Master Entry PIR violated"
-        message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
 ########################################
 # kitchen off with no motion
 - id: kitchen off with no motion

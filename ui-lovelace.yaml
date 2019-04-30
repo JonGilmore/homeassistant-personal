@@ -3,6 +3,7 @@ resources:
   - url: /local/mini-media-player-bundle.js?v=0.9.8
     type: module
 
+background: var(--background-image)
 views:
 #########################
 # HOME TAB
@@ -587,3 +588,25 @@ views:
           - sensor.aeotec_hem_power
           - sensor.aeotec_hem_power_2
           - sensor.aeotec_hem_power_3
+      - id: light_scenes
+        type: entities
+        title: Light Scenes
+        show_header_toggle: false
+        entities:
+          - scene.equipment_room_enclosure_device_001_ph_all_off
+          - scene.equipment_room_enclosure_device_001_ph_all_on
+          - scene.equipment_room_enclosure_device_001_ph_basement_off
+          - scene.equipment_room_enclosure_device_001_ph_basement_on
+          - scene.equipment_room_enclosure_device_001_ph_main_off
+          - scene.equipment_room_enclosure_device_001_ph_main_on
+          - scene.equipment_room_enclosure_device_001_ph_second_off
+          - scene.equipment_room_enclosure_device_001_ph_second_on
+          - scene.equipment_room_enclosure_device_001_ph_cleaners_on
+          - scene.equipment_room_enclosure_device_001_ph_exterior_off
+          - scene.equipment_room_enclosure_device_001_ph_exterior_on
+          - scene.equipment_room_enclosure_device_001_ph_interior_off
+          - scene.equipment_room_enclosure_device_001_ph_interior_on
+          - scene.equipment_room_enclosure_device_001_ph_kitchen_off
+          - scene.equipment_room_enclosure_device_001_ph_kitchen_on
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+          - scene.equipment_room_enclosure_device_001_ph_sunset2
