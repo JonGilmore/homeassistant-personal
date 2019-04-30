@@ -7,10 +7,6 @@ homeassistant:
   time_zone: !secret ha_tz
   customize: !include customize.yaml
 
-zwave:
-  usb_path: /dev/ttyACM0
-  network_key: !secret zwave_key
-
 cloud:
   google_actions:
     filter:
@@ -54,7 +50,8 @@ http:
 updater:
   reporting: false
 tts:
-  - platform: google
+  - platform: google_translate
+    service_name: google_say
 recorder:
   db_url: !secret url_db
   purge_keep_days: 3
@@ -157,7 +154,7 @@ telegram_bot:
     api_key: !secret telegram_api
     allowed_chat_ids:
       - !secret telegram_chat
-
+  
 ####################################################
 #                     Includes                     #
 ####################################################
@@ -165,7 +162,6 @@ sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml
 automation: !include automation.yaml
 group: !include groups.yaml
-switch: !include switches.yaml
 script: !include scripts.yaml
 shell_command: !include shell_commands.yaml
 camera: !include cameras.yaml
@@ -174,18 +170,19 @@ input_boolean: !include input_boolean.yaml
 timer: !include timers.yaml
 zone: !include zones.yaml
 
-####################################################
-#                     Enables                      #
-####################################################
 logger:
   # default: info
   # logs:
-  #   pylutron: debug
+  #   custom_components.pylutron: debug
+  #   custom_components.lutron: debug
+
 history:
 sun:
 conversation:
 logbook:
 frontend:
+  themes: !include_dir_merge_named themes/
+    
 lovelace:
   mode: yaml
 config:
