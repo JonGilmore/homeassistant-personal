@@ -1,6 +1,14 @@
 title: Reeder Ridge
 resources:
-  - url: /local/mini-media-player-bundle.js?v=0.9.8
+  - url: /local/mini-media-player-bundle.js?v=1.0.4
+    type: module
+  - url: /customcards/github/thomasloven/card-modder.js?track=true
+    type: js
+  - url: /customcards/github/thomasloven/card-tools.js?track=true
+    type: js
+  - url: /customcards/github/custom-cards/tracker-card.js?track=true
+    type: module
+  - url: /customcards/github/custom-cards/button-card.js?track=true
     type: module
 
 background: var(--background-image)
@@ -37,25 +45,14 @@ views:
         entities:
           - script.garage_momentary_single
           - script.garage_momentary_double
-      - id: lightGroups
-        type: entities
-        title: Light Groups
-        show_header_toggle: false
-        entities:
-          - group.exterior_lights
-          - group.interior_lights
-          - switch.sundown1
-          - scene.master_bedroom_jons_keypad_all_on
-          - scene.master_bedroom_jons_keypad_all_off
-          - scene.basement_workshop_keypad_lower_off
       - id: cameraGlance
         type: picture-glance
         image:
-        #camera_image: camera.power_usage
         camera_image: camera.driveway
         title: Exterior
         entities:
-          - switch.exterior
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+            # icon: mdi:lightbulb-on-outline
       - id: leakSensors
         type: entities
         title: Moisture Sensors
@@ -242,19 +239,71 @@ views:
     icon: mdi:camera
     title: Cameras
     cards:
-      - id: cameras
-        type: entities
-        title: Reeder Cameras
-        show_header_toggle: false
+      # - id: cameras
+      #   type: entities
+      #   title: Reeder Cameras
+      #   show_header_toggle: false
+      #   entities:
+      #     # - camera.driveway
+      #     # - camera.front_door
+      #     # - camera.garage
+      #     # - camera.daisy
+      #     # - camera.deck
+      #     # - camera.front_door_live
+      #     # - camera.kitchen_camera
+      - id: drivewayGlance
+        type: picture-glance
+        image:
+        camera_image: camera.driveway
+        title: Exterior
         entities:
-          - camera.driveway
-          - camera.front_door
-          - camera.garage
-          - camera.daisy
-          - camera.deck
-          - camera.front_door_live
-          - camera.kitchen_camera
-
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+      - id: frontDoorGlance
+        type: picture-glance
+        image:
+        camera_image: camera.front_door
+        title: Front Door
+        entities:
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+      - id: garageGlance
+        type: picture-glance
+        image:
+        camera_image: camera.garage
+        title: Garage
+        entities:
+          - light.mudroom_garage_lights
+      - id: daisyGlance
+        type: picture-glance
+        image:
+        camera_image: camera.daisy
+        title: Daisy
+        entities:
+          - switch.pulte_planning_center_lauras_office
+          - light.pulte_planning_center_lamp
+      - id: deckGlance
+        type: picture-glance
+        image:
+        camera_image: camera.deck
+        title: Deck
+        entities:
+          - switch.exterior_posts
+      - id: doorbellGlance
+        type: picture-glance
+        image:
+        camera_image: camera.front_door_live
+        title: Doorbell
+        entities:
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+      - id: kitchenGlance
+        type: picture-glance
+        image:
+        camera_image: camera.kitchen_camera
+        title: Kitchen
+        entities:
+          - sensor.kitchen_motion
+          - sensor.living_room_pir
+          - scene.equipment_room_enclosure_device_001_ph_main_off
+          - scene.equipment_room_enclosure_device_001_ph_main_on
 #########################
 # MUSIC TAB
 #########################
@@ -610,3 +659,37 @@ views:
           - scene.equipment_room_enclosure_device_001_ph_kitchen_on
           - scene.equipment_room_enclosure_device_001_ph_sunset1
           - scene.equipment_room_enclosure_device_001_ph_sunset2
+#########################
+# MAINTENANCE/SETTINGS TAB
+#########################
+  - id: 8
+    icon: mdi:wrench
+    title: Settings
+    cards:
+      - id: tracker_card
+        type: custom:tracker-card
+      - id: blahBlah
+        type: custom:card-modder
+        style:
+          --paper-card-background-color: rgba(0, 100, 0, 0.2)
+          --paper-item-icon-color: white
+          border-radius: 5px
+          color: rgb(0, 0, 100)
+        card:
+          type: glance
+          title: Styled card
+          entities:
+            - scene.equipment_room_enclosure_device_001_ph_sunset1
+      - id: blah2
+        type: glance
+        title: Unstyled card
+        entities:
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+      - id: cameraGlancePic
+        type: picture-glance
+        image:
+        camera_image: camera.driveway
+        title: Exterior
+        entities:
+          - scene.equipment_room_enclosure_device_001_ph_sunset1
+            # icon: mdi:lightbulb-on-outline

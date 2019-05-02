@@ -202,6 +202,7 @@
         friendly_name: "Occupied?"
         value_template: >-
           {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" %}false
+          {% elif states.device_tracker.jons_iphone.state == "not_home" %}false
           {% else %}true{% endif %}
       sleep_status:
         friendly_name: "Sleeping?"
