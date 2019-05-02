@@ -171,7 +171,7 @@ timer: !include timers.yaml
 zone: !include zones.yaml
 
 logger:
-  # default: info
+  default: info
   # logs:
   #   custom_components.pylutron: debug
   #   custom_components.lutron: debug
@@ -182,7 +182,10 @@ conversation:
 logbook:
 frontend:
   themes: !include_dir_merge_named themes/
-    
+custom_updater:
+  card_urls:
+    - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
+
 lovelace:
   mode: yaml
 config:
