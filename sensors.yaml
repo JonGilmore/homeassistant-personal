@@ -198,12 +198,16 @@
         value_template: >-
           {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" %}true
           {% else %}false{% endif %}
-      occupancy_status:
-        friendly_name: "Occupied?"
+      alarm_occupancy_status:
+        friendly_name: "Occupied-Alarm?"
         value_template: >-
           {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" %}false
-          {% elif states.device_tracker.jons_iphone.state == "not_home" %}false
           {% else %}true{% endif %}
+      cell_occupancy_status:
+        friendly_name: "Occupied-Cell?"
+        value_template: >-
+          {% if states.device_tracker.jons_iphone.state == "home" or states.device_tracker.laurasiphone_2.state == "home" %}true
+          {% else %}false{% endif %}
       sleep_status:
         friendly_name: "Sleeping?"
         value_template: >-

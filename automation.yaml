@@ -157,7 +157,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: sensor.occupancy_status
+        entity_id: sensor.alarm_occupancy_status
         state: 'true'
       - condition: state
         entity_id: sensor.dark_inside
@@ -182,7 +182,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: sensor.occupancy_status
+        entity_id: sensor.alarm_occupancy_status
         state: 'false'
       - condition: state
         entity_id: sensor.dark_inside
@@ -503,7 +503,7 @@
 - alias: "away, turn the HVAC fans on & the recirculation pump off"
   trigger:
     - platform: state
-      entity_id: sensor.occupancy_status
+      entity_id: sensor.alarm_occupancy_status
       to: "false"
   action:
     - service: climate.set_fan_mode
@@ -521,7 +521,7 @@
 - alias: "away during the day, turn lights off"
   trigger:
     - platform: state
-      entity_id: sensor.occupancy_status
+      entity_id: sensor.alarm_occupancy_status
       to: "false"
   condition:
     - condition: state
@@ -548,7 +548,7 @@
 - alias: home, turn the HVAC fans off & the recirc on, stop daisy cam timer
   trigger:
     - platform: state
-      entity_id: sensor.occupancy_status
+      entity_id: sensor.alarm_occupancy_status
       to: "true"
   action:
     - service: climate.set_fan_mode
@@ -1024,7 +1024,7 @@
 #         entity_id: sensor.vacation_status
 #         state: "false"
 #       - condition: state
-#         entity_id: sensor.occupancy_status
+#         entity_id: sensor.alarm_occupancy_status
 #         state: 'true'
 #   action:
 #     - service: homeassistant.turn_on
@@ -1195,7 +1195,7 @@
 - id: daisy cam photo every 45 minutes when armed away and kennel closed
   trigger:
     - platform: state
-      entity_id: sensor.occupancy_status
+      entity_id: sensor.alarm_occupancy_status
       to: "false"
   condition:
     - condition: state
@@ -1215,7 +1215,7 @@
     - condition: and
       conditions:
         - condition: state
-          entity_id: sensor.occupancy_status
+          entity_id: sensor.alarm_occupancy_status
           state: 'false'
         - condition: state
           entity_id: binary_sensor.daisy_kennel
