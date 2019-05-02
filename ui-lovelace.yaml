@@ -239,18 +239,6 @@ views:
     icon: mdi:camera
     title: Cameras
     cards:
-      # - id: cameras
-      #   type: entities
-      #   title: Reeder Cameras
-      #   show_header_toggle: false
-      #   entities:
-      #     # - camera.driveway
-      #     # - camera.front_door
-      #     # - camera.garage
-      #     # - camera.daisy
-      #     # - camera.deck
-      #     # - camera.front_door_live
-      #     # - camera.kitchen_camera
       - id: drivewayGlance
         type: picture-glance
         image:
