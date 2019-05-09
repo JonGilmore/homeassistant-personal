@@ -79,6 +79,32 @@
       motion:
         delay: 30
 
+
+  - platform: mqtt
+    name: "Deck Person"
+    state_topic: "frigate/deck/objects"
+    value_template: '{{ value_json.person }}'
+    device_class: moving
+    availability_topic: "frigate/available"
+  - platform: mqtt
+    name: "Driveway Person"
+    state_topic: "frigate/driveway/objects"
+    value_template: '{{ value_json.person }}'
+    device_class: moving
+    availability_topic: "frigate/available"
+  - platform: mqtt
+    name: "Doorbell Person"
+    state_topic: "frigate/doorbell/objects"
+    value_template: '{{ value_json.person }}'
+    device_class: moving
+    availability_topic: "frigate/available"
+  - platform: mqtt
+    name: "Garage Person"
+    state_topic: "frigate/garage/objects"
+    value_template: '{{ value_json.person }}'
+    device_class: moving
+    availability_topic: "frigate/available"
+    
   - platform: template
     sensors:
       main_fridge_open_close:

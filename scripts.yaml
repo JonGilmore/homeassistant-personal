@@ -38,22 +38,22 @@
     sequence:
       - service: rest_command.second_on
 
-  garage_momentary_single:
-    alias: Single Garage
-    sequence:
-      - service: homeassistant.turn_on
-        entity_id: switch.output010
-      - delay:
-          milliseconds: 150
-      - service: homeassistant.turn_off
-        entity_id: switch.output010
-  
-  garage_momentary_double:
-    alias: Double Garage
-    sequence:
-      - service: homeassistant.turn_on
-        entity_id: switch.output009
-      - delay:
-          milliseconds: 150
-      - service: homeassistant.turn_off
-        entity_id: switch.output009
+  # garage_momentary_single:
+  #   alias: Single Garage
+  #   sequence:
+  #     - service: homeassistant.turn_on
+  #       entity_id: switch.output010
+  #     - delay:
+  #         milliseconds: 150
+  #     - service: homeassistant.turn_off
+  #       entity_id: switch.output010
+  #
+  # garage_momentary_double:
+  #   alias: Double Garage
+  #   sequence:
+  #     - service: homeassistant.turn_on
+  #       entity_id: switch.output009
+  #     - delay:
+  #         milliseconds: 150
+  #     - service: homeassistant.turn_off
+  #       entity_id: switch.output009
