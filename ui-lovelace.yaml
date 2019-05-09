@@ -10,7 +10,11 @@ resources:
     type: module
   - url: /customcards/github/custom-cards/button-card.js?track=true
     type: module
-
+  - url: /customcards/github/ciotlosm/group-card.js?track=true
+    type: module
+  - url: /customcards/github/ciotlosm/custom-lovelace/group-card.js?track=true
+    type: js
+    
 background: var(--background-image)
 views:
 #########################
@@ -43,8 +47,8 @@ views:
         title: Garage Doors
         show_header_toggle: false
         entities:
-          - script.garage_momentary_single
-          - script.garage_momentary_double
+          - switch.garage_momentary_single
+          - switch.garage_momentary_double
       - id: cameraGlance
         type: picture-glance
         image:
@@ -52,7 +56,6 @@ views:
         title: Exterior
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-            # icon: mdi:lightbulb-on-outline
       - id: leakSensors
         type: entities
         title: Moisture Sensors
@@ -292,6 +295,27 @@ views:
           - sensor.living_room_pir
           - scene.equipment_room_enclosure_device_001_ph_main_off
           - scene.equipment_room_enclosure_device_001_ph_main_on
+      - id: lastPersonDeck
+        type: picture-glance
+        camera_image: camera.deck_last_person
+        entities: []
+        title: Deck Last Person
+      - id: lastPersonDoorbell
+        type: picture-glance
+        camera_image: camera.doorbell_last_person
+        entities: []
+        title: Doorbell Last Person
+      - id: lastPersonDriveway
+        type: picture-glance
+        camera_image: camera.driveway_last_person
+        entities: []
+        title: Driveway Last Person
+      - id: lastPersonGarage
+        type: picture-glance
+        camera_image: camera.garage_last_person
+        entities: []
+        title: Garage Last Person
+
 #########################
 # MUSIC TAB
 #########################
@@ -299,182 +323,240 @@ views:
     icon: mdi:music
     title: Media
     cards:
-      - id: music
-        type: entities
-        title: Sonos Players
-        show_header_toggle: false
-        entities:
-          - entity: media_player.deck
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.garage
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.guest_bathroom
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.gym_3
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.kitchen
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.laundry
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.master
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.office
-                name: Office
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.office
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.portable
-                name: Portable
-          - entity: media_player.portable
-            type: custom:mini-media-player
-            sonos_grouping:
-              - entity: media_player.deck
-                name: Deck
-              - entity: media_player.garage
-                name: Garage
-              - entity: media_player.guest_bathroom
-                name: Guest Bathroom
-              - entity: media_player.gym_3
-                name: Gym
-              - entity: media_player.kitchen
-                name: Kitchen
-              - entity: media_player.laundry
-                name: Laundry
-              - entity: media_player.master
-                name: Master
-              - entity: media_player.office
-                name: Office
+      - type: custom:mini-media-player
+        entity: media_player.deck
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.garage
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.guest_bathroom
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.gym_3
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.kitchen
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.laundry
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.master
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.office
+              name: Office
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.office
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.portable
+              name: Portable
+      - type: custom:mini-media-player
+        entity: media_player.portable
+        hide:
+          power: true
+          icon: true
+          source: true
+        speaker_group:
+          platform: sonos
+          show_group_count: true
+          entities:
+            - entity: media_player.deck
+              name: Deck
+            - entity: media_player.garage
+              name: Garage
+            - entity: media_player.guest_bathroom
+              name: Guest Bathroom
+            - entity: media_player.gym_3
+              name: Gym
+            - entity: media_player.kitchen
+              name: Kitchen
+            - entity: media_player.laundry
+              name: Laundry
+            - entity: media_player.master
+              name: Master
+            - entity: media_player.office
+              name: Office
       - id: googleHome
         type: entities
         title: Google Home

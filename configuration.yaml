@@ -46,7 +46,6 @@ cloud:
         - climate
 
 http:
-#  api_password: !secret api_password
 updater:
   reporting: false
 tts:
@@ -78,11 +77,6 @@ weather:
   - platform: darksky
     api_key: !secret darksky_api
 
-# mqtt:
-#   broker: core-mosquitto
-#   discovery: true
-#   discovery_prefix: smartthings
-
 elkm1:
   host: !secret url_elk
   temperature_unit: F
@@ -97,7 +91,7 @@ elkm1:
   keypad:
     include: [1-5]
   task:
-    enabled: false
+    include: [1-4]
   thermostat:
     enabled: false
   plc:
@@ -142,10 +136,6 @@ scene:
   address: !secret powerview_ip
 
 notify:
-  # - name: pushover
-  #   platform: pushover
-  #   api_key: !secret pushover_api_key
-  #   user_key: !secret pushover_user_key
   - name: telegram_jon
     platform: telegram
     chat_id: !secret telegram_chat
@@ -154,7 +144,7 @@ telegram_bot:
     api_key: !secret telegram_api
     allowed_chat_ids:
       - !secret telegram_chat
-  
+
 ####################################################
 #                     Includes                     #
 ####################################################
@@ -164,6 +154,7 @@ automation: !include automation.yaml
 group: !include groups.yaml
 script: !include scripts.yaml
 shell_command: !include shell_commands.yaml
+switch: !include switches.yaml
 camera: !include cameras.yaml
 rest_command: !include rest_commands.yaml
 input_boolean: !include input_boolean.yaml
@@ -171,7 +162,7 @@ timer: !include timers.yaml
 zone: !include zones.yaml
 
 logger:
-  default: info
+  # default: info
   # logs:
   #   custom_components.pylutron: debug
   #   custom_components.lutron: debug
@@ -203,10 +194,10 @@ panel_iframe:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
-  ide:
-    title: 'IDE'
-    url: 'http://192.168.45.249:8321/ide.html'
-    icon: mdi:border-outside
+  # ide:
+  #   title: 'IDE'
+  #   url: 'http://192.168.45.249:8321/ide.html'
+  #   icon: mdi:border-outside
   esphome:
     title: 'ESPHome'
     url: 'http://192.168.45.249:6052'

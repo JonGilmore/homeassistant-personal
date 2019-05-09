@@ -38,11 +38,25 @@
   name: Temperatures
   file_path: /config/temp/tmp.png
 
+- name: Deck Last Person
+  platform: generic
+  still_image_url: http://192.168.45.249:5000/deck/best_person.jpg
+- name: Driveway Last Person
+  platform: generic
+  still_image_url: http://192.168.45.249:5000/driveway/best_person.jpg
+- name: Doorbell Last Person
+  platform: generic
+  still_image_url: http://192.168.45.249:5000/doorbell/best_person.jpg
+- name: Garage Last Person
+  platform: generic
+  still_image_url: http://192.168.45.249:5000/garage/best_person.jpg
+
+
 
 
 # - platform: generic
 #   still_image_url: http://192.168.45.230:80/ISAPI/Streaming/channels/2/picture
-#   stream_source: rtsp://192.168.45.230:554/Streaming/Channels/1 
+#   stream_source: rtsp://192.168.45.230:554/Streaming/Channels/1
 #   authentication: digest
 #   name: Deck
 #   username: admin
