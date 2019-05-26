@@ -40,18 +40,16 @@
 
 - name: Deck Last Person
   platform: generic
-  still_image_url: http://192.168.45.249:5000/deck/best_person.jpg
+  still_image_url: !secret hik_deck_person
 - name: Driveway Last Person
   platform: generic
-  still_image_url: http://192.168.45.249:5000/driveway/best_person.jpg
+  still_image_url: !secret hik_driveway_person
 - name: Doorbell Last Person
   platform: generic
-  still_image_url: http://192.168.45.249:5000/doorbell/best_person.jpg
+  still_image_url: !secret hik_doorbell_person
 - name: Garage Last Person
   platform: generic
-  still_image_url: http://192.168.45.249:5000/garage/best_person.jpg
-
-
+  still_image_url: !secret hik_garage_person
 
 
 # - platform: generic
