@@ -1,6 +1,83 @@
 # # BASEMENT T-STAT
-#   - platform: mqtt
+  # - platform: mqtt
 #     name: Basement
 #     current_temperature_topic: /smartthings/Basement/Thermostats/Temperature
 #     temperature_command_topic: /sensors/hvac_study/target_temp
 #
+# 
+#   - platform: mqtt
+#     name: Basement Thermostat
+#     max_temp: 90
+#     min_temp: 55
+#     modes:
+#       - "Off"
+#       - "Cool"
+#       - "Heat"
+#       - "Auto"
+#     fan_modes:
+#       - "Auto"
+#       - "On"
+#       - "Circulation"
+#     fan_mode_state_topic: "zwave/basement/Fan State"
+#     fan_mode_state_template: >-
+#       {% set values = { '0':'Auto', '1':'On', '6':'Circulation'} %}
+#       {{ values[value] if value in values.keys() else 'auto' }}
+# #    mode_command_topic: "zwave/basement/Mode"
+#     mode_state_topic: "zwave/basement/Mode"
+#     mode_state_template: >-
+#       {% set values = { '0':'Off', '1':'Heat', '2':'Cool', '3':'Auto', '4':'Aux or Emergency Heat'} %}
+#       {{ values[value] if value in values.keys() else 'Off' }}
+# #    temperature_command_topic: "zwave/basement/Temperature"
+#     temperature_state_topic: "zwave/basement/Temperature"
+#     current_temperature_topic: "zwave/basement/Temperature"
+##############################################################################################
+  # - platform: mqtt
+  #   name: "Main Thermostat"
+  #   # unique_id: '1234567890'
+  #   payload_on: 1
+  #   payload_off: 0
+  #   activity_state_topic: "domuino004/get/impresora3d"
+  #   activity_state_template: >-
+  #    {% set values = { '1':'heat', '2':'cool', '0':'idle'} %}
+  #    {{ values[value] if value in values.keys() else 'idle' }}
+  #   modes:
+  #     - auto
+  #     - heat
+  #     - cool
+  #     - 'off'
+  #   mode_state_topic: "domuino004/get/termomatr"
+  #   mode_state_template: >-
+  #     {% set values = { '0':'auto', '1':'heat', '2':'cool', '4':'off'} %}
+  #     {{ values[value] if value in values.keys() else 'off' }}
+  #   mode_command_topic: "domuino004/set/termomatr"
+  #   mode_command_template: >-
+  #     {% set values = { 'auto':'0', 'heat':'1', 'cool':'2', 'off':'4'} %}
+  #     {{ values[value] if value in values.keys() else '4' }}
+  #   current_temperature_topic: "domuino004/get/tempmatr"
+  #   current_temperature_template: "{{float(value) / 100 }}"
+  #   min_temp: 17
+  #   max_temp: 24
+  #   temp_step: 0.5
+  #   temperature_state_topic: "domuino004/get/consignamatr"
+  #   temperature_command_topic: "domuino004/set/consignamatr"
+##############################################################################################
+  #   name: Chambre d'amis
+  #   unique_id: chambre_d_amis
+  #   current_temperature_topic: homegear/climate/plain/3/1/ACTUAL_TEMPERATURE
+  #   temperature_state_topic: homegear/climate/plain/3/1/SET_TEMPERATURE
+  #   temperature_command_topic: homegear/climate/set/3/1/SET_TEMPERATURE
+  #   min_temp: 10
+  #   max_temp: 30
+  #   temp_step: 0.5
+  #   modes: ["auto","manual","party","boost"]
+  #   mode_state_topic: homegear/climate/plain/3/1/CONTROL_MODE
+  #   mode_state_template:  >-
+  #     {% set values = { '0':'auto', '1':'manual', '2':'party', '3':'boost'} %}
+  #     {{ values[value] if value in values.keys() else 'off' }}
+  #   mode_command_topic: homegear/climate/set/3/1/CONTROL_MODE
+  #   mode_command_template: >-
+  #     {% set values = { 'auto':'0', 'manual':'1', 'party':'2', 'boost':'3'} %}
+  #     {{ values[value] if value in values.keys() else '0' }}
+  #
+  #
+  #

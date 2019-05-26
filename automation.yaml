@@ -435,7 +435,7 @@
           - climate.thermostat_main_cooling_1
         temperature: 77
         operation_mode: cool
-# when we start sleeping, and we're not on vacation, set the temps back
+# when we start sleeping, and we're not on vacation, set the temps back, disable cloud UI
 - alias: Thermostats - bed
   trigger:
     - platform: state
@@ -460,6 +460,7 @@
           - climate.thermostat_main_cooling_1
         temperature: 78
         operation_mode: cool
+    - service: cloud.remote_disconnect
 #########################################
 # at bedtime, lock the front & garage door locks, set the HVAC fans to on, turn off recirculation pump, turn off all lights & xmas lights
 - alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
@@ -576,7 +577,7 @@
         title: "Elk Disconnected"
         message:  "Check the Elk M1XEP connection"
 ########################################
-# Turn on sunset lights at dark or sunset
+# Turn on sunset lights at dark or sunset, set dark theme
 - alias: Turn on sunset lights at dark or sunset
   trigger:
     - platform: state
@@ -599,6 +600,9 @@
       entity_id: scene.equipment_room_enclosure_device_001_ph_sunset1
     - service: homeassistant.turn_on
       entity_id: input_boolean.sunset_run_once
+    - service: frontend.set_theme
+      data:
+        name: dark_theme
 ########################################
 # Turn on master fan at night (if AC is on)
 - alias: Turn on master fan at night
@@ -613,14 +617,17 @@
    - service: light.turn_on
      entity_id: light.master_bedroom_master_fan
 ########################################
-# Turn off master fan in the morning
+# Turn off master fan in the morning, enable normal theme
 - alias: Turn off master fan in the morning
   trigger:
     - platform: time
       at: '08:00:00'
   action:
-   - service: light.turn_off
-     entity_id: light.master_bedroom_master_fan
+    - service: light.turn_off
+      entity_id: light.master_bedroom_master_fan
+    - service: frontend.set_theme
+      data:
+        name: clear
 #########################################
 # on vacation, close the main water valve, set temperatures back, set water heater to vacation, & turn off recirculation pump
 - alias: "on vacation"
@@ -1268,37 +1275,191 @@
 #         transition: 0
 #         power: on
 ########################################
-# nabu casa cloud disconnect/reconnect
-- alias: 'Remote UI Disconnect'
-  initial_state: 'on'
+# # nabu casa cloud disconnect/reconnect
+# - alias: 'Remote UI Disconnect'
+#   initial_state: 'on'
+#   trigger:
+#     - platform: state
+#       entity_id: 
+#         - device_tracker.jons_iphone
+#         - device_tracker.laurasiphone_2
+#       to: home
+#   condition:
+#     - condition: state
+#       entity_id:  device_tracker.jons_iphone
+#       state: home
+#     - condition: state
+#       entity_id:  device_tracker.laurasiphone_2
+#       state: home
+#   action:
+#     - service: cloud.remote_disconnect
+#     - service: notify.telegram_jon
+#       data_template:
+#         message: "Cloud Disconnect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+# - alias: 'Remote UI Connect'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id:
+#       - device_tracker.jons_iphone
+#       - device_tracker.laurasiphone_2
+#     to: not_home
+#   action:
+#     - service: cloud.remote_connect
+#     - service: notify.telegram_jon
+#       data_template:
+#         message: "Cloud Connect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+# ########################################
+# # kitchen motion light
+# - alias: kitchen motion light
+#   trigger:
+#     platform: state
+#     entity_id: sensor.living_room_pir
+#     to: "Violated"
+#   condition:
+#     - condition: state
+#       entity_id: sensor.dark_inside
+#       state: 'True'
+#     - condition: state
+#       entity_id: input_boolean.motion_lights
+#       state: 'on'
+#   action:
+#     - service: homeassistant.turn_on
+#       entity_id:
+#         - switch.kitchen_cabinets
+# ########################################
+# # kitchen motion lights Off
+# - alias: kitchen motion lights Off
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.living_room_pir
+#       to: 'Normal'
+#       for:
+#         seconds: 20
+#   action:
+#     - service: homeassistant.turn_off
+#       entity_id: switch.kitchen_cabinets
+#########################################
+# driveway person motion
+- id: driveway person motion
+  alias: "driveway person motion"
   trigger:
     - platform: state
-      entity_id: 
-        - device_tracker.jons_iphone
-        - device_tracker.laurasiphone_2
-      to: home
-  condition:
-    - condition: state
-      entity_id:  device_tracker.jons_iphone
-      state: home
-    - condition: state
-      entity_id:  device_tracker.laurasiphone_2
-      state: home
+      entity_id: binary_sensor.driveway_person
+      to: "on"
+  # condition:
+  #   condition: or
+  #   conditions:
+  #     - condition: state
+  #       entity_id: sensor.alarm_occupancy_status
+  #       state: 'false'
+  #     - condition: state
+  #       entity_id: sensor.sleep_status
+  #       state: 'true'
   action:
-    - service: cloud.remote_disconnect
+    - service: automation.turn_off
+      entity_id: automation.driveway_person_motion
     - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Disconnect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
-- alias: 'Remote UI Connect'
-  initial_state: 'on'
+      data:
+        title: Driveway Person
+        message: "Driveway Person!"
+        data:
+          photo:
+            - url: !secret hik_driveway_person
+    - delay:
+        minutes: 1
+    - service: automation.turn_on
+      entity_id: automation.driveway_person_motion
+#########################################
+# deck person motion
+- id: deck person motion
+  alias: "deck person motion"
   trigger:
-    platform: state
-    entity_id:
-      - device_tracker.jons_iphone
-      - device_tracker.laurasiphone_2
-    to: not_home
+    - platform: state
+      entity_id: binary_sensor.deck_person
+      to: "on"
+  # condition:
+  #   condition: or
+  #   conditions:
+  #     - condition: state
+  #       entity_id: sensor.alarm_occupancy_status
+  #       state: 'false'
+  #     - condition: state
+  #       entity_id: sensor.sleep_status
+  #       state: 'true'
   action:
-    - service: cloud.remote_connect
+    - service: automation.turn_off
+      entity_id: automation.deck_person_motion
     - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Connect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+      data:
+        title: Deck Person
+        message: "Deck Person!"
+        data:
+          photo:
+            - url: !secret hik_deck_person
+    - delay:
+        minutes: 1
+    - service: automation.turn_on
+      entity_id: automation.deck_person_motion
+#########################################
+# garage person motion
+- id: garage person motion
+  alias: "garage person motion"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_person
+      to: "on"
+  # condition:
+  #   condition: or
+  #   conditions:
+  #     - condition: state
+  #       entity_id: sensor.alarm_occupancy_status
+  #       state: 'false'
+  #     - condition: state
+  #       entity_id: sensor.sleep_status
+  #       state: 'true'
+  action:
+    - service: automation.turn_off
+      entity_id: automation.garage_person_motion
+    - service: notify.telegram_jon
+      data:
+        title: garage Person
+        message: "garage Person!"
+        data:
+          photo:
+            - url: !secret hik_garage_person
+    - delay:
+        minutes: 1
+    - service: automation.turn_on
+      entity_id: automation.garage_person_motion
+#########################################
+# doorbell person motion (sleeping or away)
+- id: doorbell person motion (sleeping or away)
+  alias: "doorbell person motion (sleeping or away)"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.doorbell_person
+      to: "on"
+  # condition:
+  #   condition: or
+  #   conditions:
+  #     - condition: state
+  #       entity_id: sensor.alarm_occupancy_status
+  #       state: 'false'
+  #     - condition: state
+  #       entity_id: sensor.sleep_status
+  #       state: 'true'
+  action:
+    - service: automation.turn_off
+      entity_id: automation.doorbell_person_motion
+    - service: notify.telegram_jon
+      data:
+        title: doorbell Person
+        message: "doorbell Person!"
+        data:
+          photo:
+            - url: !secret hik_doorbell_person
+    - delay:
+        minutes: 1
+    - service: automation.turn_on
+      entity_id: automation.doorbell_person_motion

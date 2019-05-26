@@ -35,29 +35,25 @@ views:
           - arm_home
           - arm_away
           - arm_night
-      - id: locks
-        type: entities
+      - type: entities
         title: Locks
         show_header_toggle: false
         entities:
           - lock.front_door_lock_locked
           - lock.garage_door_lock_locked
-      - id: garage_doors
-        type: entities
+      - type: entities
         title: Garage Doors
         show_header_toggle: false
         entities:
           - switch.garage_momentary_single
           - switch.garage_momentary_double
-      - id: cameraGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.driveway
         title: Exterior
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - id: leakSensors
-        type: entities
+      - type: entities
         title: Moisture Sensors
         show_header_toggle: false
         entities:
@@ -66,8 +62,7 @@ views:
           - binary_sensor.kitchen_dishwasher_moisture
           - binary_sensor.kitchen_fridge_moisture
           - binary_sensor.kitchen_sink_moisture
-      - id: deviceTracker
-        type: entity-filter
+      - type: entity-filter
         entities:
           - device_tracker.jons_iphone
           - device_tracker.laurasiphone_2
@@ -76,8 +71,7 @@ views:
         card:
           type: glance
           title: People that are home
-      - id: testing
-        type: entities
+      - type: entities
         show_header_toggle: false
         title: Testing
         entities:
@@ -85,8 +79,49 @@ views:
           - switch.aeotec2_switch
           - sensor.living_room_multisensor_luminance
           - sensor.main_tv_lux
-      - id: lightsOn
-        type: entity-filter
+      - type: horizontal-stack
+        cards:
+          - type: "custom:button-card"
+            icon: mdi:oil
+            color: rgb(28, 128, 199)
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.video_driveway
+          - type: "custom:button-card"
+            icon: mdi:dog-side
+            color: rgb(28, 128, 199)
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.video_daisy
+          - type: "custom:button-card"
+            icon: mdi:chair-school
+            color: rgb(28, 128, 199)
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.video_deck
+          - type: "custom:button-card"
+            icon: mdi:car
+            color: rgb(28, 128, 199)
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.video_garage
+          - type: "custom:button-card"
+            icon: mdi:knife
+            color: rgb(28, 128, 199)
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.video_kitchen
+      - type: entity-filter
         entities:
           - light.basement_bar
           - switch.basement_bar_cabinets
@@ -163,8 +198,7 @@ views:
           - 'on'
         card:
           title: Enabled Lights
-      - id: equipment
-        type: entities
+      - type: entities
         title: Equipment
         show_header_toggle: false
         entities:
@@ -181,8 +215,7 @@ views:
     icon: mdi:temperature-fahrenheit
     title: Climate
     cards:
-      - id: thermostats
-        type: entities
+      - type: entities
         title: Thermostats
         show_header_toggle: false
         entities:
@@ -190,8 +223,7 @@ views:
           - climate.thermostat_main_heating_1
           - climate.thermostat_upstairs_heating_1
           - climate.thermostat_garage_heating_1
-      - id: temperatures
-        type: entities
+      - type: entities
         title: Temperatures
         show_header_toggle: false
         entities:
@@ -200,8 +232,7 @@ views:
           - sensor.master_entry_temperature
           - sensor.office_multisensor_temperature
           - sensor.sunroom_temperature
-      - id: humidity
-        type: entities
+      - type: entities
         title: Humidity
         show_header_toggle: false
         entities:
@@ -213,8 +244,7 @@ views:
           - sensor.house_humidity
           - sensor.target_humidity_max_winter
           - sensor.target_humidity_min_winter
-      - id: weather
-        type: entities
+      - type: entities
         title: Weather
         show_header_toggle: false
         entities:
@@ -225,8 +255,7 @@ views:
           - sensor.dark_sky_cloud_coverage
       - type: weather-forecast
         entity: weather.dark_sky
-      - id: temperatures
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.temperatures
         title: Temperatures
@@ -242,51 +271,44 @@ views:
     icon: mdi:camera
     title: Cameras
     cards:
-      - id: drivewayGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.driveway
         title: Exterior
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - id: frontDoorGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.front_door
         title: Front Door
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - id: garageGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.garage
         title: Garage
         entities:
           - light.mudroom_garage_lights
-      - id: daisyGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.daisy
         title: Daisy
         entities:
           - switch.pulte_planning_center_lauras_office
           - light.pulte_planning_center_lamp
-      - id: deckGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.deck
         title: Deck
         entities:
           - switch.exterior_posts
-      - id: doorbellGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.front_door_live
         title: Doorbell
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - id: kitchenGlance
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.kitchen_camera
         title: Kitchen
@@ -295,23 +317,19 @@ views:
           - sensor.living_room_pir
           - scene.equipment_room_enclosure_device_001_ph_main_off
           - scene.equipment_room_enclosure_device_001_ph_main_on
-      - id: lastPersonDeck
-        type: picture-glance
+      - type: picture-glance
         camera_image: camera.deck_last_person
         entities: []
         title: Deck Last Person
-      - id: lastPersonDoorbell
-        type: picture-glance
+      - type: picture-glance
         camera_image: camera.doorbell_last_person
         entities: []
         title: Doorbell Last Person
-      - id: lastPersonDriveway
-        type: picture-glance
+      - type: picture-glance
         camera_image: camera.driveway_last_person
         entities: []
         title: Driveway Last Person
-      - id: lastPersonGarage
-        type: picture-glance
+      - type: picture-glance
         camera_image: camera.garage_last_person
         entities: []
         title: Garage Last Person
@@ -557,8 +575,7 @@ views:
               name: Master
             - entity: media_player.office
               name: Office
-      - id: googleHome
-        type: entities
+      - type: entities
         title: Google Home
         show_header_toggle: false
         entities:
@@ -584,8 +601,7 @@ views:
     icon: mdi:lightbulb
     title: Lights
     cards:
-      - id: all_lights
-        type: entities
+      - type: entities
         title: All Lights
         entities:
           - light.basement_bar
@@ -673,8 +689,7 @@ views:
     icon: mdi:battery-charging-wireless-90
     title: ST Devices
     cards:
-      - id: st_devices
-        type: entities
+      - type: entities
         title: ST Devices
         show_header_toggle: false
         entities:
@@ -692,8 +707,7 @@ views:
     icon: mdi:power-plug
     title: Energy
     cards:
-      - id: energy
-        type: entities
+      - type: entities
         title: energy
         show_header_toggle: false
         entities:
@@ -707,8 +721,7 @@ views:
           - sensor.aeotec_hem_power
           - sensor.aeotec_hem_power_2
           - sensor.aeotec_hem_power_3
-      - id: light_scenes
-        type: entities
+      - type: entities
         title: Light Scenes
         show_header_toggle: false
         entities:
@@ -736,10 +749,8 @@ views:
     icon: mdi:wrench
     title: Settings
     cards:
-      - id: tracker_card
-        type: custom:tracker-card
-      - id: blahBlah
-        type: custom:card-modder
+      - type: custom:tracker-card
+      - type: custom:card-modder
         style:
           --paper-card-background-color: rgba(0, 100, 0, 0.2)
           --paper-item-icon-color: white
@@ -750,16 +761,22 @@ views:
           title: Styled card
           entities:
             - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - id: blah2
-        type: glance
+      - type: glance
         title: Unstyled card
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - id: cameraGlancePic
-        type: picture-glance
+      - type: picture-glance
         image:
         camera_image: camera.driveway
         title: Exterior
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
             # icon: mdi:lightbulb-on-outline
+      - type: entities
+        title: Host Stats
+        show_header_toggle: false
+        entities:
+          - sensor.nuc_uptime
+          - sensor.disk_use_percent
+          - sensor.processor_use
+          - sensor.memory_use_percent

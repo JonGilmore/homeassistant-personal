@@ -6,6 +6,8 @@ homeassistant:
   unit_system: imperial
   time_zone: !secret ha_tz
   customize: !include customize.yaml
+  whitelist_external_dirs:
+    - /tmp
 
 cloud:
   google_actions:
@@ -83,7 +85,7 @@ elkm1:
   area:
     exclude: [2-8]
   zone:
-    exclude: [17-24, 27-208]
+    exclude: [17-24, 27-32, 37-208]
   output:
     exclude: [1-8, 11-208]
   counter:
@@ -131,6 +133,11 @@ device_tracker:
 #  client_id: !secret nest_usr
 #  client_secret: !secret nest_pwd
 
+# isy994:
+#   host: http://192.168.45.250:80
+#   username: admin
+#   password: admin
+
 scene:
   platform: hunterdouglas_powerview
   address: !secret powerview_ip
@@ -150,6 +157,7 @@ telegram_bot:
 ####################################################
 sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml
+climate: !include climate.yaml
 automation: !include automation.yaml
 group: !include groups.yaml
 script: !include scripts.yaml
@@ -162,10 +170,7 @@ timer: !include timers.yaml
 zone: !include zones.yaml
 
 logger:
-  # default: info
-  # logs:
-  #   custom_components.pylutron: debug
-  #   custom_components.lutron: debug
+  default: info
 
 history:
 sun:
@@ -187,18 +192,18 @@ discovery:
     - axis
     - plex_mediaserver
     - igd
-# stream:
+stream:
 
 panel_iframe:
   grafana:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
-  # ide:
-  #   title: 'IDE'
-  #   url: 'http://192.168.45.249:8321/ide.html'
-  #   icon: mdi:border-outside
   esphome:
     title: 'ESPHome'
     url: 'http://192.168.45.249:6052'
     icon: mdi:car-esp
+  zwave2mqtt:
+    title: Z-Wave to MQTT
+    icon: mdi:z-wave
+    url: http://192.168.45.249:8091
