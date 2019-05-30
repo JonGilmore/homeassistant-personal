@@ -14,7 +14,30 @@ resources:
     type: module
   - url: /customcards/github/ciotlosm/custom-lovelace/group-card.js?track=true
     type: js
-    
+  - url: /customcards/github/custom-cards/decluttering-card.js?track=true
+    type: module
+
+# decluttering_templates:
+#   sonos_template:
+#     - type: custom:mini-media-player
+#       entity: '[[e1]]'
+#       hide:
+#         power: true
+#         icon: true
+#         source: true
+#       speaker_group:
+#         platform: sonos
+#         show_group_count: true
+#         entities:
+#           - entity: '[[e2]]'
+#           - entity: '[[e3]]'
+#           - entity: '[[e4]]'
+#           - entity: '[[e5]]'
+#           - entity: '[[e6]]'
+#           - entity: '[[e7]]'
+#           - entity: '[[e8]]'
+#           - entity: '[[e9]]'
+
 background: var(--background-image)
 views:
 #########################
@@ -35,12 +58,14 @@ views:
           - arm_home
           - arm_away
           - arm_night
+      - type: weather-forecast
+        entity: weather.dark_sky
       - type: entities
         title: Locks
         show_header_toggle: false
         entities:
-          - lock.front_door_lock_locked
-          - lock.garage_door_lock_locked
+          - lock.front_door_lock
+          - lock.garage_door_lock
       - type: entities
         title: Garage Doors
         show_header_toggle: false
@@ -53,15 +78,6 @@ views:
         title: Exterior
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - type: entities
-        title: Moisture Sensors
-        show_header_toggle: false
-        entities:
-          - binary_sensor.powder_room_moisture
-          - binary_sensor.basement_fridge_moisture
-          - binary_sensor.kitchen_dishwasher_moisture
-          - binary_sensor.kitchen_fridge_moisture
-          - binary_sensor.kitchen_sink_moisture
       - type: entity-filter
         entities:
           - device_tracker.jons_iphone
@@ -71,14 +87,6 @@ views:
         card:
           type: glance
           title: People that are home
-      - type: entities
-        show_header_toggle: false
-        title: Testing
-        entities:
-          - switch.great_room_lamp
-          - switch.aeotec2_switch
-          - sensor.living_room_multisensor_luminance
-          - sensor.main_tv_lux
       - type: horizontal-stack
         cards:
           - type: "custom:button-card"
@@ -202,8 +210,8 @@ views:
         title: Equipment
         show_header_toggle: false
         entities:
-          - binary_sensor.kitchen_outlet
           - switch.water_main_shutoff_switch
+          - binary_sensor.water_main_shut_off_valve
           - switch.equipment_room_recirculation_pump
           - sensor.dark_inside
           - sensor.main_tv_lux
@@ -215,14 +223,14 @@ views:
     icon: mdi:temperature-fahrenheit
     title: Climate
     cards:
-      - type: entities
-        title: Thermostats
-        show_header_toggle: false
-        entities:
-          - climate.thermostat_basement_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_garage_heating_1
+      - type: thermostat
+        entity: climate.basement_thermostat
+      - type: thermostat
+        entity: climate.main_thermostat
+      - type: thermostat
+        entity: climate.upstairs_thermostat
+      - type: thermostat
+        entity: climate.garage_thermostat
       - type: entities
         title: Temperatures
         show_header_toggle: false
@@ -255,14 +263,14 @@ views:
           - sensor.dark_sky_cloud_coverage
       - type: weather-forecast
         entity: weather.dark_sky
-      - type: picture-glance
-        image:
-        camera_image: camera.temperatures
-        title: Temperatures
-        entities:
-          - sensor.thermostat_basement_temperature
-          - sensor.thermostat_main_temperature
-          - sensor.thermostat_upstairs_temperature
+      # - type: picture-glance
+      #   image:
+      #   camera_image: camera.temperatures
+      #   title: Temperatures
+      #   entities:
+      #     - sensor.thermostat_basement_temperature
+      #     - sensor.thermostat_main_temperature
+      #     - sensor.thermostat_upstairs_temperature
 
 #########################
 # CAMERA TAB
@@ -341,6 +349,19 @@ views:
     icon: mdi:music
     title: Media
     cards:
+      # - type: custom:decluterring-card
+      #   template: sonos_template
+      #   variables:
+      #     - e1: media_player.deck
+      #     - e2: media_player.garage
+      #     - e3: media_player.guest_bathroom
+      #     - e4: media_player.gym_3
+      #     - e5: media_player.kitchen
+      #     - e6: media_player.laundry
+      #     - e7: media_player.master
+      #     - e8: media_player.office
+      #     - e9: media_player.portable
+
       - type: custom:mini-media-player
         entity: media_player.deck
         hide:
@@ -693,13 +714,25 @@ views:
         title: ST Devices
         show_header_toggle: false
         entities:
-          - sensor.kitchen_fridge
-          - sensor.powder_room
-          - sensor.basement_fridge
-          - sensor.kitchen_dishwasher
-          - sensor.kitchen_sink
-          - sensor.basement_storage
-          - sensor.laundry
+          - sensor.kitchen_fridge_temperature_measurement
+          - sensor.powder_room_temperature_measurement
+          - sensor.basement_fridge_temperature_measurement
+          - sensor.kitchen_dishwasher_temperature_measurement
+#          - sensor.kitchen_sink_temperature_measurement
+          - sensor.basement_multi_temperature_measurement
+          - sensor.dryer_temperature_measurement
+          - sensor.washer_temperature_measurement
+          - sensor.daisy_temperature_measurement
+      - type: entities
+        title: Moisture Sensors
+        show_header_toggle: false
+        entities:
+          - binary_sensor.powder_room_water
+          - binary_sensor.basement_fridge_water
+          - binary_sensor.kitchen_dishwasher_water
+          - binary_sensor.kitchen_fridge_water
+          - binary_sensor.kitchen_sink_water
+
 #########################
 # ENERGY TAB
 #########################
@@ -711,16 +744,10 @@ views:
         title: energy
         show_header_toggle: false
         entities:
-          - sensor.aeotec1_energy
-          - sensor.aeotec1_power
-          - sensor.aeotec2_energy
-          - sensor.aeotec2_power
-          - sensor.aeotec_hem_energy
-          - sensor.aeotec_hem_energy_2
-          - sensor.aeotec_hem_energy_3
-          - sensor.aeotec_hem_power
-          - sensor.aeotec_hem_power_2
-          - sensor.aeotec_hem_power_3
+          - sensor.aeotec_hem_energy_meter
+          - sensor.aeotec_hem_power_meter
+          - sensor.garage_fridge_energy
+          - sensor.garage_fridge_power
       - type: entities
         title: Light Scenes
         show_header_toggle: false

@@ -9,7 +9,7 @@
       - sensor.master_entry_humidity
       - sensor.sunroom_humidity
 
-# Elk sensors
+# Elk sensors & Aeotec Sensors
   - platform: template
     sensors:
       armed_status:
@@ -37,48 +37,58 @@
           - sensor.single_garage
         value_template: "{% if states.sensor.single_garage.state == 'Normal' %}closed{% elif states.sensor.single_garage.state == 'Violated' %}open{% else %}unknown{% endif %}"
         friendly_name: 'Garage Single State'
+      garage_fridge_power:
+        entity_id:
+          - switch.garage_fridge
+        value_template: '{{ states.switch.garage_fridge.attributes["current_power_w"] }}'
+        friendly_name: 'Garage Fridge Power'
+      garage_fridge_energy:
+        entity_id:
+          - switch.garage_fridge
+        value_template: '{{ states.switch.garage_fridge.attributes["today_energy_kwh"] }}'
+        friendly_name: 'Garage Fridge Energy'
 
-# SMARTTHINGS SENSORS
-  - platform: mqtt
-    name: "Powder Room"
-    state_topic: "smartthings/Powder Room/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Basement Fridge"
-    state_topic: "smartthings/Basement Fridge/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Kitchen Fridge"
-    state_topic: "smartthings/Kitchen Fridge/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Kitchen Dishwasher"
-    state_topic: "smartthings/Kitchen Dishwasher/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Kitchen Sink"
-    state_topic: "smartthings/Kitchen Sink/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Laundry"
-    state_topic: "smartthings/Washer/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Laundry Dryer"
-    state_topic: "smartthings/Dryer/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
-  - platform: mqtt
-    name: "Basement Storage"
-    state_topic: "smartthings/Basement Multi/temperature"
-    device_class: temperature
-    unit_of_measurement: "°F"
+# # SMARTTHINGS SENSORS
+#   - platform: mqtt
+#     name: "Powder Room"
+#     state_topic: "smartthings/Powder Room/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Basement Fridge"
+#     state_topic: "smartthings/Basement Fridge/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Kitchen Fridge"
+#     state_topic: "smartthings/Kitchen Fridge/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Kitchen Dishwasher"
+#     state_topic: "smartthings/Kitchen Dishwasher/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Kitchen Sink"
+#     state_topic: "smartthings/Kitchen Sink/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Laundry"
+#     state_topic: "smartthings/Washer/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Laundry Dryer"
+#     state_topic: "smartthings/Dryer/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
+#   - platform: mqtt
+#     name: "Basement Storage"
+#     state_topic: "smartthings/Basement Multi/temperature"
+#     device_class: temperature
+#     unit_of_measurement: "°F"
 
 # DARK SKY
   - platform: darksky
@@ -216,34 +226,34 @@
 
 
 # MOTION SENSORS
-  - platform: template
-    sensors:
-      living_room_pir:
-        value_template: >-
-          {% if   is_state("sensor.living_room_multisensor_burglar", "8") %}Violated
-          {% elif is_state("sensor.living_room_multisensor_burglar", "3") %}Tamper Detected
-          {% else %}Normal
-          {% endif %}
-        friendly_name: "Living Room PIR"
-      office_pir:
-        value_template: >-
-          {% if   is_state("sensor.office_multisensor_burglar", "8") %}Violated
-          {% elif is_state("sensor.office_multisensor_burglar", "3") %}Tamper Detected
-          {% else %}Normal
-          {% endif %}
-        friendly_name: "Office PIR"
-      master_closet_pir:
-        value_template: >-
-          {% if is_state("sensor.master_closet_burglar", "8") %}Violated
-          {% else %}Normal
-          {% endif %}
-        friendly_name: "Master Closet PIR"
-      pantry_pir:
-        value_template: >-
-          {% if is_state("sensor.pantry_burglar", "8") %}Violated
-          {% else %}Normal
-          {% endif %}
-        friendly_name: "Pantry PIR"
+  # - platform: template
+  #   sensors:
+  #     living_room_pir:
+  #       value_template: >-
+  #         {% if   is_state("sensor.living_room_multisensor_burglar", "8") %}Violated
+  #         {% elif is_state("sensor.living_room_multisensor_burglar", "3") %}Tamper Detected
+  #         {% else %}Normal
+  #         {% endif %}
+  #       friendly_name: "Living Room PIR"
+  #     office_pir:
+  #       value_template: >-
+  #         {% if   is_state("sensor.office_multisensor_burglar", "8") %}Violated
+  #         {% elif is_state("sensor.office_multisensor_burglar", "3") %}Tamper Detected
+  #         {% else %}Normal
+  #         {% endif %}
+  #       friendly_name: "Office PIR"
+  #     master_closet_pir:
+  #       value_template: >-
+  #         {% if is_state("sensor.master_closet_burglar", "8") %}Violated
+  #         {% else %}Normal
+  #         {% endif %}
+  #       friendly_name: "Master Closet PIR"
+  #     pantry_pir:
+  #       value_template: >-
+  #         {% if is_state("sensor.pantry_burglar", "8") %}Violated
+  #         {% else %}Normal
+  #         {% endif %}
+  #       friendly_name: "Pantry PIR"
 
 # GRAFANA
   - platform: command_line
