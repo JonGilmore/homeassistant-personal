@@ -470,9 +470,9 @@
       to: "true"
   action:
     - service: lock.lock
-      entity_id: lock.garage_door_lock_locked
+      entity_id: lock.garage_door_lock
     - service: lock.lock
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
     - service: climate.set_fan_mode
       data:
         entity_id:
@@ -672,7 +672,7 @@
       to: "true"
   condition:
     - condition: state
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
       state: 'unlocked'
   action:
     - service: notify.telegram_jon
@@ -680,7 +680,7 @@
         title: "Front Door is UNLOCKED!"
         message:  "Locking the front door"
     - service: lock.lock
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
 #########################################
 # return from vacation, open the main water valve, remove the rheem water heater vacation hold, set temps back
 - alias: "return from vacation"
@@ -722,7 +722,7 @@
       to: "armed_away"
   condition:
     - condition: state
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
       state: 'unlocked'
   action:
     - service: notify.telegram_jon
@@ -730,7 +730,7 @@
         title: "Front Door is UNLOCKED!"
         message:  "Locking the front door"
     - service: lock.lock
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
 #########################################
 # if main fridge temp goes >42 or <30, notify
 - alias: "main fridge temp goes >42 or <30, notify"
@@ -839,7 +839,7 @@
       to: "true"
   condition:
     - condition: state
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
       state: 'unlocked'
   action:
     - service: notify.telegram_jon
@@ -847,43 +847,9 @@
         title: "Front Door is UNLOCKED!"
         message:  "Locking the front door"
     - service: lock.lock
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
 #########################################
-# lock notification
-# - alias: Unlock Front Door Notify
-#   trigger:
-#     - platform: state
-#       entity_id: lock.front_door_lock_locked
-#       to: 'unlocked'
-#       from: 'locked'
-#   condition:
-#     condition: and
-#     conditions:
-#       - condition: template
-#         value_template: '{{ states.lock.front_door_lock_locked.attributes.notification == "Keypad Unlock"}}'
-#       - condition: template
-#         value_template: '{{ states.lock.front_door_lock_locked.attributes.lock_status != "Unlocked with Keypad by user 3"}}'
-#   action:
-#     - service: notify.telegram_jon
-#       data_template:
-#         title: >
-#           Unlock by {% if states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 1' -%}
-#           Son
-#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 2' -%}
-#           Wife
-#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 4' -%}
-#           Daughter
-#           {%- endif -%}
-#         message: >
-#           {%- if states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 1' -%}
-#           Son
-#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 2' -%}
-#           Wife
-#           {%- elif states.lock.front_door_lock_locked.attributes.lock_status == 'Unlocked with Keypad by user 4' -%}
-#           Daughter
-#           {%- endif %} unlocked the front door
-#########################################
-# zwave battery life notifications
+# battery life notifications
 - id: Low Battery Notification
   alias: Low Battery Notification
   trigger:
@@ -992,9 +958,9 @@
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
     - service: lock.unlock
-      entity_id: lock.garage_door_lock_locked
+      entity_id: lock.garage_door_lock
     - service: lock.unlock
-      entity_id: lock.front_door_lock_locked
+      entity_id: lock.front_door_lock
 #########################################
 # burglar active, lights on
 - alias: "burglar active, lights on"
@@ -1339,127 +1305,198 @@
 #   action:
 #     - service: homeassistant.turn_off
 #       entity_id: switch.kitchen_cabinets
+# #########################################
+# # driveway person motion
+# - id: driveway person motion
+#   alias: "driveway person motion"
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.driveway_person
+#       to: "on"
+#   condition:
+#     condition: or
+#     conditions:
+#       - condition: state
+#         entity_id: sensor.alarm_occupancy_status
+#         state: 'false'
+#       - condition: state
+#         entity_id: sensor.sleep_status
+#         state: 'true'
+#   action:
+#     - service: script.turn_on
+#       entity_id: script.video_driveway
+#     # - service: notify.telegram_jon
+#     #   data:
+#     #     title: Driveway Person
+#     #     message: "Driveway Person!"
+#     #     data:
+#     #       photo:
+#     #         - url: !secret hik_driveway_person
+#     - service: automation.turn_off
+#       entity_id: automation.driveway_person_motion
+#     - delay:
+#         minutes: 2
+#     - service: automation.turn_on
+#       entity_id: automation.driveway_person_motion
+# #########################################
+# # deck person motion
+# - id: deck person motion
+#   alias: "deck person motion"
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.deck_person
+#       to: "on"
+#   # condition:
+#   #   condition: or
+#   #   conditions:
+#   #     - condition: state
+#   #       entity_id: sensor.alarm_occupancy_status
+#   #       state: 'false'
+#   #     - condition: state
+#   #       entity_id: sensor.sleep_status
+#   #       state: 'true'
+#   action:
+#     - service: script.turn_on
+#       entity_id: script.video_deck
+#     - service: automation.turn_off
+#       entity_id: automation.deck_person_motion
+#     # - service: notify.telegram_jon
+#     #   data:
+#     #     title: Deck Person
+#     #     message: "Deck Person!"
+#     #     data:
+#     #       photo:
+#     #         - url: !secret hik_deck_person
+#     - delay:
+#         minutes: 1
+#     - service: automation.turn_on
+#       entity_id: automation.deck_person_motion
+# #########################################
+# # garage person motion
+# - id: garage person motion
+#   alias: "garage person motion"
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.garage_person
+#       to: "on"
+#   condition:
+#     condition: or
+#     conditions:
+#       - condition: state
+#         entity_id: sensor.alarm_occupancy_status
+#         state: 'false'
+#       - condition: state
+#         entity_id: sensor.sleep_status
+#         state: 'true'
+#   action:
+#     - service: script.turn_on
+#       entity_id: script.video_garage
+#     - service: automation.turn_off
+#       entity_id: automation.garage_person_motion
+#     # - service: notify.telegram_jon
+#     #   data:
+#     #     title: garage Person
+#     #     message: "garage Person!"
+#     #     data:
+#     #       photo:
+#     #         - url: !secret hik_garage_person
+#     - delay:
+#         minutes: 1
+#     - service: automation.turn_on
+#       entity_id: automation.garage_person_motion
+# #########################################
+# # doorbell person motion (sleeping or away)
+# - id: doorbell person motion (sleeping or away)
+#   alias: "doorbell person motion (sleeping or away)"
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.doorbell_person
+#       to: "on"
+#   condition:
+#     condition: or
+#     conditions:
+#       - condition: state
+#         entity_id: sensor.alarm_occupancy_status
+#         state: 'false'
+#       - condition: state
+#         entity_id: sensor.sleep_status
+#         state: 'true'
+#   action:
+#     - service: script.turn_on
+#       entity_id: script.video_doorbell
+#     - service: automation.turn_off
+#       entity_id: automation.doorbell_person_motion
+#     # - service: notify.telegram_jon
+#     #   data:
+#     #     title: doorbell Person
+#     #     message: "doorbell Person!"
+#     #     data:
+#     #       photo:
+#     #         - url: !secret hik_doorbell_person
+#     - delay:
+#         minutes: 1
+#     - service: automation.turn_on
+#       entity_id: automation.doorbell_person_motion
 #########################################
-# driveway person motion
-- id: driveway person motion
-  alias: "driveway person motion"
+# person motion template (sleeping or away)
+- id: person motion template (sleeping or away)
+  alias: "person motion template (sleeping or away)"
   trigger:
-    - platform: state
-      entity_id: binary_sensor.driveway_person
-      to: "on"
-  # condition:
-  #   condition: or
-  #   conditions:
-  #     - condition: state
-  #       entity_id: sensor.alarm_occupancy_status
-  #       state: 'false'
-  #     - condition: state
-  #       entity_id: sensor.sleep_status
-  #       state: 'true'
+  - platform: state
+    entity_id: 
+      - binary_sensor.driveway_person
+      - binary_sensor.deck_person
+      - binary_sensor.garage_person
+      - binary_sensor.doorbell_person
+    to: "on"
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.alarm_occupancy_status
+      state: 'false'
+    - condition: state
+      entity_id: sensor.sleep_status
+      state: 'true'
   action:
-    - service: automation.turn_off
-      entity_id: automation.driveway_person_motion
-    - service: notify.telegram_jon
-      data:
-        title: Driveway Person
-        message: "Driveway Person!"
-        data:
-          photo:
-            - url: !secret hik_driveway_person
-    - delay:
-        minutes: 1
-    - service: automation.turn_on
-      entity_id: automation.driveway_person_motion
-#########################################
-# deck person motion
-- id: deck person motion
-  alias: "deck person motion"
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.deck_person
-      to: "on"
-  # condition:
-  #   condition: or
-  #   conditions:
-  #     - condition: state
-  #       entity_id: sensor.alarm_occupancy_status
-  #       state: 'false'
-  #     - condition: state
-  #       entity_id: sensor.sleep_status
-  #       state: 'true'
-  action:
-    - service: automation.turn_off
-      entity_id: automation.deck_person_motion
-    - service: notify.telegram_jon
-      data:
-        title: Deck Person
-        message: "Deck Person!"
-        data:
-          photo:
-            - url: !secret hik_deck_person
-    - delay:
-        minutes: 1
-    - service: automation.turn_on
-      entity_id: automation.deck_person_motion
-#########################################
-# garage person motion
-- id: garage person motion
-  alias: "garage person motion"
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_person
-      to: "on"
-  # condition:
-  #   condition: or
-  #   conditions:
-  #     - condition: state
-  #       entity_id: sensor.alarm_occupancy_status
-  #       state: 'false'
-  #     - condition: state
-  #       entity_id: sensor.sleep_status
-  #       state: 'true'
-  action:
-    - service: automation.turn_off
-      entity_id: automation.garage_person_motion
-    - service: notify.telegram_jon
-      data:
-        title: garage Person
-        message: "garage Person!"
-        data:
-          photo:
-            - url: !secret hik_garage_person
-    - delay:
-        minutes: 1
-    - service: automation.turn_on
-      entity_id: automation.garage_person_motion
-#########################################
-# doorbell person motion (sleeping or away)
-- id: doorbell person motion (sleeping or away)
-  alias: "doorbell person motion (sleeping or away)"
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.doorbell_person
-      to: "on"
-  # condition:
-  #   condition: or
-  #   conditions:
-  #     - condition: state
-  #       entity_id: sensor.alarm_occupancy_status
-  #       state: 'false'
-  #     - condition: state
-  #       entity_id: sensor.sleep_status
-  #       state: 'true'
-  action:
-    - service: automation.turn_off
-      entity_id: automation.doorbell_person_motion
-    - service: notify.telegram_jon
-      data:
-        title: doorbell Person
-        message: "doorbell Person!"
-        data:
-          photo:
-            - url: !secret hik_doorbell_person
-    - delay:
-        minutes: 1
-    - service: automation.turn_on
-      entity_id: automation.doorbell_person_motion
+  - service: script.turn_on
+    data_template:
+        entity_id: >
+          {% set trigger_entity = trigger.entity_id %}
+          {% if trigger_entity == 'binary_sensor.driveway_person' %}
+            script.video_driveway
+          {% elif trigger_entity == 'binary_sensor.deck_person' %}
+            script.video_deck
+          {% elif trigger_entity == 'binary_sensor.garage_person' %}
+            script.video_garage
+          {% elif trigger_entity == 'binary_sensor.doorbell_person' %}
+            script.video_doorbell
+          {% endif %}
+    entity_id: script.video_doorbell
+  - service: automation.turn_off
+    entity_id: automation.doorbell_person_motion
+  - delay:
+      minutes: 1
+  - service: automation.turn_on
+    entity_id: automation.doorbell_person_motion
+
+
+# - alias: Thermostats
+#   trigger:
+#     platform: time
+#     at: '18:19:00'
+#   action:
+#     - service: climate.set_temperature
+#       data:
+#         entity_id:
+#           - climate.upstairs_thermostat
+#           - climate.basement_thermostat
+#         temperature: 60
+#         operation_mode: heat
+#     - service: climate.set_temperature
+#       data:
+#         entity_id:
+#           - climate.upstairs_thermostat
+#           - climate.basement_thermostat
+#         temperature: 80
+#         operation_mode: cool

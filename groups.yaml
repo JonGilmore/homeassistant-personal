@@ -9,11 +9,11 @@ moistureSensors:
   view: no
   name: Leak Sensors
   entities:
-    - binary_sensor.powder_room_moisture
-    - binary_sensor.basement_fridge_moisture
-    - binary_sensor.kitchen_dishwasher_moisture
-    - binary_sensor.kitchen_fridge_moisture
-    - binary_sensor.kitchen_sink_moisture
+    - binary_sensor.powder_room_water
+    - binary_sensor.basement_fridge_water
+    - binary_sensor.kitchen_dishwasher_water
+    - binary_sensor.kitchen_fridge_water
+    - binary_sensor.kitchen_sink_water
 
 motions:
   view: no

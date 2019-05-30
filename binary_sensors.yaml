@@ -1,55 +1,55 @@
-  - platform: mqtt
-    name: "Kitchen Outlet"
-    state_topic: "smartthings/Kitchen Outlet/switch"
-    payload_on: "on"
-    payload_off: "off"
-    device_class: power
-  - platform: mqtt
-    name: "Kitchen Sink Moisture"
-    state_topic: "smartthings/Kitchen Sink/water"
-    payload_on: "wet"
-    payload_off: "dry"
-    device_class: moisture
-  - platform: mqtt
-    name: "Kitchen Fridge Moisture"
-    state_topic: "smartthings/Kitchen Fridge/water"
-    payload_on: "wet"
-    payload_off: "dry"
-    device_class: moisture
-  - platform: mqtt
-    name: "Kitchen Dishwasher Moisture"
-    state_topic: "smartthings/Kitchen Dishwasher/water"
-    payload_on: "wet"
-    payload_off: "dry"
-    device_class: moisture
-  - platform: mqtt
-    name: "Basement Fridge Moisture"
-    state_topic: "smartthings/Basement Fridge/water"
-    payload_on: "wet"
-    payload_off: "dry"
-    device_class: moisture
-  - platform: mqtt
-    name: "Powder Room Moisture"
-    state_topic: "smartthings/Powder Room/water"
-    payload_on: "wet"
-    payload_off: "dry"
-    device_class: moisture
-  - platform: mqtt
-    name: "Washing Machine"
-    state_topic: "smartthings/Washer/acceleration"
-    payload_on: active
-    payload_off: inactive
-  - platform: mqtt
-    name: "Dryer"
-    state_topic: "smartthings/Dryer/acceleration"
-    payload_on: active
-    payload_off: inactive
-  - platform: mqtt
-    name: "Daisy Kennel"
-    state_topic: "smartthings/Daisy/contact"
-    payload_on: open
-    payload_off: closed
-    device_class: opening
+  # - platform: mqtt
+  #   name: "Kitchen Outlet"
+  #   state_topic: "smartthings/Kitchen Outlet/switch"
+  #   payload_on: "on"
+  #   payload_off: "off"
+  #   device_class: power
+  # - platform: mqtt
+  #   name: "Kitchen Sink Moisture"
+  #   state_topic: "smartthings/Kitchen Sink/water"
+  #   payload_on: "wet"
+  #   payload_off: "dry"
+  #   device_class: moisture
+  # - platform: mqtt
+  #   name: "Kitchen Fridge Moisture"
+  #   state_topic: "smartthings/Kitchen Fridge/water"
+  #   payload_on: "wet"
+  #   payload_off: "dry"
+  #   device_class: moisture
+  # - platform: mqtt
+  #   name: "Kitchen Dishwasher Moisture"
+  #   state_topic: "smartthings/Kitchen Dishwasher/water"
+  #   payload_on: "wet"
+  #   payload_off: "dry"
+  #   device_class: moisture
+  # - platform: mqtt
+  #   name: "Basement Fridge Moisture"
+  #   state_topic: "smartthings/Basement Fridge/water"
+  #   payload_on: "wet"
+  #   payload_off: "dry"
+  #   device_class: moisture
+  # - platform: mqtt
+  #   name: "Powder Room Moisture"
+  #   state_topic: "smartthings/Powder Room/water"
+  #   payload_on: "wet"
+  #   payload_off: "dry"
+  #   device_class: moisture
+  # - platform: mqtt
+  #   name: "Washing Machine"
+  #   state_topic: "smartthings/Washer/acceleration"
+  #   payload_on: active
+  #   payload_off: inactive
+  # - platform: mqtt
+  #   name: "Dryer"
+  #   state_topic: "smartthings/Dryer/acceleration"
+  #   payload_on: active
+  #   payload_off: inactive
+  # - platform: mqtt
+  #   name: "Daisy Kennel"
+  #   state_topic: "smartthings/Daisy/contact"
+  #   payload_on: open
+  #   payload_off: closed
+  #   device_class: opening
   - platform: hikvision
     host: 192.168.45.233
     username: !secret hik_usr
@@ -151,11 +151,11 @@
         value_template: >-
           {%- if is_state("sensor.watr_htr_snsr", "Violated")
           or is_state("sensor.frdge_leak_snsr", "Violated")
-          or is_state("binary_sensor.powder_room_moisture", "on")
-          or is_state("binary_sensor.basement_fridge_moisture", "on")
-          or is_state("binary_sensor.kitchen_dishwasher_moisture", "on")
-          or is_state("binary_sensor.kitchen_fridge_moisture", "on")
-          or is_state("binary_sensor.kitchen_sink_moisture", "on")
+          or is_state("binary_sensor.powder_room_water", "on")
+          or is_state("binary_sensor.basement_fridge_water", "on")
+          or is_state("binary_sensor.kitchen_dishwasher_water", "on")
+          or is_state("binary_sensor.kitchen_fridge_water", "on")
+          or is_state("binary_sensor.kitchen_sink_water", "on")
           or is_state("sensor.frdge_leak_snsr", "Violated")-%}
           True
           {%- else -%}
