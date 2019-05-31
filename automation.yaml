@@ -470,9 +470,10 @@
       to: "true"
   action:
     - service: lock.lock
-      entity_id: lock.garage_door_lock
-    - service: lock.lock
-      entity_id: lock.front_door_lock
+      data:
+        entities:
+          - lock.garage_door_lock
+          - lock.front_door_lock
     - service: climate.set_fan_mode
       data:
         entity_id:
@@ -830,24 +831,27 @@
         title: "Garage Door is Open!"
         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
 #########################################
-# bedtime, front door locked and notify
-- id: bedtime, front door lock check
-  alias: "bedtime, front door lock check"
+# bedtime, doors unlocked and notify
+- id: bedtime, doors unlocked and notify
+  alias: "bedtime, doors unlocked and notify"
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
       to: "true"
   condition:
-    - condition: state
-      entity_id: lock.front_door_lock
-      state: 'unlocked'
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: lock.front_door_lock
+        state: 'unlocked'
+      - condition: state
+        entity_id: lock.garage_door_lock
+        state: 'unlocked'
   action:
     - service: notify.telegram_jon
       data:
-        title: "Front Door is UNLOCKED!"
-        message:  "Locking the front door"
-    - service: lock.lock
-      entity_id: lock.front_door_lock
+        title: "Door(s) UNLOCKED!"
+        message:  "Locking the door(s)"
 #########################################
 # battery life notifications
 - id: Low Battery Notification
@@ -905,9 +909,10 @@
       to: "on"
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.equipment_room_recirculation_pump
-    - service: homeassistant.turn_off
-      entity_id: switch.water_main_shutoff_switch
+      data:
+        entities:
+          - switch.equipment_room_recirculation_pump
+          - switch.water_main_shutoff_switch
     - service: notify.telegram_jon
       data:
         title: "Water Leak!"
@@ -930,12 +935,14 @@
       - condition: time
         before: '15:00:00'
   action:
-    - service: notify.telegram_jon
-      data:
-        message: "Dog walker here"
-        data:
-          photo:
-            - url: !secret hik_daisy_pic
+    # - service: notify.telegram_jon
+    #   data:
+    #     message: "Dog walker here"
+    #     data:
+    #       photo:
+    #         - url: !secret hik_daisy_pic
+    - service: script.turn_on
+      entity_id: script.video_daisy
 #########################################
 # if 'alarm_state' turns to anything (except no_alarm_active or entrance_delay_active), notify!
 - alias: "alarm testing"
@@ -958,12 +965,19 @@
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
     - service: lock.unlock
-      entity_id: lock.garage_door_lock
-    - service: lock.unlock
-      entity_id: lock.front_door_lock
+      data:
+        entities:
+          - lock.garage_door_lock
+          - lock.front_door_lock
+    - service: script.turn_on
+      data:
+        entities:
+          - script.video_driveway
+          - script.video_deck
+          - script.video_doorbell
 #########################################
-# burglar active, lights on
-- alias: "burglar active, lights on"
+# burglar active, lights on, send some videos
+- alias: "burglar active, lights on, send some videos"
   trigger:
     - platform: state
       entity_id: sensor.alarm_state
@@ -971,12 +985,26 @@
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
+    - service: script.turn_on
+      data:
+        entities:
+          - script.video_driveway
+          - script.video_deck
+          - script.video_doorbell
+    - delay:
+        minutes: 1
+    - service: script.turn_on
+      data:
+        entities:
+          - script.video_driveway
+          - script.video_deck
+          - script.video_doorbell
 ########################################
 # Turn on recirculation pump in the AM (when we're not on vacation)
 - alias: Turn on recirculation pump in the AM (when we're not on vacation)
   trigger:
     - platform: time
-      at: '05:00:00'
+      at: '06:00:00'
   condition:
     - condition: state
       entity_id: sensor.vacation_status
@@ -984,24 +1012,6 @@
   action:
     - service: homeassistant.turn_on
       entity_id: switch.equipment_room_recirculation_pump
-########################################
-# Christmas lights on
-# - alias: Christmas lights on
-#   trigger:
-#     - platform: time
-#       at: '18:00:00'
-#   condition:
-#     condition: and
-#     conditions:
-#       - condition: state
-#         entity_id: sensor.vacation_status
-#         state: "false"
-#       - condition: state
-#         entity_id: sensor.alarm_occupancy_status
-#         state: 'true'
-#   action:
-#     - service: homeassistant.turn_on
-#       entity_id: group.christmaslights
 ########################################
 # updater notification
 - alias: 'Update Available Notifications'
@@ -1012,25 +1022,6 @@
     service: notify.telegram_jon
     data:
       message: 'Update for Home Assistant is available.'
-########################################
-# master bed occupancy
-# - alias: 'master bed occupancy'
-#   trigger:
-#     - platform: state
-#       entity_id: sensor.master_bed_occupied
-#       to: 'true'
-#       for:
-#         minutes: 1
-#     - platform: state
-#       entity_id: sensor.master_bed_occupied
-#       to: 'false'
-#       for:
-#         minutes: 1
-#   action:
-#     - service: notify.telegram_jon
-#       data_template:
-#         title:  "{{ trigger.to_state.attributes.friendly_name }} Changed"
-#         message: "Changed to {{ trigger.to_state.state }}."
 ########################################
 # pixel2 own tracks testing
 # - alias: 'pixel2 own tracks testing'
@@ -1161,8 +1152,8 @@
       for:
         minutes: 10
   action:
-    - service: homeassistant.turn_on
-      entity_id: switch.kitchen_off
+    - service: scene.turn_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_kitchen_off
 ########################################
 # daisy cam photo every 45 minutes when armed away and kennel closed
 - id: daisy cam photo every 45 minutes when armed away and kennel closed
@@ -1194,18 +1185,13 @@
           entity_id: binary_sensor.daisy_kennel
           state: 'off'
   action:
-    - service: notify.telegram_jon
-      data:
-        title: Daisy Cam
-        message: "Daisy Cam"
-        data:
-          photo:
-            - url: !secret hik_daisy_pic
+    - service: script.turn_on
+      entity_id: script.video_daisy
     - service: timer.start
       data:
         entity_id: timer.daisy_cam_timer
 #########################################
-# motion lights enable 1hour before sunset, disable 1hour after sunrise
+# motion lights enable 1hour before sunset, disable 2hour after sunrise
 - alias: motion lights enable
   trigger:
     - platform: sun
@@ -1222,24 +1208,6 @@
   action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.motion_lights
-# ########################################
-# # master entry motion light - testing
-# - alias: master entry motion light - testing
-#   trigger:
-#     platform: state
-#     entity_id: sensor.office_pir
-#     to: "Violated"
-#   action:
-#     - service: light.lifx_set_state
-#       data:
-#         entity_id: light.master_entry_lifx
-#       data_template:
-#         brightness: >
-#           {% set hour=now().hour %}
-#           {% set brightness = [10, 15, 20, 30, 55, 80, 125, 150, 175, 185, 240, 250, 255, 230, 205, 250, 230, 190, 170, 150, 140, 120, 100, 50] %}
-#           {{ brightness[hour] }}
-#         transition: 0
-#         power: on
 ########################################
 # # nabu casa cloud disconnect/reconnect
 # - alias: 'Remote UI Disconnect'
@@ -1293,154 +1261,10 @@
 #     - service: homeassistant.turn_on
 #       entity_id:
 #         - switch.kitchen_cabinets
-# ########################################
-# # kitchen motion lights Off
-# - alias: kitchen motion lights Off
-#   trigger:
-#     - platform: state
-#       entity_id: sensor.living_room_pir
-#       to: 'Normal'
-#       for:
-#         seconds: 20
-#   action:
-#     - service: homeassistant.turn_off
-#       entity_id: switch.kitchen_cabinets
-# #########################################
-# # driveway person motion
-# - id: driveway person motion
-#   alias: "driveway person motion"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.driveway_person
-#       to: "on"
-#   condition:
-#     condition: or
-#     conditions:
-#       - condition: state
-#         entity_id: sensor.alarm_occupancy_status
-#         state: 'false'
-#       - condition: state
-#         entity_id: sensor.sleep_status
-#         state: 'true'
-#   action:
-#     - service: script.turn_on
-#       entity_id: script.video_driveway
-#     # - service: notify.telegram_jon
-#     #   data:
-#     #     title: Driveway Person
-#     #     message: "Driveway Person!"
-#     #     data:
-#     #       photo:
-#     #         - url: !secret hik_driveway_person
-#     - service: automation.turn_off
-#       entity_id: automation.driveway_person_motion
-#     - delay:
-#         minutes: 2
-#     - service: automation.turn_on
-#       entity_id: automation.driveway_person_motion
-# #########################################
-# # deck person motion
-# - id: deck person motion
-#   alias: "deck person motion"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.deck_person
-#       to: "on"
-#   # condition:
-#   #   condition: or
-#   #   conditions:
-#   #     - condition: state
-#   #       entity_id: sensor.alarm_occupancy_status
-#   #       state: 'false'
-#   #     - condition: state
-#   #       entity_id: sensor.sleep_status
-#   #       state: 'true'
-#   action:
-#     - service: script.turn_on
-#       entity_id: script.video_deck
-#     - service: automation.turn_off
-#       entity_id: automation.deck_person_motion
-#     # - service: notify.telegram_jon
-#     #   data:
-#     #     title: Deck Person
-#     #     message: "Deck Person!"
-#     #     data:
-#     #       photo:
-#     #         - url: !secret hik_deck_person
-#     - delay:
-#         minutes: 1
-#     - service: automation.turn_on
-#       entity_id: automation.deck_person_motion
-# #########################################
-# # garage person motion
-# - id: garage person motion
-#   alias: "garage person motion"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.garage_person
-#       to: "on"
-#   condition:
-#     condition: or
-#     conditions:
-#       - condition: state
-#         entity_id: sensor.alarm_occupancy_status
-#         state: 'false'
-#       - condition: state
-#         entity_id: sensor.sleep_status
-#         state: 'true'
-#   action:
-#     - service: script.turn_on
-#       entity_id: script.video_garage
-#     - service: automation.turn_off
-#       entity_id: automation.garage_person_motion
-#     # - service: notify.telegram_jon
-#     #   data:
-#     #     title: garage Person
-#     #     message: "garage Person!"
-#     #     data:
-#     #       photo:
-#     #         - url: !secret hik_garage_person
-#     - delay:
-#         minutes: 1
-#     - service: automation.turn_on
-#       entity_id: automation.garage_person_motion
-# #########################################
-# # doorbell person motion (sleeping or away)
-# - id: doorbell person motion (sleeping or away)
-#   alias: "doorbell person motion (sleeping or away)"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.doorbell_person
-#       to: "on"
-#   condition:
-#     condition: or
-#     conditions:
-#       - condition: state
-#         entity_id: sensor.alarm_occupancy_status
-#         state: 'false'
-#       - condition: state
-#         entity_id: sensor.sleep_status
-#         state: 'true'
-#   action:
-#     - service: script.turn_on
-#       entity_id: script.video_doorbell
-#     - service: automation.turn_off
-#       entity_id: automation.doorbell_person_motion
-#     # - service: notify.telegram_jon
-#     #   data:
-#     #     title: doorbell Person
-#     #     message: "doorbell Person!"
-#     #     data:
-#     #       photo:
-#     #         - url: !secret hik_doorbell_person
-#     - delay:
-#         minutes: 1
-#     - service: automation.turn_on
-#       entity_id: automation.doorbell_person_motion
 #########################################
 # person motion template (sleeping or away)
 - id: person motion template (sleeping or away)
-  alias: "person motion template (sleeping or away)"
+  alias: "person motion template"
   trigger:
   - platform: state
     entity_id: 
@@ -1452,34 +1276,32 @@
   condition:
     condition: or
     conditions:
-    - condition: state
-      entity_id: sensor.alarm_occupancy_status
-      state: 'false'
-    - condition: state
-      entity_id: sensor.sleep_status
-      state: 'true'
+      - condition: state
+        entity_id: sensor.alarm_occupancy_status
+        state: 'false'
+      - condition: state
+        entity_id: sensor.sleep_status
+        state: 'true'
   action:
-  - service: script.turn_on
-    data_template:
-        entity_id: >
-          {% set trigger_entity = trigger.entity_id %}
-          {% if trigger_entity == 'binary_sensor.driveway_person' %}
-            script.video_driveway
-          {% elif trigger_entity == 'binary_sensor.deck_person' %}
-            script.video_deck
-          {% elif trigger_entity == 'binary_sensor.garage_person' %}
-            script.video_garage
-          {% elif trigger_entity == 'binary_sensor.doorbell_person' %}
-            script.video_doorbell
-          {% endif %}
-    entity_id: script.video_doorbell
-  - service: automation.turn_off
-    entity_id: automation.doorbell_person_motion
-  - delay:
-      minutes: 1
-  - service: automation.turn_on
-    entity_id: automation.doorbell_person_motion
-
+    - service: script.turn_on
+      data_template:
+          entity_id: >
+            {% set trigger_entity = trigger.entity_id %}
+            {% if trigger_entity == 'binary_sensor.driveway_person' %}
+              script.video_driveway
+            {% elif trigger_entity == 'binary_sensor.deck_person' %}
+              script.video_deck
+            {% elif trigger_entity == 'binary_sensor.garage_person' %}
+              script.video_garage
+            {% elif trigger_entity == 'binary_sensor.doorbell_person' %}
+              script.video_doorbell
+            {% endif %}
+    - service: automation.turn_off
+      entity_id: automation.person_motion_template
+    - delay:
+        minutes: 1
+    - service: automation.turn_on
+      entity_id: automation.person_motion_template
 
 # - alias: Thermostats
 #   trigger:
