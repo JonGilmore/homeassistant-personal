@@ -199,10 +199,6 @@ panel_iframe:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
-  esphome:
-    title: 'ESPHome'
-    url: 'http://192.168.45.249:6052'
-    icon: mdi:car-esp
   zwave2mqtt:
     title: Z-Wave to MQTT
     icon: mdi:z-wave

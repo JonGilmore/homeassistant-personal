@@ -471,7 +471,7 @@
   action:
     - service: lock.lock
       data:
-        entities:
+        entity_id:
           - lock.garage_door_lock
           - lock.front_door_lock
     - service: climate.set_fan_mode
@@ -910,7 +910,7 @@
   action:
     - service: homeassistant.turn_off
       data:
-        entities:
+        entity_id:
           - switch.equipment_room_recirculation_pump
           - switch.water_main_shutoff_switch
     - service: notify.telegram_jon
@@ -966,12 +966,12 @@
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
     - service: lock.unlock
       data:
-        entities:
+        entity_id:
           - lock.garage_door_lock
           - lock.front_door_lock
     - service: script.turn_on
       data:
-        entities:
+        entity_id:
           - script.video_driveway
           - script.video_deck
           - script.video_doorbell
@@ -987,7 +987,7 @@
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_on
     - service: script.turn_on
       data:
-        entities:
+        entity_id:
           - script.video_driveway
           - script.video_deck
           - script.video_doorbell
@@ -995,7 +995,7 @@
         minutes: 1
     - service: script.turn_on
       data:
-        entities:
+        entity_id:
           - script.video_driveway
           - script.video_deck
           - script.video_doorbell
@@ -1163,7 +1163,7 @@
       to: "false"
   condition:
     - condition: state
-      entity_id: binary_sensor.daisy_kennel
+      entity_id: binary_sensor.daisy_contact
       state: 'off'
   action:
     - service: timer.start
@@ -1182,7 +1182,7 @@
           entity_id: sensor.alarm_occupancy_status
           state: 'false'
         - condition: state
-          entity_id: binary_sensor.daisy_kennel
+          entity_id: binary_sensor.daisy_contact
           state: 'off'
   action:
     - service: script.turn_on
