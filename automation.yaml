@@ -1181,7 +1181,7 @@
       data:
         entity_id: timer.daisy_cam_timer
 #########################################
-# motion lights enable 1hour before sunset, disable 2hour after sunrise
+# motion lights enable 2hour before sunset, disable 2hour after sunrise
 - alias: motion lights enable
   trigger:
     - platform: sun
@@ -1292,23 +1292,23 @@
         minutes: 1
     - service: automation.turn_on
       entity_id: automation.person_motion_template
-
-# - alias: Thermostats
-#   trigger:
-#     platform: time
-#     at: '18:19:00'
-#   action:
-#     - service: climate.set_temperature
-#       data:
-#         entity_id:
-#           - climate.upstairs_thermostat
-#           - climate.basement_thermostat
-#         temperature: 60
-#         operation_mode: heat
-#     - service: climate.set_temperature
-#       data:
-#         entity_id:
-#           - climate.upstairs_thermostat
-#           - climate.basement_thermostat
-#         temperature: 80
-#         operation_mode: cool
+########################################
+# bayesian presence testing
+- alias: 'bayesian presence testing'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.jon_presence
+  action:
+    service: notify.telegram_jon
+    data_template:
+      message: 'Bayesian changed status: {{ trigger.to_state.state }}, {{ states. binary_sensor.jon_presence.attributes["probability"] }}'
+########################################
+# own tracks testing
+- alias: 'own tracks testing'
+  trigger:
+    platform: state
+    entity_id: device_tracker.jon_ot
+  action:
+    service: notify.telegram_jon
+    data_template:
+      message: 'OwnTracks changed status: {{ trigger.to_state.state }}'
