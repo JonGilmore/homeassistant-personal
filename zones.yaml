@@ -1,5 +1,15 @@
 - name: home
   latitude: !secret ha_latitude
   longitude: !secret ha_longitude
-  radius: 100
+  radius: 300
+  icon: mdi:home
+- name: work-jon
+  latitude: !secret work_jon_lat
+  longitude: !secret work_jon_long
+  radius: 300
+  icon: mdi:home
+- name: work-laura
+  latitude: !secret work_laura_lat
+  longitude: !secret work_laura_long
+  radius: 300
   icon: mdi:home

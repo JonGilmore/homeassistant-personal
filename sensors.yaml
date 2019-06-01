@@ -216,7 +216,7 @@
       cell_occupancy_status:
         friendly_name: "Occupied-Cell?"
         value_template: >-
-          {% if states.device_tracker.jons_iphone.state == "home" or states.device_tracker.laurasiphone_2.state == "home" %}true
+          {% if states.device_tracker.jon.state == "home" or states.device_tracker.lauras_iphone.state == "home" %}true
           {% else %}false{% endif %}
       sleep_status:
         friendly_name: "Sleeping?"

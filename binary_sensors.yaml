@@ -161,3 +161,31 @@
           {%- else -%}
           False
           {%- endif %}
+
+# presence detection
+  - platform: bayesian
+    device_class: presence
+    prior: 0.5
+    name: 'Jon Presence'
+    probability_threshold: 0.9
+    observations:
+      - entity_id: 'device_tracker.jon'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.jon_ot'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.mnjgilmorem'
+        prob_given_true: 0.5
+        prob_given_false: 0.5
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'sensor.alarm_occupancy_status'
+        prob_given_true: 0.8
+        prob_given_false: 0.4
+        platform: 'state'
+        to_state: 'true'
