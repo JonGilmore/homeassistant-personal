@@ -359,10 +359,10 @@
     - condition: or
       conditions:
         - condition: state
-          entity_id: 'device_tracker.jons_iphone'
+          entity_id: 'device_tracker.jon'
           state: 'home'
         - condition: state
-          entity_id: 'device_tracker.laurasiphone_2'
+          entity_id: 'device_tracker.lauras_iphone'
           state: 'home'
   action:
     - service: climate.set_temperature
@@ -391,10 +391,10 @@
     - condition: and
       conditions:
         - condition: state
-          entity_id: 'device_tracker.jons_iphone'
+          entity_id: 'device_tracker.jon'
           state: 'not_home'
         - condition: state
-          entity_id: 'device_tracker.laurasiphone_2'
+          entity_id: 'device_tracker.lauras_iphone'
           state: 'not_home'
   action:
     - service: climate.set_temperature
@@ -638,7 +638,7 @@
       to: "true"
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.water_main_shutoff_switch
+      entity_id: switch.water_main_shut_off
     - service: climate.set_temperature
       data:
         entity_id:
@@ -691,7 +691,7 @@
       to: "false"
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.water_main_shutoff_switch
+      entity_id: switch.water_main_shut_off
     - service: econet.delete_vacation
       entity_id: water_heater.heat_pump_water_heater_gen_4
     - service: climate.set_temperature
@@ -912,7 +912,7 @@
       data:
         entity_id:
           - switch.equipment_room_recirculation_pump
-          - switch.water_main_shutoff_switch
+          - switch.water_main_shut_off
     - service: notify.telegram_jon
       data:
         title: "Water Leak!"
@@ -1022,16 +1022,6 @@
     service: notify.telegram_jon
     data:
       message: 'Update for Home Assistant is available.'
-########################################
-# pixel2 own tracks testing
-# - alias: 'pixel2 own tracks testing'
-#   trigger:
-#     platform: state
-#     entity_id: device_tracker.jon_pixel2ot
-#   action:
-#     service: notify.telegram_jon
-#     data_template:
-#       message: 'Pixel2 changed status: {{ trigger.to_state.state }}'
 ########################################
 # master entry motion light - bed unoccupied
 - alias: master entry motion light - bed unoccupied
@@ -1215,15 +1205,15 @@
 #   trigger:
 #     - platform: state
 #       entity_id: 
-#         - device_tracker.jons_iphone
-#         - device_tracker.laurasiphone_2
+#         - device_tracker.jon
+#         - device_tracker.lauras_iphone
 #       to: home
 #   condition:
 #     - condition: state
-#       entity_id:  device_tracker.jons_iphone
+#       entity_id:  device_tracker.jon
 #       state: home
 #     - condition: state
-#       entity_id:  device_tracker.laurasiphone_2
+#       entity_id:  device_tracker.lauras_iphone
 #       state: home
 #   action:
 #     - service: cloud.remote_disconnect
@@ -1235,8 +1225,8 @@
 #   trigger:
 #     platform: state
 #     entity_id:
-#       - device_tracker.jons_iphone
-#       - device_tracker.laurasiphone_2
+#       - device_tracker.jon
+#       - device_tracker.lauras_iphone
 #     to: not_home
 #   action:
 #     - service: cloud.remote_connect

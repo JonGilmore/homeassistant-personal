@@ -80,8 +80,9 @@ views:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
       - type: entity-filter
         entities:
-          - device_tracker.jons_iphone
-          - device_tracker.laurasiphone_2
+          - device_tracker.jon
+          - device_tracker.jon_ot
+          - device_tracker.lauras_iphone
         state_filter:
           - 'home'
         card:
@@ -210,7 +211,7 @@ views:
         title: Equipment
         show_header_toggle: false
         entities:
-          - switch.water_main_shutoff_switch
+          - switch.water_main_shut_off
           - binary_sensor.water_main_shut_off_valve
           - switch.equipment_room_recirculation_pump
           - sensor.dark_inside
