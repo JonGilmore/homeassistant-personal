@@ -477,10 +477,10 @@
     - service: climate.set_fan_mode
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_basement_heating_1
-        fan_mode: 'On Low'
+          - climate.basement_thermostat
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
+        fan_mode: 'on'
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
     - service: scene.turn_on
@@ -496,10 +496,10 @@
     - service: climate.set_fan_mode
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_basement_heating_1
-        fan_mode: 'Auto Low'
+          - climate.basement_thermostat
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
+        fan_mode: 'auto'
 #########################################
 # away, turn the HVAC fans on & the recirculation pump off, enable remote UI
 - alias: "away, turn the HVAC fans on & the recirculation pump off"
@@ -511,10 +511,10 @@
     - service: climate.set_fan_mode
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_basement_heating_1
-        fan_mode: 'On Low'
+          - climate.basement_thermostat
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
+        fan_mode: 'on'
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
     - service: cloud.remote_connect
@@ -556,10 +556,10 @@
     - service: climate.set_fan_mode
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_basement_heating_1
-        fan_mode: 'Auto Low'
+          - climate.basement_thermostat
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
+        fan_mode: 'auto'
     - service: homeassistant.turn_on
       entity_id: switch.equipment_room_recirculation_pump
     - service: timer.cancel
@@ -1238,7 +1238,7 @@
 # - alias: kitchen motion light
 #   trigger:
 #     platform: state
-#     entity_id: sensor.living_room_pir
+#     entity_id: binary_sensor.living_room_multisensor_motion
 #     to: "Violated"
 #   condition:
 #     - condition: state
@@ -1293,22 +1293,18 @@
     - service: automation.turn_on
       entity_id: automation.person_motion_template
 ########################################
-# bayesian presence testing
-- alias: 'bayesian presence testing'
+# presence testing
+- alias: 'presence testing'
   trigger:
-    platform: state
-    entity_id: binary_sensor.jon_presence
+    - platform: state
+      entity_id: device_tracker.jon
+    - platform: state
+      entity_id: device_tracker.jon_ot
+    - platform: state
+      entity_id: device_tracker.jon_pixel3
+    - platform: state
+      entity_id: binary_sensor.jon_presence
   action:
     service: notify.telegram_jon
     data_template:
-      message: 'Bayesian changed status: {{ trigger.to_state.state }}, {{ states. binary_sensor.jon_presence.attributes["probability"] }}'
-########################################
-# own tracks testing
-- alias: 'own tracks testing'
-  trigger:
-    platform: state
-    entity_id: device_tracker.jon_ot
-  action:
-    service: notify.telegram_jon
-    data_template:
-      message: 'OwnTracks changed status: {{ trigger.to_state.state }}'
+      message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'

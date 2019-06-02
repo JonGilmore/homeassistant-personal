@@ -7,9 +7,14 @@
   latitude: !secret work_jon_lat
   longitude: !secret work_jon_long
   radius: 200
-  icon: mdi:home
+  icon: mdi:briefcase
 - name: work-laura
   latitude: !secret work_laura_lat
   longitude: !secret work_laura_long
   radius: 200
-  icon: mdi:home
+  icon: mdi:school
+- name: cabin
+  latitude: !secret cabin_lat
+  longitude: !secret cabin_long
+  radius: 1000
+  icon: mdi:ferry
