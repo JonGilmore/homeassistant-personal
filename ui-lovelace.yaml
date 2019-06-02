@@ -82,6 +82,7 @@ views:
         entities:
           - device_tracker.jon
           - device_tracker.jon_ot
+          - device_tracker.jon_pixel3
           - device_tracker.lauras_iphone
         state_filter:
           - 'home'
@@ -323,7 +324,7 @@ views:
         title: Kitchen
         entities:
           - sensor.kitchen_motion
-          - sensor.living_room_pir
+          - binary_sensor.living_room_multisensor_motion
           - scene.equipment_room_enclosure_device_001_ph_main_off
           - scene.equipment_room_enclosure_device_001_ph_main_on
       - type: picture-glance
