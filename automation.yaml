@@ -112,23 +112,23 @@
         message: 'Driveway activity detected'
 #########################################
 # deck motion (only while alarm is not disarmed) - telegram
-- id: deck motion (only while alarm is not disarmed) - telegram
-  alias: "deck motion (only while alarm is not disarmed) - telegram"
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.deck_line_crossing
-      to: "on"
-  condition:
-    - condition: template
-      value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
-  action:
-    - service: notify.telegram_jon
-      data:
-        title: "Deck Motion"
-        message:  "Line crossing from HASS"
-        data:
-          photo:
-            - url: !secret hik_deck_pic
+# - id: deck motion (only while alarm is not disarmed) - telegram
+#   alias: "deck motion (only while alarm is not disarmed) - telegram"
+#   trigger:
+#     - platform: state
+#       entity_id: binary_sensor.deck_line_crossing
+#       to: "on"
+#   condition:
+#     - condition: template
+#       value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
+#   action:
+#     - service: notify.telegram_jon
+#       data:
+#         title: "Deck Motion"
+#         message:  "Line crossing from HASS"
+#         data:
+#           photo:
+#             - url: !secret hik_deck_pic
 #########################################
 # front door motion - telegram
 - id: front door motion - telegram
@@ -365,18 +365,18 @@
           entity_id: 'device_tracker.lauras_iphone'
           state: 'home'
   action:
+    # - service: climate.set_temperature
+    #   data:
+    #     entity_id:
+    #       - climate.main_thermostat
+    #       - climate.upstairs_thermostat
+    #     temperature: 70
+    #     operation_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-        temperature: 70
-        operation_mode: Heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.thermostat_upstairs_cooling_1
-          - climate.thermostat_main_cooling_1
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
         temperature: 77
         operation_mode: cool
 # set the temperature back for work ONLY if we're not on vacation AND both people are not_home
@@ -397,18 +397,18 @@
           entity_id: 'device_tracker.lauras_iphone'
           state: 'not_home'
   action:
+    # - service: climate.set_temperature
+    #   data:
+    #     entity_id:
+    #       - climate.main_thermostat
+    #       - climate.upstairs_thermostat
+    #     temperature: 67
+    #     operation_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-        temperature: 67
-        operation_mode: Heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.thermostat_upstairs_cooling_1
-          - climate.thermostat_main_cooling_1
+          - climate.upstairs_thermostat
+          - climate.main_thermostat
         temperature: 78
         operation_mode: cool
 # (probably) getting home from work (or soon), make sure were not on vacation, and set the temps to normal
@@ -421,18 +421,18 @@
       entity_id: sensor.vacation_status
       state: "false"
   action:
+    # - service: climate.set_temperature
+    #   data:
+    #     entity_id:
+    #       - climate.upstairs_thermostat
+    #       - climate.main_thermostat
+    #     temperature: 71
+    #     operation_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-        temperature: 71
-        operation_mode: Heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.thermostat_upstairs_cooling_1
-          - climate.thermostat_main_cooling_1
+          - climate.upstairs_thermostat
+          - climate.main_thermostat
         temperature: 77
         operation_mode: cool
 # when we start sleeping, and we're not on vacation, set the temps back, disable cloud UI
@@ -446,18 +446,18 @@
       entity_id: sensor.vacation_status
       state: "false"
   action:
+    # - service: climate.set_temperature
+    #   data:
+    #     entity_id:
+    #       - climate.upstairs_thermostat
+    #       - climate.main_thermostat
+    #     temperature: 66
+    #     operation_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-        temperature: 66
-        operation_mode: Heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.thermostat_upstairs_cooling_1
-          - climate.thermostat_main_cooling_1
+          - climate.upstairs_thermostat
+          - climate.main_thermostat
         temperature: 78
         operation_mode: cool
     - service: cloud.remote_disconnect
@@ -612,7 +612,7 @@
       at: '20:00:00'
   condition:
     condition: state
-    entity_id: climate.thermostat_main_heating_1
+    entity_id: climate.main_thermostat
     state: cool
   action:
    - service: light.turn_on
@@ -639,20 +639,20 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.water_main_shut_off
+    # - service: climate.set_temperature
+    #   data:
+    #     entity_id:
+    #       - climate.upstairs_thermostat
+    #       - climate.main_thermostat
+    #       - climate.basement_thermostat
+    #     temperature: 62
+    #     operation_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_basement_heating_1
-        temperature: 62
-        operation_mode: Heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.thermostat_upstairs_cooling_1
-          - climate.thermostat_main_cooling_1
-          - climate.thermostat_basement_cooling_1
+          - climate.upstairs_thermostat
+          - climate.main_thermostat
+          - climate.basement_thermostat
         temperature: 85
         operation_mode: cool
     - service: econet.add_vacation
@@ -694,20 +694,20 @@
       entity_id: switch.water_main_shut_off
     - service: econet.delete_vacation
       entity_id: water_heater.heat_pump_water_heater_gen_4
+    # - service: climate.set_temperature
+    #   data:
+    #     entity_id:
+    #       - climate.upstairs_thermostat
+    #       - climate.main_thermostat
+    #       - climate.basement_thermostat
+    #     temperature: 69
+    #     operation_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
-          - climate.thermostat_upstairs_heating_1
-          - climate.thermostat_main_heating_1
-          - climate.thermostat_basement_heating_1
-        temperature: 69
-        operation_mode: Heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.thermostat_upstairs_cooling_1
-          - climate.thermostat_main_cooling_1
-          - climate.thermostat_basement_cooling_1
+          - climate.upstairs_thermostat
+          - climate.main_thermostat
+          - climate.basement_thermostat
         temperature: 77
         operation_mode: cool
     - service: notify.telegram_jon
