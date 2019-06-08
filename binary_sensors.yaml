@@ -1,55 +1,3 @@
-  # - platform: mqtt
-  #   name: "Kitchen Outlet"
-  #   state_topic: "smartthings/Kitchen Outlet/switch"
-  #   payload_on: "on"
-  #   payload_off: "off"
-  #   device_class: power
-  # - platform: mqtt
-  #   name: "Kitchen Sink Moisture"
-  #   state_topic: "smartthings/Kitchen Sink/water"
-  #   payload_on: "wet"
-  #   payload_off: "dry"
-  #   device_class: moisture
-  # - platform: mqtt
-  #   name: "Kitchen Fridge Moisture"
-  #   state_topic: "smartthings/Kitchen Fridge/water"
-  #   payload_on: "wet"
-  #   payload_off: "dry"
-  #   device_class: moisture
-  # - platform: mqtt
-  #   name: "Kitchen Dishwasher Moisture"
-  #   state_topic: "smartthings/Kitchen Dishwasher/water"
-  #   payload_on: "wet"
-  #   payload_off: "dry"
-  #   device_class: moisture
-  # - platform: mqtt
-  #   name: "Basement Fridge Moisture"
-  #   state_topic: "smartthings/Basement Fridge/water"
-  #   payload_on: "wet"
-  #   payload_off: "dry"
-  #   device_class: moisture
-  # - platform: mqtt
-  #   name: "Powder Room Moisture"
-  #   state_topic: "smartthings/Powder Room/water"
-  #   payload_on: "wet"
-  #   payload_off: "dry"
-  #   device_class: moisture
-  # - platform: mqtt
-  #   name: "Washing Machine"
-  #   state_topic: "smartthings/Washer/acceleration"
-  #   payload_on: active
-  #   payload_off: inactive
-  # - platform: mqtt
-  #   name: "Dryer"
-  #   state_topic: "smartthings/Dryer/acceleration"
-  #   payload_on: active
-  #   payload_off: inactive
-  # - platform: mqtt
-  #   name: "Daisy Kennel"
-  #   state_topic: "smartthings/Daisy/contact"
-  #   payload_on: open
-  #   payload_off: closed
-  #   device_class: opening
   - platform: hikvision
     host: 192.168.45.233
     username: !secret hik_usr
@@ -115,52 +63,36 @@
         friendly_name: 'Basement Motions'
         device_class: motion
         value_template: >-
-          {%- if is_state("sensor.basement_motion_2", "Violated")
+          {{ is_state("sensor.basement_motion_2", "Violated")
           or is_state("sensor.basement_motion", "Violated")
           or is_state("sensor.bsmt_stairs_mtn", "Violated")
-          or is_state("sensor.bsmt_storage_mtn", "Violated")-%}
-          True
-          {%- else -%}
-          False
-          {%- endif %}
+          or is_state("sensor.bsmt_storage_mtn", "Violated") }}
       main_motions:
         friendly_name: 'Main Motions'
         device_class: motion
         value_template: >-
-          {%- if is_state("sensor.foyer_motion", "Violated")
+          {{ is_state("sensor.foyer_motion", "Violated")
           or is_state("sensor.kitchen_motion", "Violated")
           or is_state("binary_sensor.living_room_multisensor_motion", "on")
-          or is_state("binary_sensor.office_multisensor_motion", "on")-%}
-          True
-          {%- else -%}
-          False
-          {%- endif %}
+          or is_state("binary_sensor.office_multisensor_motion", "on") }}
       garage_doors:
         friendly_name: 'Garage Doors'
         device_class: door
         value_template: >-
-          {%- if is_state("sensor.double_garage", "Violated")
-          or is_state("sensor.single_garage", "Violated")-%}
-          True
-          {%- else -%}
-          False
-          {%- endif %}
+          {{ is_state("sensor.double_garage", "Violated")
+          or is_state("sensor.single_garage", "Violated") }}
       moisture_sensors:
         friendly_name: 'Moisture Sensors'
         device_class: moisture
         value_template: >-
-          {%- if is_state("sensor.watr_htr_snsr", "Violated")
+          {{ is_state("sensor.watr_htr_snsr", "Violated")
           or is_state("sensor.frdge_leak_snsr", "Violated")
           or is_state("binary_sensor.powder_room_water", "on")
           or is_state("binary_sensor.basement_fridge_water", "on")
-          or is_state("binary_sensor.kitchen_dishwasher_water", "on")
-          or is_state("binary_sensor.kitchen_fridge_water", "on")
-          or is_state("binary_sensor.kitchen_sink_water", "on")
-          or is_state("sensor.frdge_leak_snsr", "Violated")-%}
-          True
-          {%- else -%}
-          False
-          {%- endif %}
+          or is_state("binary_sensor.kitchen_dishwasher_leak_water", "on")
+          or is_state("binary_sensor.kitchen_fridge_leak_water", "on")
+          or is_state("binary_sensor.kitchen_sink_leak_water", "on")
+          or is_state("sensor.sump_leak_snsr", "Violated") }}
 
 # presence detection
   - platform: bayesian

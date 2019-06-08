@@ -1,4 +1,5 @@
 title: Reeder Ridge
+background: var(--background-image)
 resources:
   - url: /local/mini-media-player-bundle.js?v=1.0.4
     type: module
@@ -16,36 +17,14 @@ resources:
     type: js
   - url: /customcards/github/custom-cards/decluttering-card.js?track=true
     type: module
-
-# decluttering_templates:
-#   sonos_template:
-#     - type: custom:mini-media-player
-#       entity: '[[e1]]'
-#       hide:
-#         power: true
-#         icon: true
-#         source: true
-#       speaker_group:
-#         platform: sonos
-#         show_group_count: true
-#         entities:
-#           - entity: '[[e2]]'
-#           - entity: '[[e3]]'
-#           - entity: '[[e4]]'
-#           - entity: '[[e5]]'
-#           - entity: '[[e6]]'
-#           - entity: '[[e7]]'
-#           - entity: '[[e8]]'
-#           - entity: '[[e9]]'
-
-background: var(--background-image)
 views:
-#########################
+##########################################
 # HOME TAB
-#########################
-  - id: 0
+##########################################
+  - title: Home
+    id: home
     icon: mdi:home
-    theme: dark-mode
+    #theme: dark-mode
     cards:
       - id: alarmPanel
         type: alarm-panel
@@ -78,17 +57,13 @@ views:
         title: Exterior
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - type: entity-filter
+      - type: entities
+        show_header_toggle: false
         entities:
           - device_tracker.jon
           - device_tracker.jon_ot
           - device_tracker.jon_pixel3
           - device_tracker.lauras_iphone
-        state_filter:
-          - 'home'
-        card:
-          type: glance
-          title: People that are home
       - type: horizontal-stack
         cards:
           - type: "custom:button-card"
@@ -217,13 +192,12 @@ views:
           - switch.equipment_room_recirculation_pump
           - sensor.dark_inside
           - sensor.main_tv_lux
-
-#########################
+##########################################
 # THERMOSTAT TAB
-#########################
-  - id: 1
+##########################################
+  - title: Climate
+    id: climate
     icon: mdi:temperature-fahrenheit
-    title: Climate
     cards:
       - type: thermostat
         entity: climate.basement_thermostat
@@ -273,13 +247,12 @@ views:
       #     - sensor.thermostat_basement_temperature
       #     - sensor.thermostat_main_temperature
       #     - sensor.thermostat_upstairs_temperature
-
-#########################
+##########################################
 # CAMERA TAB
-#########################
-  - id: 2
+##########################################
+  - title: Cameras
+    id: camera
     icon: mdi:camera
-    title: Cameras
     cards:
       - type: picture-glance
         image:
@@ -343,13 +316,12 @@ views:
         camera_image: camera.garage_last_person
         entities: []
         title: Garage Last Person
-
-#########################
+##########################################
 # MUSIC TAB
-#########################
-  - id: 3
+##########################################
+  - title: Music
+    id: music
     icon: mdi:music
-    title: Media
     cards:
       # - type: custom:decluterring-card
       #   template: sonos_template
@@ -604,25 +576,23 @@ views:
         entities:
           - media_player.basement_ghm
           - media_player.kitchen_ghm
-
-#########################
+##########################################
 # TV TAB
-#########################
-  - id: 4
-    title: TV
+##########################################
+  - title: TV
+    id: tv
     icon: mdi:television-classic
     cards:
       - type: media-control
         entity: media_player.great_room
       - type: media-control
         entity: media_player.49_tcl_roku_tv
-
-#########################
-# LIGHTS TAB
-#########################
-  - id: 5
+##########################################
+# LIGHT TAB
+##########################################
+  - title: Lights
+    id: lights
     icon: mdi:lightbulb
-    title: Lights
     cards:
       - type: entities
         title: All Lights
@@ -705,24 +675,24 @@ views:
           - light.living_room_lifx
           - light.lauras_lamp_lifx
           - light.sunroom_lifx
-#########################
+##########################################
 # SMARTTHINGS TAB
-#########################
-  - id: 6
+##########################################
+  - title: ST Devices
+    id: st_devices
     icon: mdi:battery-charging-wireless-90
-    title: ST Devices
     cards:
       - type: entities
         title: ST Devices
         show_header_toggle: false
         entities:
-          - sensor.kitchen_fridge_temperature_measurement
+          - sensor.kitchen_fridge_leak_temperature_measurement
           - sensor.powder_room_temperature_measurement
           - sensor.basement_fridge_temperature_measurement
-          - sensor.kitchen_dishwasher_temperature_measurement
-#          - sensor.kitchen_sink_temperature_measurement
+          - sensor.kitchen_dishwasher_leak_temperature_measurement
+    #          - sensor.kitchen_sink_temperature_measurement
           - sensor.basement_multi_temperature_measurement
-          - sensor.dryer_temperature_measurement
+          - sensor.multipurpose_sensor_temperature_measurement
           - sensor.washer_temperature_measurement
           - sensor.daisy_temperature_measurement
       - type: entities
@@ -731,16 +701,15 @@ views:
         entities:
           - binary_sensor.powder_room_water
           - binary_sensor.basement_fridge_water
-          - binary_sensor.kitchen_dishwasher_water
-          - binary_sensor.kitchen_fridge_water
-          - binary_sensor.kitchen_sink_water
-
-#########################
+          - binary_sensor.kitchen_dishwasher_leak_water
+          - binary_sensor.kitchen_fridge_leak_water
+          - binary_sensor.kitchen_sink_leak_water
+##########################################
 # ENERGY TAB
-#########################
-  - id: 7
+##########################################
+  - title: Energy
+    id: energy
     icon: mdi:power-plug
-    title: Energy
     cards:
       - type: entities
         title: energy
@@ -750,6 +719,13 @@ views:
           - sensor.aeotec_hem_power_meter
           - sensor.garage_fridge_energy
           - sensor.garage_fridge_power
+##########################################
+# SCENES TAB
+##########################################
+  - title: Scenes
+    id: scenes
+    icon: mdi:movie-outline
+    cards:
       - type: entities
         title: Light Scenes
         show_header_toggle: false
@@ -771,12 +747,12 @@ views:
           - scene.equipment_room_enclosure_device_001_ph_kitchen_on
           - scene.equipment_room_enclosure_device_001_ph_sunset1
           - scene.equipment_room_enclosure_device_001_ph_sunset2
-#########################
-# MAINTENANCE/SETTINGS TAB
-#########################
-  - id: 8
+##########################################
+# MAINTENANCE TAB
+##########################################
+  - title: Maintenance
+    id: maintenance
     icon: mdi:wrench
-    title: Settings
     cards:
       - type: custom:tracker-card
       - type: custom:card-modder

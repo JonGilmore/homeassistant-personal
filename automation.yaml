@@ -1297,13 +1297,13 @@
 - alias: 'presence testing'
   trigger:
     - platform: state
-      entity_id: device_tracker.jon
+      entity_id: device_tracker.jon_ot
+      from: 'home'
+      to: 'not_home'
     - platform: state
       entity_id: device_tracker.jon_ot
-    - platform: state
-      entity_id: device_tracker.jon_pixel3
-    - platform: state
-      entity_id: binary_sensor.jon_presence
+      from: 'not_home'
+      to: 'home'
   action:
     service: notify.telegram_jon
     data_template:

@@ -146,3 +146,43 @@ sensor.dark_sky_temperature:
   friendly_name: Current Temperature
 sensor.dark_sky_daily_summary:
   friendly_name: Daily Summary
+##################################
+# lutron scenes
+scene.equipment_room_enclosure_device_001_ph_all_but_master:
+  friendly_name: All_but_master
+scene.equipment_room_enclosure_device_001_ph_all_off:
+  friendly_name: All_off
+scene.equipment_room_enclosure_device_001_ph_all_on:
+  friendly_name: All_on
+scene.equipment_room_enclosure_device_001_ph_basement_off:
+  friendly_name: Basement_off
+scene.equipment_room_enclosure_device_001_ph_basement_on:
+  friendly_name: Basement_on
+scene.equipment_room_enclosure_device_001_ph_cleaners_on:
+  friendly_name: PH_Cleaners-on
+scene.equipment_room_enclosure_device_001_ph_exterior_off:
+  friendly_name: Exterior_off
+scene.equipment_room_enclosure_device_001_ph_exterior_on:
+  friendly_name: Exterior_on
+scene.equipment_room_enclosure_device_001_ph_interior_off:
+  friendly_name: Interior_off
+scene.equipment_room_enclosure_device_001_ph_interior_on:
+  friendly_name: Interior_on
+scene.equipment_room_enclosure_device_001_ph_kirchenhall_off:
+  friendly_name: kirchenhall-off
+scene.equipment_room_enclosure_device_001_ph_kitchen_off:
+  friendly_name: kitchen-off
+scene.equipment_room_enclosure_device_001_ph_kitchen_on:
+  friendly_name: kitchen-on
+scene.equipment_room_enclosure_device_001_ph_main_off:
+  friendly_name: Main_off
+scene.equipment_room_enclosure_device_001_ph_main_on:
+  friendly_name: Main_on
+scene.equipment_room_enclosure_device_001_ph_second_off:
+  friendly_name: Second_off
+scene.equipment_room_enclosure_device_001_ph_second_on:
+  friendly_name: Second_on
+scene.equipment_room_enclosure_device_001_ph_sunset1:
+  friendly_name: Sunset1
+scene.equipment_room_enclosure_device_001_ph_sunset2:
+  friendly_name: Sunset2
