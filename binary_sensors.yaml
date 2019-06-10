@@ -63,18 +63,19 @@
         friendly_name: 'Basement Motions'
         device_class: motion
         value_template: >-
-          {{ is_state("sensor.basement_motion_2", "Violated")
-          or is_state("sensor.basement_motion", "Violated")
-          or is_state("sensor.bsmt_stairs_mtn", "Violated")
-          or is_state("sensor.bsmt_storage_mtn", "Violated") }}
+          {{ is_state("sensor.basement_pir", "Violated")
+          or is_state("sensor.workshop_pir", "Violated")
+          or is_state("sensor.basement_stairs_pir", "Violated")
+          or is_state("sensor.storage_pir", "Violated")
+          or is_state("sensor.bar_pir", "Violated") }}
       main_motions:
         friendly_name: 'Main Motions'
         device_class: motion
         value_template: >-
-          {{ is_state("sensor.foyer_motion", "Violated")
-          or is_state("sensor.kitchen_motion", "Violated")
-          or is_state("binary_sensor.living_room_multisensor_motion", "on")
-          or is_state("binary_sensor.office_multisensor_motion", "on") }}
+          {{ is_state("sensor.foyer_pir", "Violated")
+          or is_state("sensor.kitchen_pir", "Violated")
+          or is_state("binary_sensor.living_room_multi_pir", "on")
+          or is_state("binary_sensor.office_multi_pir", "on") }}
       garage_doors:
         friendly_name: 'Garage Doors'
         device_class: door
@@ -85,14 +86,15 @@
         friendly_name: 'Moisture Sensors'
         device_class: moisture
         value_template: >-
-          {{ is_state("sensor.watr_htr_snsr", "Violated")
-          or is_state("sensor.frdge_leak_snsr", "Violated")
+          {{ is_state("sensor.water_heater_leak_sensor", "Violated")
+          or is_state("sensor.bar_fridge_leak_sensor", "Violated")
+          or is_state("sensor.laundry_leak_sensor", "Violated")
           or is_state("binary_sensor.powder_room_water", "on")
           or is_state("binary_sensor.basement_fridge_water", "on")
           or is_state("binary_sensor.kitchen_dishwasher_leak_water", "on")
           or is_state("binary_sensor.kitchen_fridge_leak_water", "on")
           or is_state("binary_sensor.kitchen_sink_leak_water", "on")
-          or is_state("sensor.sump_leak_snsr", "Violated") }}
+          or is_state("sensor.sump_leak_sensor", "Violated") }}
 
 # presence detection
   - platform: bayesian

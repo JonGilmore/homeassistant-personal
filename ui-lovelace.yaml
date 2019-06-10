@@ -1,21 +1,23 @@
 title: Reeder Ridge
 background: var(--background-image)
 resources:
-  - url: /local/mini-media-player-bundle.js?v=1.0.4
+  - url: /community_plugin/mini-media-player/mini-media-player.js
     type: module
-  - url: /customcards/github/thomasloven/card-modder.js?track=true
+  - url: /community_plugin/lovelace-card-modder/card-modder.js
     type: js
-  - url: /customcards/github/thomasloven/card-tools.js?track=true
+  - url: /community_plugin/lovelace-card-tools/card-tools.js
     type: js
-  - url: /customcards/github/custom-cards/tracker-card.js?track=true
+  # - url: /customcards/github/custom-cards/tracker-card.js?track=true
+  #   type: module
+  - url: /community_plugin/button-card/button-card.js
     type: module
-  - url: /customcards/github/custom-cards/button-card.js?track=true
+  - url: /community_plugin/group-card/group-card.js
     type: module
-  - url: /customcards/github/ciotlosm/group-card.js?track=true
-    type: module
-  - url: /customcards/github/ciotlosm/custom-lovelace/group-card.js?track=true
+  - url: /community_plugin/group-card/group-card.js
     type: js
-  - url: /customcards/github/custom-cards/decluttering-card.js?track=true
+  - url: /community_plugin/decluttering-card/decluttering-card.js
+    type: module
+  - url: /community_plugin/simple-thermostat/simple-thermostat.js
     type: module
 views:
 ##########################################
@@ -62,7 +64,6 @@ views:
         entities:
           - device_tracker.jon
           - device_tracker.jon_ot
-          - device_tracker.jon_pixel3
           - device_tracker.lauras_iphone
       - type: horizontal-stack
         cards:
@@ -199,6 +200,20 @@ views:
     id: climate
     icon: mdi:temperature-fahrenheit
     cards:
+      - type: 'custom:simple-thermostat'
+        entity: climate.main_thermostat
+        decimals: 0
+        step_size: 1
+        sensors:
+          - attribute: sensor.living_room_multisensor_relative_humidity
+        modes:
+          auto:
+            include: true
+          cool:
+            include: true
+          heat:
+            include: true
+          off:
       - type: thermostat
         entity: climate.basement_thermostat
       - type: thermostat
@@ -296,8 +311,8 @@ views:
         camera_image: camera.kitchen_camera
         title: Kitchen
         entities:
-          - sensor.kitchen_motion
-          - binary_sensor.living_room_multisensor_motion
+          - sensor.kitchen_pir
+          - binary_sensor.living_room_multi_pir
           - scene.equipment_room_enclosure_device_001_ph_main_off
           - scene.equipment_room_enclosure_device_001_ph_main_on
       - type: picture-glance
@@ -748,13 +763,81 @@ views:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
           - scene.equipment_room_enclosure_device_001_ph_sunset2
 ##########################################
+# SPRINKLER TAB
+##########################################
+  - title: Sprinklers
+    id: sprinklers
+    icon: mdi:flower
+    cards:
+      - type: entities
+        title: Sprinkler Zones
+        show_header_toggle: false
+        entities:
+          - switch.front_right_sidewalk
+          - switch.side_right_front_right
+          - switch.backyard_far
+          - switch.backyard_middle
+          - switch.backyard_near
+          - switch.side_left
+          - switch.front_left
+          - switch.drip_right
+          - switch.drip_left
+          - switch.front_pots
+          - switch.backyard_drip
+          - switch.backyard_pots
+      - type: entities
+        title: Timers
+        show_header_toggle: false
+        entities:
+          - input_number.front_right_sidewalk_timer
+          - input_number.side_right_front_right_timer
+          - input_number.backyard_far_timer
+          - input_number.backyard_middle_timer
+          - input_number.backyard_near_timer
+          - input_number.side_left_timer
+          - input_number.front_left_timer
+          - input_number.drip_right_timer
+          - input_number.drip_left_timer
+          - input_number.front_pots_timer
+          - input_number.backyard_drip_timer
+          - input_number.backyard_pots_timer
+      - type: glance
+        title: Sprinkler Programs
+        entities:
+          - scene.p1_normal
+          - scene.p2_drip
+          - scene.p3_pots
+      # - type: entities
+      #   title: Sprinkler Zones
+      #   show_header_toggle: false
+      #   entities:
+      #     - binary_sensor.front_right_sidewalk
+      #     - binary_sensor.side_right_front_right
+      #     - binary_sensor.backyard_far
+      #     - binary_sensor.backyard_middle
+      #     - binary_sensor.backyard_near
+      #     - binary_sensor.side_left
+      #     - binary_sensor.front_left
+      #     - binary_sensor.drip_right
+      #     - binary_sensor.drip_left
+      #     - binary_sensor.front_pots
+      #     - binary_sensor.backyard_drip
+      #     - binary_sensor.backyard_pots
+      - type: glance
+        title: Sensors
+        entities:
+          - binary_sensor.rain_sensor
+          - binary_sensor.rain_delay
+          - sensor.rain_delay_stop_time
+          - sensor.water_level
+          - sensor.last_run
+##########################################
 # MAINTENANCE TAB
 ##########################################
   - title: Maintenance
     id: maintenance
     icon: mdi:wrench
     cards:
-      - type: custom:tracker-card
       - type: custom:card-modder
         style:
           --paper-card-background-color: rgba(0, 100, 0, 0.2)
@@ -766,10 +849,6 @@ views:
           title: Styled card
           entities:
             - scene.equipment_room_enclosure_device_001_ph_sunset1
-      - type: glance
-        title: Unstyled card
-        entities:
-          - scene.equipment_room_enclosure_device_001_ph_sunset1
       - type: picture-glance
         image:
         camera_image: camera.driveway

@@ -12,11 +12,6 @@
       entity_id: sensor.single_garage
       to: "Violated"
       for:
-        minutes: 15
-    - platform: state
-      entity_id: sensor.single_garage
-      to: "Violated"
-      for:
         minutes: 60
   action:
     - service: notify.telegram_jon
@@ -38,11 +33,6 @@
       to: "Violated"
       for:
         minutes: 5
-    - platform: state
-      entity_id: sensor.double_garage
-      to: "Violated"
-      for:
-        minutes: 15
     - platform: state
       entity_id: sensor.double_garage
       to: "Violated"
@@ -112,23 +102,23 @@
         message: 'Driveway activity detected'
 #########################################
 # deck motion (only while alarm is not disarmed) - telegram
-# - id: deck motion (only while alarm is not disarmed) - telegram
-#   alias: "deck motion (only while alarm is not disarmed) - telegram"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.deck_line_crossing
-#       to: "on"
-#   condition:
-#     - condition: template
-#       value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
-#   action:
-#     - service: notify.telegram_jon
-#       data:
-#         title: "Deck Motion"
-#         message:  "Line crossing from HASS"
-#         data:
-#           photo:
-#             - url: !secret hik_deck_pic
+- id: deck motion (only while alarm is not disarmed) - telegram
+  alias: "deck motion (only while alarm is not disarmed) - telegram"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.deck_line_crossing
+      to: "on"
+  condition:
+    - condition: template
+      value_template: "{{ not is_state('sensor.armed_status', 'disarmed') }}"
+  action:
+    - service: notify.telegram_jon
+      data:
+        title: "Deck Motion"
+        message:  "Line crossing from HASS"
+        data:
+          photo:
+            - url: !secret hik_deck_pic
 #########################################
 # front door motion - telegram
 - id: front door motion - telegram
@@ -233,19 +223,19 @@
   trigger:
     - platform: state
       entity_id:
-        - sensor.foyer_motion
-        - sensor.kitchen_motion
-        - sensor.basement_motion_2
-        - sensor.basement_motion
-        - sensor.bsmt_storage_mtn
+        - sensor.foyer_pir
+        - sensor.kitchen_pir
+        - sensor.basement_pir
+        - sensor.workshop_pir
+        - sensor.bar_pir
       to: 'Violated'
     - platform: state
       entity_id:
-        - sensor.foyer_motion
-        - sensor.kitchen_motion
-        - sensor.basement_motion_2
-        - sensor.basement_motion
-        - sensor.bsmt_storage_mtn
+        - sensor.foyer_pir
+        - sensor.kitchen_pir
+        - sensor.basement_pir
+        - sensor.workshop_pir
+        - sensor.bar_pir
       to: 'Normal'
       for:
         minutes: 5
@@ -263,15 +253,15 @@
     data_template:
         entity_id: >
           {% set trigger_entity = trigger.entity_id %}
-          {% if trigger_entity == 'sensor.foyer_motion' %}
+          {% if trigger_entity == 'sensor.foyer_pir' %}
             switch.exterior_foyer
-          {% elif trigger_entity == 'sensor.kitchen_motion' %}
+          {% elif trigger_entity == 'sensor.kitchen_pir' %}
             switch.kitchen_cabinets
-          {% elif trigger_entity == 'sensor.basement_motion_2' %}
+          {% elif trigger_entity == 'sensor.basement_pir' %}
             switch.basement_main
-          {% elif trigger_entity == 'sensor.basement_motion' %}
+          {% elif trigger_entity == 'sensor.workshop_pir' %}
             light.basement_workshop
-          {% elif trigger_entity == 'sensor.bsmt_storage_mtn' %}
+          {% elif trigger_entity == 'sensor.bar_pir' %}
             switch.basement_storage_lights
           {% endif %}
 #########################################
@@ -1137,7 +1127,7 @@
 - id: kitchen off with no motion
   trigger:
     - platform: state
-      entity_id: sensor.kitchen_motion
+      entity_id: sensor.kitchen_pir
       to: 'Normal'
       for:
         minutes: 10
@@ -1155,6 +1145,9 @@
     - condition: state
       entity_id: binary_sensor.daisy_contact
       state: 'off'
+    - condition: state
+      entity_id: sensor.vacation_status
+      state: "false"
   action:
     - service: timer.start
       data:
@@ -1238,7 +1231,7 @@
 # - alias: kitchen motion light
 #   trigger:
 #     platform: state
-#     entity_id: binary_sensor.living_room_multisensor_motion
+#     entity_id: binary_sensor.living_room_multi_pir
 #     to: "Violated"
 #   condition:
 #     - condition: state
@@ -1308,3 +1301,26 @@
     service: notify.telegram_jon
     data_template:
       message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'
+########################################
+# Irrigation (opensprinkler) rain sensor
+- alias: 'opensprinkler rain sensor'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.rain_sensor
+  action:
+    service: notify.telegram_jon
+    data_template:
+      message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'
+########################################
+# basement off with no motion
+- id: basement off with no motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.basement_motions
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 30
+  action:
+    - service: scene.turn_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_basement_off

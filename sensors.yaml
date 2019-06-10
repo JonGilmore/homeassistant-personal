@@ -48,48 +48,6 @@
         value_template: '{{ states.switch.garage_fridge.attributes["today_energy_kwh"] }}'
         friendly_name: 'Garage Fridge Energy'
 
-# # SMARTTHINGS SENSORS
-#   - platform: mqtt
-#     name: "Powder Room"
-#     state_topic: "smartthings/Powder Room/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Basement Fridge"
-#     state_topic: "smartthings/Basement Fridge/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Kitchen Fridge"
-#     state_topic: "smartthings/Kitchen Fridge/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Kitchen Dishwasher"
-#     state_topic: "smartthings/Kitchen Dishwasher/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Kitchen Sink"
-#     state_topic: "smartthings/Kitchen Sink/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Laundry"
-#     state_topic: "smartthings/Washer/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Laundry Dryer"
-#     state_topic: "smartthings/Dryer/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-#   - platform: mqtt
-#     name: "Basement Storage"
-#     state_topic: "smartthings/Basement Multi/temperature"
-#     device_class: temperature
-#     unit_of_measurement: "°F"
-
 # DARK SKY
   - platform: darksky
     api_key: !secret darksky_api
@@ -216,7 +174,7 @@
       cell_occupancy_status:
         friendly_name: "Occupied-Cell?"
         value_template: >-
-          {% if states.device_tracker.jon.state == "home" or states.device_tracker.lauras_iphone.state == "home" %}true
+          {% if states.device_tracker.jon_ot.state == "home" or states.device_tracker.lauras_iphone.state == "home" %}true
           {% else %}false{% endif %}
       sleep_status:
         friendly_name: "Sleeping?"
