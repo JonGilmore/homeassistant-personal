@@ -85,7 +85,7 @@ elkm1:
   area:
     exclude: [2-8]
   zone:
-    exclude: [17-24, 27-32, 37-208]
+    exclude: [17-24, 29-32, 37-208]
   output:
     exclude: [1-8, 11-208]
   counter:
@@ -100,6 +100,10 @@ elkm1:
     enabled: false
   setting:
     enabled: false
+
+hass_opensprinkler:
+  host: !secret os_host
+  password: !secret os_passwd
 
 doorbird:
   devices:
@@ -175,9 +179,14 @@ conversation:
 logbook:
 frontend:
   themes: !include_dir_merge_named themes/
-custom_updater:
-  card_urls:
-    - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
+# custom_updater:
+#   card_urls:
+#     - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
+#   component_urls:
+#     - https://raw.githubusercontent.com/vinteo/hass-opensprinkler/master/custom_components.json
+
+hacs:
+  token: !secret hacs
 
 lovelace:
   mode: yaml
@@ -190,13 +199,14 @@ discovery:
     - plex_mediaserver
     - igd
 stream:
+breaking_changes:
 
 panel_iframe:
   grafana:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
-  zwave2mqtt:
-    title: Z-Wave to MQTT
-    icon: mdi:z-wave
-    url: http://192.168.45.249:8091
+  # zwave2mqtt:
+  #   title: Z-Wave to MQTT
+  #   icon: mdi:z-wave
+  #   url: http://192.168.45.249:8091

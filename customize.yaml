@@ -116,16 +116,6 @@ sensor.single_garage:
   hidden: true
 sensor.bsmt_temperature:
   friendly_name: Freeze Alarm
-sensor.watr_htr_snsr:
-  friendly_name: Leak - Water Heater
-sensor.frdge_leak_snsr:
-  friendly_name: Leak - Basement Fridge
-sensor.sump_leak_snsr:
-  friendly_name: Leak - Sump Pump
-sensor.bsmt_stairs_mtn:
-  friendly_name: Basement Stairs PIR
-sensor.bsmt_storage_mtn:
-  friendly_name: Basement Storage PIR
 switch.output009:
   hidden: true
 switch.output010:
