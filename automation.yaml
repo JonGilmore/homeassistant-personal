@@ -148,7 +148,7 @@
     conditions:
       - condition: state
         entity_id: sensor.alarm_occupancy_status
-        state: 'true'
+        state: 'True'
       - condition: state
         entity_id: sensor.dark_inside
         state: 'True'
@@ -173,7 +173,7 @@
     conditions:
       - condition: state
         entity_id: sensor.alarm_occupancy_status
-        state: 'false'
+        state: 'False'
       - condition: state
         entity_id: sensor.dark_inside
         state: 'True'
@@ -207,8 +207,8 @@
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
-      from: 'true'
-      to: 'false'
+      from: 'True'
+      to: 'False'
   condition:
     - condition: state
       entity_id: sensor.dark_inside
@@ -345,7 +345,7 @@
   condition:
     - condition: state
       entity_id: sensor.vacation_status
-      state: "false"
+      state: 'False'
     - condition: or
       conditions:
         - condition: state
@@ -377,7 +377,7 @@
   condition:
     - condition: state
       entity_id: sensor.vacation_status
-      state: "false"
+      state: 'False'
     - condition: and
       conditions:
         - condition: state
@@ -409,7 +409,7 @@
   condition:
     - condition: state
       entity_id: sensor.vacation_status
-      state: "false"
+      state: 'False'
   action:
     # - service: climate.set_temperature
     #   data:
@@ -430,11 +430,11 @@
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
-      to: "true"
+      to: 'True'
   condition:
     - condition: state
       entity_id: sensor.vacation_status
-      state: "false"
+      state: 'False'
   action:
     # - service: climate.set_temperature
     #   data:
@@ -457,7 +457,7 @@
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
-      to: "true"
+      to: 'True'
   action:
     - service: lock.lock
       data:
@@ -481,7 +481,7 @@
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
-      to: "false"
+      to: 'False'
   action:
     - service: climate.set_fan_mode
       data:
@@ -496,7 +496,7 @@
   trigger:
     - platform: state
       entity_id: sensor.alarm_occupancy_status
-      to: "false"
+      to: 'False'
   action:
     - service: climate.set_fan_mode
       data:
@@ -514,7 +514,7 @@
   trigger:
     - platform: state
       entity_id: sensor.alarm_occupancy_status
-      to: "false"
+      to: 'False'
   condition:
     - condition: state
       entity_id: sensor.dark_inside
@@ -531,7 +531,7 @@
   condition:
     - condition: state
       entity_id: sensor.vacation_status
-      state: "true"
+      state: 'True'
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_off
@@ -541,7 +541,7 @@
   trigger:
     - platform: state
       entity_id: sensor.alarm_occupancy_status
-      to: "true"
+      to: 'True'
   action:
     - service: climate.set_fan_mode
       data:
@@ -625,7 +625,7 @@
   trigger:
     - platform: state
       entity_id: sensor.vacation_status
-      to: "true"
+      to: 'True'
   action:
     - service: homeassistant.turn_off
       entity_id: switch.water_main_shut_off
@@ -660,7 +660,7 @@
   trigger:
     - platform: state
       entity_id: sensor.vacation_status
-      to: "true"
+      to: 'True'
   condition:
     - condition: state
       entity_id: lock.front_door_lock
@@ -678,7 +678,7 @@
   trigger:
     - platform: state
       entity_id: sensor.vacation_status
-      to: "false"
+      to: 'False'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.water_main_shut_off
@@ -805,7 +805,7 @@
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
-      to: "true"
+      to: 'True'
   condition:
     condition: or
     conditions:
@@ -827,7 +827,7 @@
   trigger:
     - platform: state
       entity_id: sensor.sleep_status
-      to: "true"
+      to: 'True'
   condition:
     condition: or
     conditions:
@@ -843,23 +843,23 @@
         title: "Door(s) UNLOCKED!"
         message:  "Locking the door(s)"
 #########################################
-# battery life notifications
-- id: Low Battery Notification
-  alias: Low Battery Notification
-  trigger:
-    - platform: template
-      value_template: >
-        {% for zwave in states.zwave if zwave.attributes.battery_level %}
-          {%- if zwave.attributes.battery_level | int < 20 -%}
-            {{true}}
-          {%- endif -%}
-        {%- endfor -%}
-  action:
-    - service: notify.telegram_jon
-      data_template:
-        title: "Low Battery!"
-        message: >
-          {{ trigger.to_state.attributes.friendly_name }} needs new batteries.
+# # battery life notifications
+# - id: Low Battery Notification
+#   alias: Low Battery Notification
+#   trigger:
+#     - platform: template
+#       value_template: >
+#         {% for zwave in states.zwave if zwave.attributes.battery_level %}
+#           {%- if zwave.attributes.battery_level | int < 20 -%}
+#             {{true}}
+#           {%- endif -%}
+#         {%- endfor -%}
+#   action:
+#     - service: notify.telegram_jon
+#       data_template:
+#         title: "Low Battery!"
+#         message: >
+#           {{ trigger.to_state.attributes.friendly_name }} needs new batteries.
 #########################################
 # indoor humidity check - winter - see if its below the high threshold
 - id: indoor humidity check - winter - see if its below the high threshold
@@ -998,7 +998,7 @@
   condition:
     - condition: state
       entity_id: sensor.vacation_status
-      state: "false"
+      state: 'False'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.equipment_room_recirculation_pump
@@ -1140,14 +1140,14 @@
   trigger:
     - platform: state
       entity_id: sensor.alarm_occupancy_status
-      to: "false"
+      to: 'False'
   condition:
     - condition: state
       entity_id: binary_sensor.daisy_contact
       state: 'off'
     - condition: state
       entity_id: sensor.vacation_status
-      state: "false"
+      state: 'False'
   action:
     - service: timer.start
       data:
@@ -1163,7 +1163,7 @@
       conditions:
         - condition: state
           entity_id: sensor.alarm_occupancy_status
-          state: 'false'
+          state: 'False'
         - condition: state
           entity_id: binary_sensor.daisy_contact
           state: 'off'
@@ -1261,10 +1261,10 @@
     conditions:
       - condition: state
         entity_id: sensor.alarm_occupancy_status
-        state: 'false'
+        state: 'False'
       - condition: state
         entity_id: sensor.sleep_status
-        state: 'true'
+        state: 'True'
   action:
     - service: script.turn_on
       data_template:
@@ -1320,7 +1320,37 @@
       from: 'on'
       to: 'off'
       for:
-        minutes: 30
+        minutes: 20
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_basement_off
+    - service: notify.telegram_jon
+      data_template:
+        message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'
+
+# - id: battery_notification_telegram
+#   trigger:
+#     - platform: time
+#       at: '10:00:00'
+#     - platform: time
+#       at: '18:00:00'
+#     - platform: state
+#       entity_id:
+#         - input_number.battery_alert_threshold_min
+#         - input_number.battery_alert_threshold_max
+#   action:
+#     # - condition: template
+#     #   value_template: *low_battery_check
+#     - service_template: >
+#         {% if states.input_text.notifier_name.state != "" %}
+#           {{ states.input_text.notifier_name.state }}
+#         {% else %}
+#           notify.notify
+#         {% endif %}
+#       data_template:
+#         message: "Low Battery Levels"
+#         data:
+#           attachments:
+#           - color: '#52c0f2'
+#             title: "These devices have low battery levels"
+#             text: 'test message'

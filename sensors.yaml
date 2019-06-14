@@ -9,7 +9,7 @@
       - sensor.master_entry_humidity
       - sensor.sunroom_humidity
 
-# Elk sensors & Aeotec Sensors
+# Template Sensors
   - platform: template
     sensors:
       armed_status:
@@ -88,8 +88,7 @@
       dark_inside:
         friendly_name: "Dark Inside?"
         value_template: >-
-          {% if states.sensor.main_tv_lux.state | int < 110 %}True
-          {% else %}False{% endif %}
+          {{ states.sensor.main_tv_lux.state | int < 110 }}
       # dark_outside:
       #   friendly_name: 'Dark? (solar angle)'
       #   value_template: >-
@@ -164,54 +163,23 @@
       vacation_status:
         friendly_name: "Vacation?"
         value_template: >-
-          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" %}true
-          {% else %}false{% endif %}
+          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" %}True
+          {% else %}False{% endif %}
       alarm_occupancy_status:
         friendly_name: "Occupied-Alarm?"
         value_template: >-
-          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" %}false
-          {% else %}true{% endif %}
+          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" %}False
+          {% else %}True{% endif %}
       cell_occupancy_status:
         friendly_name: "Occupied-Cell?"
         value_template: >-
-          {% if states.device_tracker.jon_ot.state == "home" or states.device_tracker.lauras_iphone.state == "home" %}true
-          {% else %}false{% endif %}
+          {% if states.device_tracker.jon_ot.state == "home" or states.device_tracker.lauras_iphone.state == "home" %}True
+          {% else %}False{% endif %}
       sleep_status:
         friendly_name: "Sleeping?"
         value_template: >-
-          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night_instant" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night" %}true
-          {% else %}false{% endif %}
-
-
-# MOTION SENSORS
-  # - platform: template
-  #   sensors:
-  #     living_room_pir:
-  #       value_template: >-
-  #         {% if   is_state("sensor.living_room_multisensor_burglar", "8") %}Violated
-  #         {% elif is_state("sensor.living_room_multisensor_burglar", "3") %}Tamper Detected
-  #         {% else %}Normal
-  #         {% endif %}
-  #       friendly_name: "Living Room PIR"
-  #     office_pir:
-  #       value_template: >-
-  #         {% if   is_state("sensor.office_multisensor_burglar", "8") %}Violated
-  #         {% elif is_state("sensor.office_multisensor_burglar", "3") %}Tamper Detected
-  #         {% else %}Normal
-  #         {% endif %}
-  #       friendly_name: "Office PIR"
-  #     master_closet_pir:
-  #       value_template: >-
-  #         {% if is_state("sensor.master_closet_burglar", "8") %}Violated
-  #         {% else %}Normal
-  #         {% endif %}
-  #       friendly_name: "Master Closet PIR"
-  #     pantry_pir:
-  #       value_template: >-
-  #         {% if is_state("sensor.pantry_burglar", "8") %}Violated
-  #         {% else %}Normal
-  #         {% endif %}
-  #       friendly_name: "Pantry PIR"
+          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night_instant" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night" %}True
+          {% else %}False{% endif %}
 
 # GRAFANA
   - platform: command_line
@@ -255,3 +223,7 @@
             {% set text = text[:last_comma] + ' and' + text[last_comma + 1:] %}
           {% endif %}
           {{ text }}
+  - platform: unifigateway
+    host: !secret unifi_ip
+    username: !secret unifi_usr
+    password: !secret unifi_pwd

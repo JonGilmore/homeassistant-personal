@@ -189,7 +189,6 @@ views:
         show_header_toggle: false
         entities:
           - switch.water_main_shut_off
-          - binary_sensor.water_main_shut_off_valve
           - switch.equipment_room_recirculation_pump
           - sensor.dark_inside
           - sensor.main_tv_lux
@@ -200,20 +199,6 @@ views:
     id: climate
     icon: mdi:temperature-fahrenheit
     cards:
-      - type: 'custom:simple-thermostat'
-        entity: climate.main_thermostat
-        decimals: 0
-        step_size: 1
-        sensors:
-          - attribute: sensor.living_room_multisensor_relative_humidity
-        modes:
-          auto:
-            include: true
-          cool:
-            include: true
-          heat:
-            include: true
-          off:
       - type: thermostat
         entity: climate.basement_thermostat
       - type: thermostat
@@ -864,3 +849,36 @@ views:
           - sensor.disk_use_percent
           - sensor.processor_use
           - sensor.memory_use_percent
+      - type: entities
+        title: Unifi Stats
+        show_header_toggle: false
+        entities:
+          - sensor.unifi_gateway_alerts
+          - sensor.unifi_gateway_firmware_upgradable
+          - sensor.unifi_gateway_lan
+          - sensor.unifi_gateway_vpn
+          - sensor.unifi_gateway_wan
+          - sensor.unifi_gateway_wlan
+          - sensor.unifi_gateway_www
+      - type: 'custom:group-card'
+        card:
+          type: entities
+          title: Battery Status*
+          show_header_toggle: false
+        group: group.battery_status
+      - type: 'custom:group-card'
+        card:
+          type: entities*
+          title: Battery Alert*
+          show_header_toggle: false*
+        group: group.battery_alert*
+      # - type: horizontal-stack
+      #   cards:
+      #     - type: "custom:button-card"
+      #       icon: mdi:home
+      #       color: rgb(28, 128, 199)
+      #       tap_action:
+      #         action: call-service
+      #         service: script.turn_on
+      #         service_data:
+      #           entity_id: script.test

@@ -95,6 +95,11 @@
           or is_state("binary_sensor.kitchen_fridge_leak_water", "on")
           or is_state("binary_sensor.kitchen_sink_leak_water", "on")
           or is_state("sensor.sump_leak_sensor", "Violated") }}
+      cloud:
+        friendly_name: 'Nabu Casa Cloud'
+        value_template: >-
+          {{ not states.sensor.sleep_status.state
+          or states.sensor.vacation_status.state }}
 
 # presence detection
   - platform: bayesian
@@ -122,4 +127,4 @@
         prob_given_true: 0.8
         prob_given_false: 0.4
         platform: 'state'
-        to_state: 'true'
+        to_state: 'True'

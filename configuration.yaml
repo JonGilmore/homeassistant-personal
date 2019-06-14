@@ -8,6 +8,7 @@ homeassistant:
   customize: !include customize.yaml
   whitelist_external_dirs:
     - /tmp
+  packages: !include_dir_named packages
 
 cloud:
   google_actions:
@@ -20,11 +21,16 @@ cloud:
       include_domains:
         - light
         - switch
+        - fan
+        - scene
       exclude_domains:
+        - alert
+        - automation
+        - lock
         - group
         - input_boolean
-        - scene
         - script
+        - sensor
         - cover
         - media_player
         - climate
@@ -38,14 +44,16 @@ cloud:
       include_domains:
         - light
         - switch
+        - fan
+        - scene
       exclude_domains:
         - group
         - input_boolean
-        - scene
         - script
         - cover
         - media_player
         - climate
+        - camera
 
 http:
 updater:
