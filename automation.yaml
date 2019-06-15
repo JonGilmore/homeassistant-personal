@@ -147,11 +147,11 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: sensor.alarm_occupancy_status
-        state: 'True'
+        entity_id: binary_sensor.alarm_occupancy_status
+        state: 'on'
       - condition: state
-        entity_id: sensor.dark_inside
-        state: 'True'
+        entity_id: binary_sensor.light_inside
+        state: 'off'
       - condition: sun
         after: sunset
         after_offset: '-1:00:00'
@@ -172,11 +172,11 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: sensor.alarm_occupancy_status
-        state: 'False'
+        entity_id: binary_sensor.alarm_occupancy_status
+        state: 'off'
       - condition: state
-        entity_id: sensor.dark_inside
-        state: 'True'
+        entity_id: binary_sensor.light_inside
+        state: 'off'
       - condition: sun
         after: sunset
         after_offset: '-1:00:00'
@@ -206,13 +206,13 @@
   alias: "wake up"
   trigger:
     - platform: state
-      entity_id: sensor.sleep_status
-      from: 'True'
-      to: 'False'
+      entity_id: binary_sensor.sleep_status
+      from: 'on'
+      to: 'off'
   condition:
     - condition: state
-      entity_id: sensor.dark_inside
-      state: 'True'
+      entity_id: binary_sensor.light_inside
+      state: 'off'
   action:
     - service: homeassistant.turn_on
       entity_id:
@@ -226,7 +226,6 @@
         - sensor.foyer_pir
         - sensor.kitchen_pir
         - sensor.basement_pir
-        - sensor.workshop_pir
         - sensor.bar_pir
       to: 'Violated'
     - platform: state
@@ -234,7 +233,6 @@
         - sensor.foyer_pir
         - sensor.kitchen_pir
         - sensor.basement_pir
-        - sensor.workshop_pir
         - sensor.bar_pir
       to: 'Normal'
       for:
@@ -259,8 +257,6 @@
             switch.kitchen_cabinets
           {% elif trigger_entity == 'sensor.basement_pir' %}
             switch.basement_main
-          {% elif trigger_entity == 'sensor.workshop_pir' %}
-            light.basement_workshop
           {% elif trigger_entity == 'sensor.bar_pir' %}
             switch.basement_storage_lights
           {% endif %}
@@ -344,8 +340,8 @@
     at: '04:30:00'
   condition:
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'False'
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
     - condition: or
       conditions:
         - condition: state
@@ -376,8 +372,8 @@
     at: '08:00:00'
   condition:
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'False'
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
     - condition: and
       conditions:
         - condition: state
@@ -408,8 +404,8 @@
     at: '16:00:00'
   condition:
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'False'
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
   action:
     # - service: climate.set_temperature
     #   data:
@@ -429,12 +425,12 @@
 - alias: Thermostats - bed
   trigger:
     - platform: state
-      entity_id: sensor.sleep_status
-      to: 'True'
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
   condition:
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'False'
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
   action:
     # - service: climate.set_temperature
     #   data:
@@ -450,14 +446,13 @@
           - climate.main_thermostat
         temperature: 78
         operation_mode: cool
-    - service: cloud.remote_disconnect
 #########################################
 # at bedtime, lock the front & garage door locks, set the HVAC fans to on, turn off recirculation pump, turn off all lights & xmas lights
 - alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
   trigger:
     - platform: state
-      entity_id: sensor.sleep_status
-      to: 'True'
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
   action:
     - service: lock.lock
       data:
@@ -480,8 +475,8 @@
 - alias: "done sleeping, turn the HVAC fan off"
   trigger:
     - platform: state
-      entity_id: sensor.sleep_status
-      to: 'False'
+      entity_id: binary_sensor.sleep_status
+      to: 'off'
   action:
     - service: climate.set_fan_mode
       data:
@@ -491,12 +486,12 @@
           - climate.upstairs_thermostat
         fan_mode: 'auto'
 #########################################
-# away, turn the HVAC fans on & the recirculation pump off, enable remote UI
+# away, turn the HVAC fans on & the recirculation pump off
 - alias: "away, turn the HVAC fans on & the recirculation pump off"
   trigger:
     - platform: state
-      entity_id: sensor.alarm_occupancy_status
-      to: 'False'
+      entity_id: binary_sensor.alarm_occupancy_status
+      to: 'off'
   action:
     - service: climate.set_fan_mode
       data:
@@ -507,18 +502,17 @@
         fan_mode: 'on'
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
-    - service: cloud.remote_connect
 #########################################
 # away during the day, turn lights off
 - alias: "away during the day, turn lights off"
   trigger:
     - platform: state
-      entity_id: sensor.alarm_occupancy_status
-      to: 'False'
+      entity_id: binary_sensor.alarm_occupancy_status
+      to: 'off'
   condition:
     - condition: state
-      entity_id: sensor.dark_inside
-      state: 'False'
+      entity_id: binary_sensor.light_inside
+      state: 'on'
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_off
@@ -530,18 +524,18 @@
       at: '23:30:00'
   condition:
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'True'
+      entity_id: binary_sensor.vacation_status
+      state: 'on'
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_all_off
 #########################################
-# home, turn the HVAC fans off, recirc on, disable remote UI
+# home, turn the HVAC fans off, recirc on
 - alias: home, turn the HVAC fans off & the recirc on, stop daisy cam timer
   trigger:
     - platform: state
-      entity_id: sensor.alarm_occupancy_status
-      to: 'True'
+      entity_id: binary_sensor.alarm_occupancy_status
+      to: 'on'
   action:
     - service: climate.set_fan_mode
       data:
@@ -554,7 +548,6 @@
       entity_id: switch.equipment_room_recirculation_pump
     - service: timer.cancel
       entity_id: timer.daisy_cam_timer
-    - service: cloud.remote_disconnect
 #########################################
 # elk disconnected - send telegram
 - alias: "elk disconnected - send telegram"
@@ -572,8 +565,8 @@
 - alias: Turn on sunset lights at dark or sunset
   trigger:
     - platform: state
-      entity_id: sensor.dark_inside
-      to: 'True'
+      entity_id: binary_sensor.light_inside
+      to: 'off'
     - platform: sun
       event: sunset
   condition:
@@ -624,8 +617,8 @@
 - alias: "on vacation"
   trigger:
     - platform: state
-      entity_id: sensor.vacation_status
-      to: 'True'
+      entity_id: binary_sensor.vacation_status
+      to: 'on'
   action:
     - service: homeassistant.turn_off
       entity_id: switch.water_main_shut_off
@@ -659,8 +652,8 @@
 - alias: "on vacation, check the front door lock"
   trigger:
     - platform: state
-      entity_id: sensor.vacation_status
-      to: 'True'
+      entity_id: binary_sensor.vacation_status
+      to: 'on'
   condition:
     - condition: state
       entity_id: lock.front_door_lock
@@ -677,8 +670,8 @@
 - alias: "return from vacation"
   trigger:
     - platform: state
-      entity_id: sensor.vacation_status
-      to: 'False'
+      entity_id: binary_sensor.vacation_status
+      to: 'off'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.water_main_shut_off
@@ -804,8 +797,8 @@
   alias: "bedtime, garage check"
   trigger:
     - platform: state
-      entity_id: sensor.sleep_status
-      to: 'True'
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
   condition:
     condition: or
     conditions:
@@ -826,8 +819,8 @@
   alias: "bedtime, doors unlocked and notify"
   trigger:
     - platform: state
-      entity_id: sensor.sleep_status
-      to: 'True'
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
   condition:
     condition: or
     conditions:
@@ -997,8 +990,8 @@
       at: '06:00:00'
   condition:
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'False'
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.equipment_room_recirculation_pump
@@ -1139,15 +1132,15 @@
 - id: daisy cam photo every 45 minutes when armed away and kennel closed
   trigger:
     - platform: state
-      entity_id: sensor.alarm_occupancy_status
-      to: 'False'
+      entity_id: binary_sensor.alarm_occupancy_status
+      to: 'off'
   condition:
     - condition: state
       entity_id: binary_sensor.daisy_contact
       state: 'off'
     - condition: state
-      entity_id: sensor.vacation_status
-      state: 'False'
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
   action:
     - service: timer.start
       data:
@@ -1162,8 +1155,8 @@
     - condition: and
       conditions:
         - condition: state
-          entity_id: sensor.alarm_occupancy_status
-          state: 'False'
+          entity_id: binary_sensor.alarm_occupancy_status
+          state: 'off'
         - condition: state
           entity_id: binary_sensor.daisy_contact
           state: 'off'
@@ -1192,40 +1185,27 @@
     - service: homeassistant.turn_off
       entity_id: input_boolean.motion_lights
 ########################################
-# # nabu casa cloud disconnect/reconnect
-# - alias: 'Remote UI Disconnect'
-#   initial_state: 'on'
-#   trigger:
-#     - platform: state
-#       entity_id: 
-#         - device_tracker.jon
-#         - device_tracker.lauras_iphone
-#       to: home
-#   condition:
-#     - condition: state
-#       entity_id:  device_tracker.jon
-#       state: home
-#     - condition: state
-#       entity_id:  device_tracker.lauras_iphone
-#       state: home
-#   action:
-#     - service: cloud.remote_disconnect
-#     - service: notify.telegram_jon
-#       data_template:
-#         message: "Cloud Disconnect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
-# - alias: 'Remote UI Connect'
-#   initial_state: 'on'
-#   trigger:
-#     platform: state
-#     entity_id:
-#       - device_tracker.jon
-#       - device_tracker.lauras_iphone
-#     to: not_home
-#   action:
-#     - service: cloud.remote_connect
-#     - service: notify.telegram_jon
-#       data_template:
-#         message: "Cloud Connect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+# nabu casa cloud disconnect/reconnect
+- alias: 'Remote UI Disconnect'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.nabu_casa_cloud
+      to: 'off'
+  action:
+    - service: cloud.remote_disconnect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Disconnect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+- alias: 'Remote UI Connect'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.nabu_casa_cloud
+    to: 'on'
+  action:
+    - service: cloud.remote_connect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Connect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 # ########################################
 # # kitchen motion light
 # - alias: kitchen motion light
@@ -1235,8 +1215,8 @@
 #     to: "Violated"
 #   condition:
 #     - condition: state
-#       entity_id: sensor.dark_inside
-#       state: 'True'
+#       entity_id: binary_sensor.light_inside
+#       state: 'off'
 #     - condition: state
 #       entity_id: input_boolean.motion_lights
 #       state: 'on'
@@ -1260,11 +1240,11 @@
     condition: or
     conditions:
       - condition: state
-        entity_id: sensor.alarm_occupancy_status
-        state: 'False'
+        entity_id: binary_sensor.alarm_occupancy_status
+        state: 'off'
       - condition: state
-        entity_id: sensor.sleep_status
-        state: 'True'
+        entity_id: binary_sensor.sleep_status
+        state: 'on'
   action:
     - service: script.turn_on
       data_template:
