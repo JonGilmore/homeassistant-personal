@@ -158,8 +158,8 @@ scene.equipment_room_enclosure_device_001_ph_interior_off:
   friendly_name: Interior_off
 scene.equipment_room_enclosure_device_001_ph_interior_on:
   friendly_name: Interior_on
-scene.equipment_room_enclosure_device_001_ph_kirchenhall_off:
-  friendly_name: kirchenhall-off
+scene.equipment_room_enclosure_device_001_ph_kitchenhall_off:
+  friendly_name: kitchenhall-off
 scene.equipment_room_enclosure_device_001_ph_kitchen_off:
   friendly_name: kitchen-off
 scene.equipment_room_enclosure_device_001_ph_kitchen_on:

@@ -82,13 +82,9 @@
       - apparent_temperature_low
       - precip_intensity_max
 
-# # DARKNESS SENSORS
-  - platform: template
-    sensors:
-      dark_inside:
-        friendly_name: "Dark Inside?"
-        value_template: >-
-          {{ states.sensor.main_tv_lux.state | int < 110 }}
+# # # DARKNESS SENSORS
+#   - platform: template
+#     sensors:
       # dark_outside:
       #   friendly_name: 'Dark? (solar angle)'
       #   value_template: >-
@@ -156,30 +152,6 @@
           {% elif states.sensor.master_bed_value.state | int < 20400000 %}one
           {% else %} nobody {% endif %}
         friendly_name: 'Master Bed People'
-
-# VIRTUAL DEVICES
-  - platform: template
-    sensors:
-      vacation_status:
-        friendly_name: "Vacation?"
-        value_template: >-
-          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" %}True
-          {% else %}False{% endif %}
-      alarm_occupancy_status:
-        friendly_name: "Occupied-Alarm?"
-        value_template: >-
-          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" %}False
-          {% else %}True{% endif %}
-      cell_occupancy_status:
-        friendly_name: "Occupied-Cell?"
-        value_template: >-
-          {% if states.device_tracker.jon_ot.state == "home" or states.device_tracker.lauras_iphone.state == "home" %}True
-          {% else %}False{% endif %}
-      sleep_status:
-        friendly_name: "Sleeping?"
-        value_template: >-
-          {% if states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night_instant" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night" %}True
-          {% else %}False{% endif %}
 
 # GRAFANA
   - platform: command_line

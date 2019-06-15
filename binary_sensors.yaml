@@ -95,12 +95,36 @@
           or is_state("binary_sensor.kitchen_fridge_leak_water", "on")
           or is_state("binary_sensor.kitchen_sink_leak_water", "on")
           or is_state("sensor.sump_leak_sensor", "Violated") }}
-      cloud:
+      vacation_status:
+        friendly_name: "Vacation?"
+        device_class: occupancy
+        value_template: >-
+          {{ states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" }}
+      alarm_occupancy_status:
+        friendly_name: "Occupied-Alarm?"
+        device_class: occupancy
+        value_template: >-
+          {{ not states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or not states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" }}
+      cell_occupancy_status:
+        friendly_name: "Occupied-Cell?"
+        device_class: occupancy
+        value_template: >-
+          {{ states.device_tracker.jon_ot.state == "home" or states.device_tracker.lauras_iphone.state == "home" }}
+      sleep_status:
+        friendly_name: "Sleeping?"
+        value_template: >-
+          {{ states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night_instant" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_night" }}
+      light_inside:
+        friendly_name: "Light Inside?"
+        device_class: light
+        value_template: >-
+          {{ states.sensor.main_tv_lux.state | int > 110 }}
+      nabu_casa_cloud:
         friendly_name: 'Nabu Casa Cloud'
         value_template: >-
-          {{ not states.sensor.sleep_status.state
-          or states.sensor.vacation_status.state }}
-
+          {{ not states.binary_sensor.sleep_status.state
+          or states.binary_sensor.vacation_status.state }}
+          
 # presence detection
   - platform: bayesian
     device_class: presence
@@ -123,7 +147,7 @@
         prob_given_false: 0.5
         platform: 'state'
         to_state: 'home'
-      - entity_id: 'sensor.alarm_occupancy_status'
+      - entity_id: 'binary_sensor.alarm_occupancy_status'
         prob_given_true: 0.8
         prob_given_false: 0.4
         platform: 'state'

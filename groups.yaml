@@ -28,7 +28,6 @@ interior_lights:
     - light.basement_theater
     - light.basement_theater_front_lamp
     - light.basement_theater_rear_lamp
-    - light.basement_workshop
     - light.craftroom_cans
     - light.craftroom_craftroom_fan
     - light.dining_room_cans

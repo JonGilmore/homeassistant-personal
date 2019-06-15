@@ -120,7 +120,6 @@ views:
           - light.basement_theater
           - light.basement_theater_front_lamp
           - light.basement_theater_rear_lamp
-          - light.basement_workshop
           - light.craftroom_cans
           - light.craftroom_craftroom_fan
           - light.dining_room_cans
@@ -190,7 +189,7 @@ views:
         entities:
           - switch.water_main_shut_off
           - switch.equipment_room_recirculation_pump
-          - sensor.dark_inside
+          - binary_sensor.light_inside
           - sensor.main_tv_lux
 ##########################################
 # THERMOSTAT TAB
@@ -608,7 +607,6 @@ views:
           - light.basement_theater
           - light.basement_theater_front_lamp
           - light.basement_theater_rear_lamp
-          - light.basement_workshop
           - light.craftroom_cans
           - light.craftroom_craftroom_fan
           - light.dining_room_cans
@@ -841,6 +839,10 @@ views:
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
             # icon: mdi:lightbulb-on-outline
+      - type: glance
+        title: Upgrades?
+        entities:
+          - sensor.potential_breaking_changes
       - type: entities
         title: Host Stats
         show_header_toggle: false
