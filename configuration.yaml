@@ -138,6 +138,7 @@ device_tracker:
     verify_ssl: false
     username: !secret unifi_usr
     password: !secret unifi_pwd
+    # consider_home: 600
     ssid_filter:
       - 'ReedingRainbow'
     new_device_defaults:
@@ -172,6 +173,7 @@ group: !include groups.yaml
 script: !include scripts.yaml
 shell_command: !include shell_commands.yaml
 switch: !include switches.yaml
+cover: !include covers.yaml
 camera: !include cameras.yaml
 rest_command: !include rest_commands.yaml
 input_boolean: !include input_boolean.yaml
@@ -187,15 +189,11 @@ conversation:
 logbook:
 frontend:
   themes: !include_dir_merge_named themes/
-# custom_updater:
-#   card_urls:
-#     - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
-#   component_urls:
-#     - https://raw.githubusercontent.com/vinteo/hass-opensprinkler/master/custom_components.json
 
 hacs:
   token: !secret hacs
 
+person:
 lovelace:
   mode: yaml
 config:
@@ -214,7 +212,3 @@ panel_iframe:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
-  # zwave2mqtt:
-  #   title: Z-Wave to MQTT
-  #   icon: mdi:z-wave
-  #   url: http://192.168.45.249:8091

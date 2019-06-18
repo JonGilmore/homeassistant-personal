@@ -1,7 +1,6 @@
 #########################################
 # Garage open notify & action - single
-- id: Garage open notify & action - single
-  alias: "Garage open notify & action - single"
+- alias: "Garage open notify & action - single"
   trigger:
     - platform: state
       entity_id: sensor.single_garage
@@ -25,8 +24,7 @@
               caption: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}. Close?"
 #########################################
 # Garage open notify & action - double
-- id: Garage open notify & action - double
-  alias: "Garage open notify & action - double"
+- alias: "Garage open notify & action - double"
   trigger:
     - platform: state
       entity_id: sensor.double_garage
@@ -82,8 +80,7 @@
       entity_id: scene.task_001
 #########################################
 # driveway motion - telegram
-- id: driveway motion - telegram
-  alias: "driveway motion - telegram"
+- alias: "driveway motion - telegram"
   trigger:
     - platform: state
       entity_id: binary_sensor.driveway_line_crossing
@@ -102,8 +99,7 @@
         message: 'Driveway activity detected'
 #########################################
 # deck motion (only while alarm is not disarmed) - telegram
-- id: deck motion (only while alarm is not disarmed) - telegram
-  alias: "deck motion (only while alarm is not disarmed) - telegram"
+- alias: "deck motion (only while alarm is not disarmed) - telegram"
   trigger:
     - platform: state
       entity_id: binary_sensor.deck_line_crossing
@@ -121,8 +117,7 @@
             - url: !secret hik_deck_pic
 #########################################
 # front door motion - telegram
-- id: front door motion - telegram
-  alias: "front door motion - telegram"
+- alias: "front door motion - telegram"
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_line_crossing
@@ -137,8 +132,7 @@
             - url: !secret db_pic
 #########################################
 # front door motion, dark out, occupied, foyer and ext on
-- id: front door line, foyer on
-  alias: "front door line, foyer on"
+- alias: "front door line, foyer on"
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_line_crossing
@@ -162,8 +156,7 @@
         - switch.exterior_cans
 #########################################
 # front door motion, dark out, unoccupied, foyer and ext on for 10 min
-- id: front door line, foyer on
-  alias: "front door line, foyer on"
+- alias: "front door line, foyer on"
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_line_crossing
@@ -202,8 +195,7 @@
           - switch.exterior_cans
 #########################################
 # wake up - good morning
-- id: wake up
-  alias: "wake up"
+- alias: "wake up"
   trigger:
     - platform: state
       entity_id: binary_sensor.sleep_status
@@ -219,7 +211,7 @@
         - switch.upstairs_hall_treads
         - switch.great_room_lamp
 #########################################
-- id: motion_lights
+- alias: motion_lights
   trigger:
     - platform: state
       entity_id:
@@ -262,8 +254,7 @@
           {% endif %}
 #########################################
 # Close master blinds if its dusk upon 1st motion on the entry only 1 time (after 1hr before sunset)
-- id: Master Blinds at dusk
-  alias: Master Blinds at dusk
+- alias: Master Blinds at dusk
   trigger:
     - platform: state
       entity_id: binary_sensor.master_entry_pir
@@ -284,8 +275,7 @@
       entity_id: input_boolean.master_blinds_run_once
 #########################################
 # close Master Blinds at night
-- id: Master Blinds at night
-  alias: Master Blinds at night
+- alias: Master Blinds at night
   trigger:
     - platform: sun
       event: sunset
@@ -296,8 +286,7 @@
       entity_id: input_boolean.master_blinds_run_once
 #########################################
 # open master blinds in the morning (after 45min of unoccupied bed)
-- id: open master blinds in the morning (after 45min of unoccupied bed)
-  alias: open master blinds in the morning (after 45min of unoccupied bed)
+- alias: open master blinds in the morning (after 45min of unoccupied bed)
   trigger:
     - platform: state
       entity_id: sensor.master_bed_occupied
@@ -570,15 +559,12 @@
     - platform: sun
       event: sunset
   condition:
-    condition: and
-    conditions:
-      - condition: time
-        after: '15:45:00'
-      - condition: time
-        before: '21:00:00'
-      - condition: state
-        entity_id: input_boolean.sunset_run_once
-        state: 'off'
+    - condition: state
+      entity_id: input_boolean.sunset_run_once
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.motion_lights
+      state: 'on'
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_sunset1
@@ -793,8 +779,7 @@
         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
 #########################################
 # bedtime, garage check
-- id: bedtime, garage check
-  alias: "bedtime, garage check"
+- alias: "bedtime, garage check"
   trigger:
     - platform: state
       entity_id: binary_sensor.sleep_status
@@ -815,8 +800,7 @@
         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
 #########################################
 # bedtime, doors unlocked and notify
-- id: bedtime, doors unlocked and notify
-  alias: "bedtime, doors unlocked and notify"
+- alias: "bedtime, doors unlocked and notify"
   trigger:
     - platform: state
       entity_id: binary_sensor.sleep_status
@@ -837,8 +821,7 @@
         message:  "Locking the door(s)"
 #########################################
 # # battery life notifications
-# - id: Low Battery Notification
-#   alias: Low Battery Notification
+# - alias: Low Battery Notification
 #   trigger:
 #     - platform: template
 #       value_template: >
@@ -855,8 +838,7 @@
 #           {{ trigger.to_state.attributes.friendly_name }} needs new batteries.
 #########################################
 # indoor humidity check - winter - see if its below the high threshold
-- id: indoor humidity check - winter - see if its below the high threshold
-  alias: indoor humidity check - winter - see if its below the high threshold
+- alias: indoor humidity check - winter - see if its below the high threshold
   trigger:
     - platform: time
       at: '10:00:00'
@@ -870,8 +852,7 @@
         message: "Humidity in the house is too high: {{ states.sensor.house_humidity.state }}"
 #########################################
 # indoor humidity check - winter - see if its above the low threshold
-- id: indoor humidity check - winter - see if its above the low threshold
-  alias: indoor humidity check - winter - see if its above the low threshold
+- alias: indoor humidity check - winter - see if its above the low threshold
   trigger:
     - platform: time
       at: '10:01:00'
@@ -901,9 +882,8 @@
         title: "Water Leak!"
         message: "HomeAssistant detected a water leak"
 #########################################
-# dog walker here between 9:30-3pm (while the alarm is not disarmed)
-- id: dog walker here
-  alias: "dog walker here"
+# dog walker here between 9:30-2pm (while the alarm is not disarmed)
+- alias: "dog walker here"
   trigger:
     - platform: state
       entity_id: sensor.garage_door
@@ -916,7 +896,7 @@
       - condition: time
         after: '09:30:00'
       - condition: time
-        before: '15:00:00'
+        before: '14:00:00'
   action:
     # - service: notify.telegram_jon
     #   data:
@@ -1117,7 +1097,7 @@
       entity_id: light.sitting_room_lifx
 ########################################
 # kitchen off with no motion
-- id: kitchen off with no motion
+- alias: kitchen off with no motion
   trigger:
     - platform: state
       entity_id: sensor.kitchen_pir
@@ -1129,7 +1109,7 @@
       entity_id: scene.equipment_room_enclosure_device_001_ph_kitchen_off
 ########################################
 # daisy cam photo every 45 minutes when armed away and kennel closed
-- id: daisy cam photo every 45 minutes when armed away and kennel closed
+- alias: daisy cam photo every 45 minutes when armed away and kennel closed
   trigger:
     - platform: state
       entity_id: binary_sensor.alarm_occupancy_status
@@ -1145,7 +1125,7 @@
     - service: timer.start
       data:
         entity_id: timer.daisy_cam_timer
-- id: daisy timer completed
+- alias: daisy timer completed
   trigger:
     - platform: event
       event_type: timer.finished
@@ -1184,28 +1164,6 @@
   action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.motion_lights
-########################################
-# nabu casa cloud disconnect/reconnect
-- alias: 'Remote UI Disconnect'
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.nabu_casa_cloud
-      to: 'off'
-  action:
-    - service: cloud.remote_disconnect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Disconnect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
-- alias: 'Remote UI Connect'
-  trigger:
-    platform: state
-    entity_id: binary_sensor.nabu_casa_cloud
-    to: 'on'
-  action:
-    - service: cloud.remote_connect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Connect: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 # ########################################
 # # kitchen motion light
 # - alias: kitchen motion light
@@ -1226,8 +1184,7 @@
 #         - switch.kitchen_cabinets
 #########################################
 # person motion template (sleeping or away)
-- id: person motion template (sleeping or away)
-  alias: "person motion template"
+- alias: "person motion template"
   trigger:
   - platform: state
     entity_id: 
@@ -1266,22 +1223,6 @@
     - service: automation.turn_on
       entity_id: automation.person_motion_template
 ########################################
-# presence testing
-- alias: 'presence testing'
-  trigger:
-    - platform: state
-      entity_id: device_tracker.jon_ot
-      from: 'home'
-      to: 'not_home'
-    - platform: state
-      entity_id: device_tracker.jon_ot
-      from: 'not_home'
-      to: 'home'
-  action:
-    service: notify.telegram_jon
-    data_template:
-      message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'
-########################################
 # Irrigation (opensprinkler) rain sensor
 - alias: 'opensprinkler rain sensor'
   trigger:
@@ -1293,7 +1234,7 @@
       message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'
 ########################################
 # basement off with no motion
-- id: basement off with no motion
+- alias: basement off with no motion
   trigger:
     - platform: state
       entity_id: binary_sensor.basement_motions
@@ -1304,33 +1245,129 @@
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_basement_off
+
+########################################################################################################################
+# Different scenarios for cloud disconnect/reconnect
+#   - arm alarm night, all phones are here: kill cloud
+#   - alarm disarmed, all phones here, kill cloud
+#   - both phones show home, kill cloud
+#   - either phone leaves: enable cloud
+#   - vacation started, enable cloud
+########################################
+# nabu casa cloud disconnect/reconnect
+- alias: 'Sleeping, phones home: remote UI disconnect'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: binary_sensor.jon_presence
+      state: 'on'
+    - condition: state
+      entity_id: device_tracker.lauras_iphone
+      state: 'home'
+  action:
+    - service: cloud.remote_disconnect
     - service: notify.telegram_jon
       data_template:
-        message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}'
+        message: "Cloud Disconnect at night: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 
-# - id: battery_notification_telegram
-#   trigger:
-#     - platform: time
-#       at: '10:00:00'
-#     - platform: time
-#       at: '18:00:00'
-#     - platform: state
-#       entity_id:
-#         - input_number.battery_alert_threshold_min
-#         - input_number.battery_alert_threshold_max
-#   action:
-#     # - condition: template
-#     #   value_template: *low_battery_check
-#     - service_template: >
-#         {% if states.input_text.notifier_name.state != "" %}
-#           {{ states.input_text.notifier_name.state }}
-#         {% else %}
-#           notify.notify
-#         {% endif %}
-#       data_template:
-#         message: "Low Battery Levels"
-#         data:
-#           attachments:
-#           - color: '#52c0f2'
-#             title: "These devices have low battery levels"
-#             text: 'test message'
+- alias: 'Not sleeping, phones home: remote UI disconnect'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: binary_sensor.jon_presence
+      state: 'on'
+    - condition: state
+      entity_id: device_tracker.lauras_iphone
+      state: 'home'
+  action:
+    - service: cloud.remote_disconnect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Disconnect at morning: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+
+- alias: 'jons phone home (and lauras is home): remote UI disconnect'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.jon_presence
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: device_tracker.lauras_iphone
+      state: 'home'  
+  action:
+    - service: cloud.remote_disconnect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Disconnect when phone is home: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+- alias: 'lauras phone home (and jons is home): remote UI disconnect'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.lauras_iphone
+      to: 'home'
+  condition:
+    - condition: state
+      entity_id: binary_sensor.jon_presence
+      state: 'on'
+  action:
+    - service: cloud.remote_disconnect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Disconnect when phone is home: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+
+- alias: 'Phone left: remote UI connect'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.jon_presence
+      to: 'off'
+    - platform: state
+      entity_id: device_tracker.lauras_iphone
+      from: 'home'
+      to: 'not_home'
+  action:
+    - service: cloud.remote_connect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Connect when device left: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+
+- alias: 'Vacation on, enable remote UI connect'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.vacation_status
+      to: 'on'
+  action:
+    - service: cloud.remote_connect
+    - service: notify.telegram_jon
+      data_template:
+        message: "Cloud Connect on vacation mode: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+########################################################################################################################
+########################################
+# pir tamper alert
+- alias: 'pir tamper alert'
+  trigger:
+    - platform: state
+      entity_id: 
+        - binary_sensor.living_room_multisensor_tamper
+        - binary_sensor.office_multisensor_tamper
+      to: 'on'
+  action:
+    - service: notify.telegram_jon
+      data_template:
+        message: "ALERT: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+########################################
+# person alert
+- alias: 'person alert'
+  trigger:
+    - platform: state
+      entity_id: 
+        - person.jon
+        - person.laura
+  action:
+    - service: notify.telegram_jon
+      data_template:
+        message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
