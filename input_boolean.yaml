@@ -8,3 +8,5 @@
     name: Sunset Run Once
   morning_lights_run_once:
     name: Morning Lights Run Once
+  guests:
+    name: Guests?

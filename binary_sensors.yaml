@@ -2,7 +2,6 @@
     host: 192.168.45.233
     username: !secret hik_usr
     password: !secret hik_pwd
-    device_class: moving
     customize:
       motion:
         delay: 30
@@ -10,7 +9,6 @@
     host: 192.168.45.231
     username: !secret hik_usr
     password: !secret hik_pwd
-    device_class: moving
     customize:
       motion:
         delay: 30
@@ -18,7 +16,6 @@
     host: 192.168.45.230
     username: !secret hik_usr
     password: !secret hik_pwd
-    device_class: moving
     customize:
       motion:
         delay: 240
@@ -26,7 +23,6 @@
     host: 192.168.45.237
     username: !secret hik_usr
     password: !secret hik_pwd
-    device_class: moving
     customize:
       motion:
         delay: 30
@@ -66,25 +62,33 @@
         friendly_name: 'Basement Motions'
         device_class: motion
         value_template: >-
-          {{ is_state("sensor.basement_pir", "Violated")
-          or is_state("sensor.workshop_pir", "Violated")
-          or is_state("sensor.basement_stairs_pir", "Violated")
-          or is_state("sensor.storage_pir", "Violated")
-          or is_state("sensor.bar_pir", "Violated") }}
+          {{ (states.sensor.basement_pir.state == "Violated")
+          or (states.sensor.workshop_pir.state == "Violated")
+          or (states.sensor.basement_stairs_pir.state == "Violated")
+          or (states.sensor.storage_pir.state == "Violated")
+          or (states.sensor.bar_pir.state == "Violated") }}
       main_motions:
         friendly_name: 'Main Motions'
         device_class: motion
         value_template: >-
-          {{ is_state("sensor.foyer_pir", "Violated")
-          or is_state("sensor.kitchen_pir", "Violated")
-          or is_state("binary_sensor.living_room_multi_pir", "on")
-          or is_state("binary_sensor.office_multi_pir", "on") }}
+          {{ (states.sensor.foyer_pir.state == "Violated")
+          or (states.sensor.kitchen_pir.state == "Violated")
+          or (states.binary_sensor.living_room_multi_pir.state == "on")
+          or (states.binary_sensor.office_multi_pir.state == "on") }}
       garage_doors:
         friendly_name: 'Garage Doors'
         device_class: garage_door
         value_template: >-
-          {{ is_state("sensor.double_garage", "Violated")
-          or is_state("sensor.single_garage", "Violated") }}
+          {{ (states.sensor.double_garage.state == "Violated")
+          or (states.sensor.single_garage.state == "Violated") }}
+      house_doors:
+        friendly_name: 'House Doors'
+        device_class: door
+        value_template: >-
+          {{ (states.sensor.front_door.state == "Violated")
+          or (states.sensor.garage_door.state == "Violated")
+          or (states.sensor.basement_door.state == "Violated")
+          or (states.sensor.deck_door.state == "Violated") }}
       moisture_sensors:
         friendly_name: 'Moisture Sensors'
         device_class: moisture
@@ -129,7 +133,10 @@
       anybody_home:
         friendly_name: 'Anybody Home'
         device_class: presence
-        value_template: >
+        entity_id:
+          - person.jon
+          - person.laura
+        value_template: >-
           {% set ns = namespace(found=false) %}
           {% for state in states.person %}
             {% if state.state == 'home' %}
@@ -139,7 +146,10 @@
           {{ns.found}}
       anybody_away:
         friendly_name: 'Anybody Away'
-        value_template: >
+        entity_id:
+          - person.jon
+          - person.laura
+        value_template: >-
           {% set ns = namespace(found=false) %}
           {% for state in states.person %}
             {% if state.state != 'home' %}
@@ -147,6 +157,15 @@
             {% endif %}
           {% endfor %}
           {{ns.found}}
+      # jon_occupancy:
+      #   device_class: presence
+      #   value_template: >-
+      #     {{ states.device_tracker.jon_pi.state == 'home') }}
+      # laura_occupancy:
+      #   device_class: presence
+      #   value_template: >-
+      #     {{ states.device_tracker.laura_pi.state == 'home') }}
+
 
 # presence detection
   - platform: bayesian

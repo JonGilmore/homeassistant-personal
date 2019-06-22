@@ -1,0 +1,35 @@
+esphome:
+  name: esp_basement_fridge
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: 'iot'
+  password: !secret iot_pw
+
+# Enable logging
+logger:
+  level: ERROR
+
+# Enable Home Assistant API
+api:
+  password: !secret hass_api
+
+ota:
+  password: !secret esp_ota
+
+sensor:
+  - platform: dht
+    model: DHT22
+    pin: D7
+    temperature:
+      name: "freezer temperature"
+    humidity:
+      name: "freezer humidity"
+  - platform: dht
+    model: DHT22
+    pin: D5
+    temperature:
+      name: "temperature"
+    humidity:
+      name: "humidity"

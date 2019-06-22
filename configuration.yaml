@@ -55,6 +55,11 @@ cloud:
         - climate
         - camera
 
+# googlehome:
+#   devices:
+#     - host: 192.168.45.18
+#     - host: 192.168.45.19
+
 http:
 updater:
   reporting: false

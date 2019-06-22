@@ -9,6 +9,52 @@
       - sensor.master_entry_humidity
       - sensor.sunroom_humidity
 
+# Presence Sensors
+  - platform: mqtt
+    state_topic: 'monitor/pizero1/jonspixelbt'
+    value_template: '{{ value_json.confidence }}'
+    unit_of_measurement: '%'
+    name: 'Tracker Living Room Jon'
+  - platform: mqtt
+    state_topic: 'monitor/pizero2/jonspixelbt'
+    value_template: '{{ value_json.confidence }}'
+    unit_of_measurement: '%'
+    name: 'Tracker Garage Jon'
+  - platform: mqtt
+    state_topic: 'monitor/pizero1/laurasiphonebt'
+    value_template: '{{ value_json.confidence }}'
+    unit_of_measurement: '%'
+    name: 'Tracker Living Room Laura'
+  - platform: mqtt
+    state_topic: 'monitor/pizero2/laurasiphonebt'
+    value_template: '{{ value_json.confidence }}'
+    unit_of_measurement: '%'
+    name: 'Tracker Garage Laura'
+
+  - platform: min_max
+    name: "Jon Occupancy Confidence"
+    type: max
+    round_digits: 0
+    entity_ids:
+      - sensor.tracker_living_room_jon
+      - sensor.tracker_garage_jon
+  - platform: min_max
+    name: "Laura Occupancy Confidence"
+    type: max
+    round_digits: 0
+    entity_ids:
+      - sensor.tracker_living_room_laura
+      - sensor.tracker_garage_laura
+  - platform: min_max
+    name: "House Occupancy Confidence"
+    type: max
+    round_digits: 0
+    entity_ids:
+      - sensor.tracker_living_room_jon
+      - sensor.tracker_garage_jon
+      - sensor.tracker_living_room_laura
+      - sensor.tracker_garage_laura
+
 # Template Sensors
   - platform: template
     sensors:
@@ -152,8 +198,8 @@
         friendly_name: 'Master Bed Occupied'
       master_bed_people:
         value_template: >-
-          {% if   states.sensor.master_bed_value.state | int < 19500000 %}both
-          {% elif states.sensor.master_bed_value.state | int < 20400000 %}one
+          {% if   states.sensor.master_bed_value.state | int < -3300000 %}both
+          {% elif states.sensor.master_bed_value.state | int < -2680000 %}one
           {% else %} nobody {% endif %}
         friendly_name: 'Master Bed People'
 
