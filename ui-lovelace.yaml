@@ -19,6 +19,9 @@ resources:
     type: module
   - url: /community_plugin/simple-thermostat/simple-thermostat.js
     type: module
+  - url: /community_plugin/bar-card/bar-card.js
+    type: js
+
 views:
 ##########################################
 # HOME TAB
@@ -900,3 +903,22 @@ views:
       #         service: script.turn_on
       #         service_data:
       #           entity_id: script.test
+      - type: custom:bar-card
+        entities:
+          - sensor.tracker_garage_jon
+          - sensor.tracker_living_room_jon
+          - sensor.jon_occupancy_confidence
+          - sensor.tracker_garage_laura
+          - sensor.tracker_living_room_laura
+          - sensor.laura_occupancy_confidence
+          - sensor.house_occupancy_confidence
+          - device_tracker.jon_pi
+          - device_tracker.laura_pi
+
+      - type: entities
+        title: Toggles
+        show_header_toggle: false
+        entities:
+          - input_boolean.block_all_motion_lights
+          - input_boolean.motion_lights
+          - input_boolean.guests
