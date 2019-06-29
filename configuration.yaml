@@ -118,6 +118,10 @@ hass_opensprinkler:
   host: !secret os_host
   password: !secret os_passwd
 
+sleepiq:
+  username: !secret sleep_usr
+  password: !secret sleep_pwd
+
 doorbird:
   devices:
     - host: !secret db_ip
@@ -160,6 +164,7 @@ notify:
     chat_id: !secret telegram_chat
 telegram_bot:
   - platform: polling
+    parse_mode: html
     api_key: !secret telegram_api
     allowed_chat_ids:
       - !secret telegram_chat
@@ -209,7 +214,9 @@ discovery:
     - axis
     - plex_mediaserver
     - igd
-stream:
+    - homekit
+    
+# stream:
 breaking_changes:
 
 panel_iframe:
