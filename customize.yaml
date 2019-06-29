@@ -124,3 +124,11 @@ scene.equipment_room_enclosure_device_001_ph_sunset1:
   friendly_name: Sunset1
 scene.equipment_room_enclosure_device_001_ph_sunset2:
   friendly_name: Sunset2
+binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed:
+  friendly_name: Jon in bed?
+binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_is_in_bed:
+  friendly_name: Laura in bed?
+sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_sleepnumber:
+  friendly_name: Jons Sleep Number
+sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_sleepnumber:
+  friendly_name: Lauras Sleep Number

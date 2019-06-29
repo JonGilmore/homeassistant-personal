@@ -126,10 +126,10 @@
         device_class: light
         value_template: >-
           {{ states.sensor.main_tv_lux.state | int > 110 }}
-      nabu_casa_cloud:
-        friendly_name: 'Nabu Casa Cloud'
-        value_template: >-
-          {{ not states.binary_sensor.sleep_status.state or states.binary_sensor.vacation_status.state or states.binary_sensor.jon_presence.state == "off" or states.device_tracker.lauras_iphone.state != "home" }}
+      # nabu_casa_cloud:
+      #   friendly_name: 'Nabu Casa Cloud'
+      #   value_template: >-
+      #     {{ not states.binary_sensor.sleep_status.state or states.binary_sensor.vacation_status.state or states.binary_sensor.jon_presence.state == "off" or states.device_tracker.lauras_iphone.state != "home" }}
       anybody_home:
         friendly_name: 'Anybody Home'
         device_class: presence
@@ -167,30 +167,30 @@
       #     {{ states.device_tracker.laura_pi.state == 'home') }}
 
 
-# presence detection
-  - platform: bayesian
-    device_class: presence
-    prior: 0.5
-    name: 'Jon Presence'
-    probability_threshold: 0.9
-    observations:
-      - entity_id: 'device_tracker.jon_ot'
-        prob_given_true: 0.95
-        prob_given_false: 0.05
-        platform: 'state'
-        to_state: 'home'
-      - entity_id: 'device_tracker.pixel3'
-        prob_given_true: 0.9
-        prob_given_false: 0.1
-        platform: 'state'
-        to_state: 'home'
-      - entity_id: 'device_tracker.mnjgilmorem'
-        prob_given_true: 0.5
-        prob_given_false: 0.5
-        platform: 'state'
-        to_state: 'home'
-      - entity_id: 'binary_sensor.alarm_occupancy_status'
-        prob_given_true: 0.8
-        prob_given_false: 0.4
-        platform: 'state'
-        to_state: 'True'
+# # presence detection
+#   - platform: bayesian
+#     device_class: presence
+#     prior: 0.5
+#     name: 'Jon Presence'
+#     probability_threshold: 0.9
+#     observations:
+#       - entity_id: 'device_tracker.jon_ot'
+#         prob_given_true: 0.95
+#         prob_given_false: 0.05
+#         platform: 'state'
+#         to_state: 'home'
+#       - entity_id: 'device_tracker.pixel3'
+#         prob_given_true: 0.9
+#         prob_given_false: 0.1
+#         platform: 'state'
+#         to_state: 'home'
+#       - entity_id: 'device_tracker.mnjgilmorem'
+#         prob_given_true: 0.5
+#         prob_given_false: 0.5
+#         platform: 'state'
+#         to_state: 'home'
+#       - entity_id: 'binary_sensor.alarm_occupancy_status'
+#         prob_given_true: 0.8
+#         prob_given_false: 0.4
+#         platform: 'state'
+#         to_state: 'True'
