@@ -93,10 +93,10 @@
         data:
           photo:
             - url: !secret hik_driveway_pic
-    - service: tts.google_say
-      entity_id: media_player.kitchen_ghm
-      data:
-        message: 'Driveway activity detected'
+    # - service: tts.google_say
+    #   entity_id: media_player.kitchen_ghm
+    #   data:
+    #     message: 'Driveway activity detected'
 #########################################
 # deck motion (only while alarm is not disarmed) - telegram
 - alias: "deck motion (only while alarm is not disarmed) - telegram"
@@ -1112,7 +1112,7 @@
       entity_id: sensor.kitchen_pir
       to: 'Normal'
       for:
-        minutes: 10
+        minutes: 15
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_kitchen_off
@@ -1205,12 +1205,14 @@
   condition:
     condition: or
     conditions:
-      - condition: state
-        entity_id: binary_sensor.alarm_occupancy_status
-        state: 'off'
+      # - condition: state
+      #   entity_id: binary_sensor.alarm_occupancy_status
+      #   state: 'off'
       - condition: state
         entity_id: binary_sensor.sleep_status
         state: 'on'
+      - condition: template
+        value_template: "{{ not is_state('person.jon', 'home') }}"
   action:
     - service: script.turn_on
       data_template:
@@ -1250,7 +1252,7 @@
       from: 'on'
       to: 'off'
       for:
-        minutes: 20
+        minutes: 30
   action:
     - service: scene.turn_on
       entity_id: scene.equipment_room_enclosure_device_001_ph_basement_off
@@ -1507,14 +1509,3 @@
     - service: mqtt.publish
       data:
         topic: "monitor/scan/depart"
-
-# ########################################
-# # Jon in bed
-# - alias: 'Jon in bed'
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed
-#   action:
-#     - service: notify.telegram_jon
-#       data_template:
-#         message: '{{ trigger.to_state.attributes.friendly_name }} changed to {{ trigger.to_state.state }}.'

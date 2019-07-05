@@ -162,6 +162,9 @@ notify:
   - name: telegram_jon
     platform: telegram
     chat_id: !secret telegram_chat
+  # - name: android_jon
+  #   platform: fcm-android
+
 telegram_bot:
   - platform: polling
     parse_mode: html
@@ -169,8 +172,8 @@ telegram_bot:
     allowed_chat_ids:
       - !secret telegram_chat
 
-owntracks:
-  max_gps_accuracy: 100
+# owntracks:
+#   max_gps_accuracy: 100
 
 ####################################################
 #                     Includes                     #
@@ -217,6 +220,7 @@ discovery:
     - homekit
     
 # stream:
+mobile_app:
 breaking_changes:
 
 panel_iframe:

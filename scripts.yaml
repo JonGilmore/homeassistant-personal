@@ -95,6 +95,20 @@
       - service: telegram_bot.send_video
         data_template:
           file: "/tmp/kitchen.mp4"
+  test_notification:
+    alias: "test notification"
+    sequence:
+      # - service: notify.android_jon
+      #   data:
+      #     message: "Testing a notification"
+      - service: shell_command.cam_driveway_vid
+        data:
+          filename: /tmp/driveway.mp4
+      - delay:
+          seconds: 12
+      - service: notify.android_jon
+        data_template:
+          image: "/tmp/driveway.mp4"
 
   # test:
   #   alias: "test telegram"

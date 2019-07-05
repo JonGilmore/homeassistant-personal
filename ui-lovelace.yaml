@@ -21,6 +21,12 @@ resources:
     type: module
   - url: /community_plugin/bar-card/bar-card.js
     type: js
+  - url: /community_plugin/mini-graph-card/mini-graph-card.js
+    type: module
+  - url: /community_plugin/text-divider-row/text-divider-row.js
+    type: module
+  - url: /community_plugin/simple-thermostat/simple-thermostat.js
+    type: module
 
 views:
 ##########################################
@@ -111,6 +117,14 @@ views:
               service: script.turn_on
               service_data:
                 entity_id: script.video_kitchen
+          - type: "custom:button-card"
+            icon: mdi:knife
+            color: rgb(28, 128, 199)
+            tap_action:
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.test_notification
       - type: entity-filter
         entities:
           - light.basement_bar
@@ -196,6 +210,13 @@ views:
           - binary_sensor.light_inside
           - sensor.main_tv_lux
           - sensor.period_of_day
+      - type: custom:mini-graph-card
+        name: Lux Sensors
+        icon: mdi:brightness-6
+        entities:
+          - sensor.main_tv_lux
+          - sensor.sitting_room_lux
+
 ##########################################
 # THERMOSTAT TAB
 ##########################################
@@ -203,13 +224,17 @@ views:
     id: climate
     icon: mdi:temperature-fahrenheit
     cards:
-      - type: thermostat
+      - type: 'custom:simple-thermostat'
         entity: climate.basement_thermostat
-      - type: thermostat
+      - type: 'custom:simple-thermostat'
         entity: climate.main_thermostat
-      - type: thermostat
+        sensors:
+          - entity: sensor.office_multisensor_relative_humidity
+      - type: 'custom:simple-thermostat'
         entity: climate.upstairs_thermostat
-      - type: thermostat
+        sensors:
+          - entity: sensor.master_entry_humidity
+      - type: 'custom:simple-thermostat'
         entity: climate.garage_thermostat
       - type: entities
         title: Temperatures
@@ -855,9 +880,8 @@ views:
         image:
         camera_image: camera.driveway
         title: Exterior
-        entities:
+        entities:         
           - scene.equipment_room_enclosure_device_001_ph_sunset1
-            # icon: mdi:lightbulb-on-outline
       - type: glance
         title: Upgrades?
         entities:
@@ -870,28 +894,29 @@ views:
           - sensor.disk_use_percent
           - sensor.processor_use
           - sensor.memory_use_percent
-      - type: entities
-        title: Unifi Stats
-        show_header_toggle: false
-        entities:
-          - sensor.unifi_gateway_alerts
-          - sensor.unifi_gateway_firmware_upgradable
-          - sensor.unifi_gateway_lan
-          - sensor.unifi_gateway_vpn
-          - sensor.unifi_gateway_wan
-          - sensor.unifi_gateway_wlan
-          - sensor.unifi_gateway_www
+          - sensor.cpu_temperature
+      # - type: entities
+      #   title: Unifi Stats
+      #   show_header_toggle: false
+      #   entities:
+      #     - sensor.unifi_gateway_alerts
+      #     - sensor.unifi_gateway_firmware_upgradable
+      #     - sensor.unifi_gateway_lan
+      #     - sensor.unifi_gateway_vpn
+      #     - sensor.unifi_gateway_wan
+      #     - sensor.unifi_gateway_wlan
+      #     - sensor.unifi_gateway_www
       - type: 'custom:group-card'
         card:
           type: entities
           title: Battery Status*
           show_header_toggle: false
         group: group.battery_status
-      - type: 'custom:group-card'
-        card:
-          type: entities*
-          title: Battery Alert*
-          show_header_toggle: false*
+      # - type: 'custom:group-card'
+      #   card:
+      #     type: entities*
+      #     title: Battery Alert*
+      #     show_header_toggle: false*
         group: group.battery_alert*
       # - type: horizontal-stack
       #   cards:
@@ -924,6 +949,7 @@ views:
         entities:
           - binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed
           - binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_is_in_bed
+          - type: divider
           - sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_sleepnumber
           - sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_sleepnumber
 
