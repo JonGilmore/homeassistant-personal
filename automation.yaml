@@ -577,9 +577,12 @@
     - platform: time
       at: '20:00:00'
   condition:
-    condition: state
-    entity_id: climate.main_thermostat
-    state: cool
+    - condition: state
+      entity_id: climate.main_thermostat
+      state: cool
+    - condition: state
+      entity_id: binary_sensor.vacation_status
+      state: 'off'
   action:
    - service: light.turn_on
      entity_id: light.master_bedroom_master_fan
@@ -1439,7 +1442,7 @@
         dev_id: laura_pi
         location_name: not_home
         source_type: bluetooth
-## HA restart - restart monitor
+## HA restart - restart monitor - ha boot
 - alias: 'Restart Monitor service on HA startup'
   initial_state: 'on'
   trigger:
@@ -1449,6 +1452,7 @@
   - service: mqtt.publish
     data:
       topic: "monitor/scan/restart"
+  - service: speedtestdotnet.speedtest
 
 # ## Publish Message - Arrival Scan
 # - alias: Publish Message - Arrival Scan

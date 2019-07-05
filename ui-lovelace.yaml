@@ -7,17 +7,11 @@ resources:
     type: js
   - url: /community_plugin/lovelace-card-tools/card-tools.js
     type: js
-  # - url: /customcards/github/custom-cards/tracker-card.js?track=true
-  #   type: module
   - url: /community_plugin/button-card/button-card.js
-    type: module
-  - url: /community_plugin/group-card/group-card.js
     type: module
   - url: /community_plugin/group-card/group-card.js
     type: js
   - url: /community_plugin/decluttering-card/decluttering-card.js
-    type: module
-  - url: /community_plugin/simple-thermostat/simple-thermostat.js
     type: module
   - url: /community_plugin/bar-card/bar-card.js
     type: js
@@ -117,14 +111,6 @@ views:
               service: script.turn_on
               service_data:
                 entity_id: script.video_kitchen
-          - type: "custom:button-card"
-            icon: mdi:knife
-            color: rgb(28, 128, 199)
-            tap_action:
-              action: call-service
-              service: script.turn_on
-              service_data:
-                entity_id: script.test_notification
       - type: entity-filter
         entities:
           - light.basement_bar
@@ -208,14 +194,15 @@ views:
           - switch.water_main_shut_off
           - switch.equipment_room_recirculation_pump
           - binary_sensor.light_inside
-          - sensor.main_tv_lux
           - sensor.period_of_day
       - type: custom:mini-graph-card
         name: Lux Sensors
         icon: mdi:brightness-6
         entities:
-          - sensor.main_tv_lux
-          - sensor.sitting_room_lux
+          - entity: sensor.main_tv_lux
+            name: Main TV Lux
+          - entity: sensor.sitting_room_lux
+            name: Sitting Room Lux
 
 ##########################################
 # THERMOSTAT TAB
@@ -722,7 +709,7 @@ views:
 ##########################################
   - title: ST Devices
     id: st_devices
-    icon: mdi:battery-charging-wireless-90
+    icon: mdi:cellphone-wireless
     cards:
       - type: entities
         title: ST Devices
@@ -906,28 +893,6 @@ views:
       #     - sensor.unifi_gateway_wan
       #     - sensor.unifi_gateway_wlan
       #     - sensor.unifi_gateway_www
-      - type: 'custom:group-card'
-        card:
-          type: entities
-          title: Battery Status*
-          show_header_toggle: false
-        group: group.battery_status
-      # - type: 'custom:group-card'
-      #   card:
-      #     type: entities*
-      #     title: Battery Alert*
-      #     show_header_toggle: false*
-        group: group.battery_alert*
-      # - type: horizontal-stack
-      #   cards:
-      #     - type: "custom:button-card"
-      #       icon: mdi:home
-      #       color: rgb(28, 128, 199)
-      #       tap_action:
-      #         action: call-service
-      #         service: script.turn_on
-      #         service_data:
-      #           entity_id: script.test
       - type: custom:bar-card
         entities:
           - sensor.tracker_garage_jon
@@ -952,7 +917,6 @@ views:
           - type: divider
           - sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_sleepnumber
           - sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_sleepnumber
-
       - type: entities
         title: Toggles
         show_header_toggle: false
@@ -960,3 +924,46 @@ views:
           - input_boolean.block_all_motion_lights
           - input_boolean.motion_lights
           - input_boolean.guests
+      - type: custom:mini-graph-card
+        name: Internet
+        icon: mdi:server
+        entities:
+          - entity: sensor.speedtest_download
+            name: download
+          - entity: sensor.speedtest_ping
+            name: ping
+          - entity: sensor.speedtest_upload
+            name: upload
+      - type: entities
+        title: Pi-Hole
+        show_header_toggle: false
+        entities:
+          - sensor.pi_hole_ads_blocked_today
+          - sensor.pi_hole_ads_percentage_blocked_today
+          - sensor.pi_hole_dns_queries_cached
+          - sensor.pi_hole_dns_queries_forwarded
+          - sensor.pi_hole_dns_queries_today
+          - sensor.pi_hole_dns_unique_clients
+          - sensor.pi_hole_dns_unique_domains
+          - sensor.pi_hole_domains_blocked
+
+##########################################
+# BATTERY TAB
+##########################################
+  - title: Battery Devices
+    id: battery_devices
+    icon: mdi:battery-charging-wireless-90
+    cards:
+      - type: 'custom:group-card'
+        card:
+          type: entities
+          title: Battery Status
+          show_header_toggle: false
+        group: group.battery_status
+      - type: 'custom:group-card'
+        card:
+          type: entities
+          title: Battery Alert
+          show_header_toggle: false
+        group: group.battery_alert
+

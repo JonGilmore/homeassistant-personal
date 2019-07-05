@@ -188,7 +188,7 @@ shell_command: !include shell_commands.yaml
 switch: !include switches.yaml
 cover: !include covers.yaml
 camera: !include cameras.yaml
-rest_command: !include rest_commands.yaml
+# rest_command: !include rest_commands.yaml
 input_boolean: !include input_boolean.yaml
 timer: !include timers.yaml
 zone: !include zones.yaml
@@ -218,7 +218,14 @@ discovery:
     - plex_mediaserver
     - igd
     - homekit
-    
+
+# fastdotcom:
+#   scan_interval:
+#     minutes: 119
+speedtestdotnet:
+  scan_interval:
+    minutes: 121
+
 # stream:
 mobile_app:
 breaking_changes:

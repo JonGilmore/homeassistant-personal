@@ -88,40 +88,62 @@
   - platform: template
     sensors:
       armed_status:
-        entity_id:
-          - alarm_control_panel.area001
+        entity_id: alarm_control_panel.area001
         value_template: '{{ states.alarm_control_panel.area001.attributes["armed_status"] }}'
         friendly_name: 'House Armed Status'
       arm_up_state:
-        entity_id:
-          - alarm_control_panel.area001
+        entity_id: alarm_control_panel.area001
         value_template: '{{ states.alarm_control_panel.area001.attributes["arm_up_state"] }}'
         friendly_name: 'House Arm Up State'
       alarm_state:
-        entity_id:
-          - alarm_control_panel.area001
+        entity_id: alarm_control_panel.area001
         value_template: '{{ states.alarm_control_panel.area001.attributes["alarm_state"] }}'
         friendly_name: 'House Alarm State'
       garage_double_state:
-        entity_id:
-          - sensor.double_garage
+        entity_id: sensor.double_garage
         value_template: "{% if states.sensor.double_garage.state == 'Normal' %}closed{% elif states.sensor.double_garage.state == 'Violated' %}open{% else %}unknown{% endif %}"
         friendly_name: 'Garage Double State'
       garage_single_state:
-        entity_id:
-          - sensor.single_garage
+        entity_id: sensor.single_garage
         value_template: "{% if states.sensor.single_garage.state == 'Normal' %}closed{% elif states.sensor.single_garage.state == 'Violated' %}open{% else %}unknown{% endif %}"
         friendly_name: 'Garage Single State'
       garage_fridge_power:
-        entity_id:
-          - switch.garage_fridge
+        entity_id: switch.garage_fridge
         value_template: '{{ states.switch.garage_fridge.attributes["current_power_w"] }}'
         friendly_name: 'Garage Fridge Power'
       garage_fridge_energy:
-        entity_id:
-          - switch.garage_fridge
+        entity_id: switch.garage_fridge
         value_template: '{{ states.switch.garage_fridge.attributes["today_energy_kwh"] }}'
         friendly_name: 'Garage Fridge Energy'
+      sensor_count:
+        friendly_name: 'Number of Sensors'
+        value_template: >
+          {%- set domains = ['sensor'] -%}
+          {%- for domain in domains -%}
+            {%- for item in states[domain] -%}
+              {% if loop.first %}
+                {{loop.length}}
+              {% endif %}
+            {%- endfor -%}
+          {%- endfor -%}
+      lights_on:
+        entity_id: sensor.time
+        friendly_name: Lights
+        unit_of_measurement: "On"
+        value_template: "{{ states.light|selectattr('state', 'equalto', 'on')|list|length }}"
+
+  - platform: pi_hole
+    host: !secret pi_hole
+    monitored_conditions:
+      - ads_blocked_today
+      - ads_percentage_today
+      - dns_queries_today
+      - domains_being_blocked
+      - queries_cached
+      - queries_forwarded
+      - unique_clients
+      - unique_domains
+
 
 # DARK SKY
   - platform: darksky
@@ -241,12 +263,10 @@
     command: !secret grafana_tmp
   - platform: command_line
     name: "CPU Temperature"
-    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    command: "cat /sys/class/thermal/thermal_zone3/temp"
     value_template: '{{ value | multiply(0.001) | round(2) }}'
     # device_class: "temperature"
     unit_of_measurement: "°C"
-
-
 
   - platform: systemmonitor
     resources:
@@ -282,6 +302,7 @@
             {% set text = text[:last_comma] + ' and' + text[last_comma + 1:] %}
           {% endif %}
           {{ text }}
+
   # - platform: unifigateway
   #   host: !secret unifi_ip
   #   username: !secret unifi_usr
