@@ -606,8 +606,8 @@
       entity_id: binary_sensor.vacation_status
       to: 'on'
   action:
-    - service: homeassistant.turn_off
-      entity_id: switch.water_main_shut_off
+    # - service: homeassistant.turn_off
+    #   entity_id: switch.water_main_shut_off
     # - service: climate.set_temperature
     #   data:
     #     entity_id:
@@ -627,12 +627,13 @@
     - service: econet.add_vacation
       data:
         entity_id: water_heater.heat_pump_water_heater_gen_4
+        end_date: "{{ (now().strftime('%s') | float + (10080*60)) }}"
     - service: homeassistant.turn_off
       entity_id: switch.equipment_room_recirculation_pump
     - service: notify.telegram_jon
       data:
         title: "Ran vacation mode: on!"
-        message:  "turned off water main, set back temps, turned off recirc pump, set vacation mode on water heater"
+        message:  "set back temps, turned off recirc pump, set vacation mode on water heater"
 #########################################
 # on vacation, check the front door lock
 - alias: "on vacation, check the front door lock"
@@ -1513,3 +1514,17 @@
     - service: mqtt.publish
       data:
         topic: "monitor/scan/depart"
+########################################
+# patio fan off
+- alias: 'patio fan off'
+  trigger:
+    - platform: time
+      at: '00:00:00'
+    - platform: time
+      at: '03:00:00'
+    - platform: time
+      at: '05:00:00'
+    - platform: time
+      at: '07:00:00'
+  action:
+    - service: rest_command.patio_fan_off

@@ -242,15 +242,28 @@
 # LOAD SENSORS
   - platform: template
     sensors:
+      ############################   esp8266 - esphome
+      # master_bed_occupied:
+      #   value_template: >-
+      #     {% if states.sensor.master_bed_value.state | int < 20400000 %}occupied
+      #     {% else %} unoccupied {% endif %}
+      #   friendly_name: 'Master Bed Occupied'
+      # master_bed_people:
+      #   value_template: >-
+      #     {% if   states.sensor.master_bed_value.state | int < -3300000 %}both
+      #     {% elif states.sensor.master_bed_value.state | int < -2680000 %}one
+      #     {% else %} nobody {% endif %}
+      #   friendly_name: 'Master Bed People'
+      ############################   SleepNumber
       master_bed_occupied:
         value_template: >-
-          {% if states.sensor.master_bed_value.state | int < 20400000 %}occupied
+          {% if (states.binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed.state == "on") or (states.binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_is_in_bed.state == "on") %}occupied
           {% else %} unoccupied {% endif %}
         friendly_name: 'Master Bed Occupied'
       master_bed_people:
         value_template: >-
-          {% if   states.sensor.master_bed_value.state | int < -3300000 %}both
-          {% elif states.sensor.master_bed_value.state | int < -2680000 %}one
+          {% if   (states.binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed.state == "on") and (states.binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_is_in_bed.state == "on") %}both
+          {% elif (states.binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed.state == "on") or (states.binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_is_in_bed.state == "on") %}one
           {% else %} nobody {% endif %}
         friendly_name: 'Master Bed People'
 
