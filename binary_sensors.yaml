@@ -73,8 +73,8 @@
         value_template: >-
           {{ (states.sensor.foyer_pir.state == "Violated")
           or (states.sensor.kitchen_pir.state == "Violated")
-          or (states.binary_sensor.living_room_multi_pir.state == "on")
-          or (states.binary_sensor.office_multi_pir.state == "on") }}
+          or (states.binary_sensor.living_room_multi_motion.state == "on")
+          or (states.binary_sensor.office_multi_motion.state == "on") }}
       garage_doors:
         friendly_name: 'Garage Doors'
         device_class: garage_door
