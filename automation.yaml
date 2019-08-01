@@ -1058,15 +1058,9 @@
     entity_id: binary_sensor.sitting_room_pir
     to: "on"
   condition:
-    # - condition: state
-    #   entity_id: sensor.master_bed_people
-    #   state: 'nobody'
     - condition: state
-      entity_id: binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_jon_is_in_bed
-      state: 'off'
-    - condition: state
-      entity_id: binary_sensor.sleepnumber_firmness_control_sleepiq_dual_boxed_laura_is_in_bed
-      state: 'off'
+      entity_id: sensor.master_bed_people
+      state: 'nobody'
     - condition: state
       entity_id: input_boolean.motion_lights
       state: 'on'
@@ -1182,7 +1176,7 @@
 # - alias: kitchen motion light
 #   trigger:
 #     platform: state
-#     entity_id: binary_sensor.living_room_multi_pir
+#     entity_id: binary_sensor.living_room_multi_motion
 #     to: "Violated"
 #   condition:
 #     - condition: state
@@ -1234,7 +1228,8 @@
     - service: automation.turn_off
       entity_id: automation.person_motion_template
     - delay:
-        minutes: 1
+#        minutes: 2
+        seconds: 15
     - service: automation.turn_on
       entity_id: automation.person_motion_template
 ########################################
@@ -1368,8 +1363,8 @@
   trigger:
     - platform: state
       entity_id: 
-        - binary_sensor.living_room_multisensor_tamper
-        - binary_sensor.office_multisensor_tamper
+        - binary_sensor.living_room_multi_tamper
+        - binary_sensor.office_multi_tamper
       to: 'on'
   action:
     - service: notify.telegram_jon

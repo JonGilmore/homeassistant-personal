@@ -66,9 +66,9 @@ updater:
 tts:
   - platform: google_translate
     service_name: google_say
-recorder:
-  db_url: !secret url_db
-  purge_keep_days: 3
+# recorder:
+#   db_url: !secret url_db
+#   purge_keep_days: 3
 
 system_health:
 
@@ -195,6 +195,10 @@ zone: !include zones.yaml
 
 logger:
   default: info
+  logs:
+    # homeassistant.components.lutron: debug
+    custom_components.lutron: debug
+    pylutron: debug
 
 history:
 sun:
@@ -228,7 +232,7 @@ speedtestdotnet:
 
 # stream:
 mobile_app:
-breaking_changes:
+# breaking_changes:
 
 panel_iframe:
   grafana:
