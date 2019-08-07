@@ -98,7 +98,7 @@ elkm1:
   area:
     exclude: [2-8]
   zone:
-    exclude: [17-24, 29-32, 37-208]
+    exclude: [17-24, 29-32, 41-208]
   output:
     exclude: [1-8, 11-208]
   counter:
