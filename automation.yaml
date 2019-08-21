@@ -194,6 +194,43 @@
           - switch.exterior_foyer
           - switch.exterior_cans
 #########################################
+# deck motion (person & line crossing), dark out, occupied, deck lights on
+- alias: "deck motion (person & line crossing), dark out, occupied, deck lights on"
+  trigger:
+    - platform: state
+      entity_id: 
+        - binary_sensor.deck_line_crossing
+        - binary_sensor.deck_person
+      to: "on"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.alarm_occupancy_status
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.light_inside
+        state: 'off'
+      - condition: sun
+        after: sunset
+        after_offset: '-0:10:00'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.exterior_keypad_deck
+# deck lights off (when no line crossing or person detection)
+- alias: "deck lights off (when no line crossing or person detection)"
+  trigger:
+    platform: state
+    entity_id: 
+      - binary_sensor.deck_line_crossing
+      - binary_sensor.deck_person
+    to: "off"
+    for:
+      minutes: 10
+  action:
+    - service: scene.turn_on
+      entity_id: scene.exterior_keypad_deck
+#########################################
 # wake up - good morning
 - alias: "wake up"
   trigger:
@@ -1523,3 +1560,19 @@
       at: '07:00:00'
   action:
     - service: rest_command.patio_fan_off
+########################################
+# party lights
+- alias: party lights
+  trigger:
+    - platform: state
+      entity_id: sensor.basement_door
+      to: 'Violated'
+  condition:
+    - condition: state
+      entity_id: input_boolean.party
+      state: 'on'
+  action:
+    - service: scene.turn_on
+      entity_id: 
+        - scene.basement_keypad_theater
+        - scene.basement_keypad_bar

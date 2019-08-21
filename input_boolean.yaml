@@ -10,3 +10,5 @@
     name: Morning Lights Run Once
   guests:
     name: Guests?
+  party:
+      name: Party?
