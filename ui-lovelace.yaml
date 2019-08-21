@@ -21,7 +21,9 @@ resources:
     type: module
   - url: /community_plugin/simple-thermostat/simple-thermostat.js
     type: module
-
+  - url: /community_plugin/search-card/search-card.js
+    type: module 
+    
 views:
 ##########################################
 # HOME TAB
@@ -63,6 +65,7 @@ views:
         entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
       - type: entities
+        title: Presence
         show_header_toggle: false
         entities:
           - person.jon
@@ -195,6 +198,7 @@ views:
           - switch.equipment_room_recirculation_pump
           - binary_sensor.light_inside
           - sensor.period_of_day
+          - water_heater.heat_pump_water_heater_gen_4
       - type: custom:mini-graph-card
         name: Lux Sensors
         icon: mdi:brightness-6
@@ -926,6 +930,7 @@ views:
           - input_boolean.block_all_motion_lights
           - input_boolean.motion_lights
           - input_boolean.guests
+          - input_boolean.party
       - type: custom:mini-graph-card
         name: Internet
         icon: mdi:server
@@ -948,6 +953,8 @@ views:
           - sensor.pi_hole_dns_unique_clients
           - sensor.pi_hole_dns_unique_domains
           - sensor.pi_hole_domains_blocked
+      - type: custom:search-card
+        max_results: 10
 
 ##########################################
 # BATTERY TAB

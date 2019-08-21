@@ -66,9 +66,12 @@ updater:
 tts:
   - platform: google_translate
     service_name: google_say
-# recorder:
-#   db_url: !secret url_db
-#   purge_keep_days: 3
+recorder:
+  purge_keep_days: 1
+  purge_interval: 1
+  include:
+    domains:
+      - sensor
 
 system_health:
 
@@ -141,18 +144,17 @@ water_heater:
     username: !secret econet_user
     password: !secret econet_pwd
 
-device_tracker:
-  - platform: unifi
-    host: !secret unifi_ip
-    verify_ssl: false
-    username: !secret unifi_usr
-    password: !secret unifi_pwd
-    # consider_home: 600
-    ssid_filter:
-      - 'ReedingRainbow'
-    new_device_defaults:
-      track_new_devices: true
-      hide_if_away: false
+# device_tracker:
+#   - platform: unifi
+#     host: !secret unifi_ip
+#     verify_ssl: false
+#     username: !secret unifi_usr
+#     password: !secret unifi_pwd
+#     ssid_filter:
+#       - 'ReedingRainbow'
+#     new_device_defaults:
+#       track_new_devices: false
+#       hide_if_away: false
 
 scene:
   platform: hunterdouglas_powerview
@@ -194,7 +196,7 @@ timer: !include timers.yaml
 zone: !include zones.yaml
 
 logger:
-  default: info
+  default: error
   logs:
     # homeassistant.components.lutron: debug
     custom_components.lutron: debug
@@ -223,9 +225,6 @@ discovery:
     - igd
     - homekit
 
-# fastdotcom:
-#   scan_interval:
-#     minutes: 119
 speedtestdotnet:
   scan_interval:
     minutes: 121
@@ -239,3 +238,10 @@ panel_iframe:
     title: 'Grafana'
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
+
+isy994:
+  host: !secret url_isy
+  username: !secret isy_user
+  password: !secret isy_passwd
+
+browser_mod:
