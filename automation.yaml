@@ -198,41 +198,41 @@
 - alias: "deck motion (person & line crossing), dark out, occupied, deck lights on"
   trigger:
     - platform: state
-      entity_id: 
-        - binary_sensor.deck_line_crossing
-        - binary_sensor.deck_person
+      entity_id: binary_sensor.deck_person
       to: "on"
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: binary_sensor.alarm_occupancy_status
-        state: 'on'
-      - condition: state
-        entity_id: binary_sensor.light_inside
-        state: 'off'
-      - condition: sun
-        after: sunset
-        after_offset: '-0:10:00'
+    - condition: state
+      entity_id: binary_sensor.alarm_occupancy_status
+      state: 'on'
+    - condition: state
+      entity_id: sensor.period_of_day
+      state: 'night'
   action:
     - service: scene.turn_on
       entity_id: scene.exterior_keypad_deck
 # deck lights off (when no line crossing or person detection)
 - alias: "deck lights off (when no line crossing or person detection)"
   trigger:
-    platform: state
-    entity_id: 
-      - binary_sensor.deck_line_crossing
-      - binary_sensor.deck_person
-    to: "off"
-    for:
-      minutes: 10
+    - platform: state
+      entity_id: binary_sensor.deck_person
+      to: "off"
+      for:
+        minutes: 10
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: light.exterior_deck
+        state: 'on'
+      - condition: state
+        entity_id: switch.exterior_posts
+        state: 'on'
   action:
     - service: scene.turn_on
       entity_id: scene.exterior_keypad_deck
 #########################################
-# wake up - good morning
-- alias: "wake up"
+# wake up - good morning (only between Oct-May)
+- alias: "wake up - good morning (only between Oct-May)"
   trigger:
     - platform: state
       entity_id: binary_sensor.sleep_status
@@ -242,6 +242,10 @@
     - condition: state
       entity_id: binary_sensor.light_inside
       state: 'off'
+    - condition: template
+      value_template: '{{ now().strftime("%m")|int > 10 }}'
+    - condition: template
+      value_template: '{{ now().strftime("%m")|int < 4 }}'
   action:
     - service: homeassistant.turn_on
       entity_id:
@@ -471,43 +475,43 @@
         operation_mode: cool
 #########################################
 # at bedtime, lock the front & garage door locks, set the HVAC fans to on, turn off recirculation pump, turn off all lights & xmas lights
-# - alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.sleep_status
-#       to: 'on'
-#   action:
-#     - service: lock.lock
-#       data:
-#         entity_id:
-#           - lock.garage_door_lock
-#           - lock.front_door_lock
-#     - service: climate.set_fan_mode
-#       data:
-#         entity_id:
-#           - climate.basement_thermostat
-#           - climate.main_thermostat
-#           - climate.upstairs_thermostat
-#         fan_mode: 'on'
-#     - service: homeassistant.turn_off
-#       entity_id: switch.equipment_room_recirculation_pump
-#     - service: scene.turn_on
-#       entity_id: scene.equipment_room_enclosure_device_001_ph_all_but_master
+- alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
+  action:
+    - service: lock.lock
+      data:
+        entity_id:
+          - lock.garage_door_lock
+          - lock.front_door_lock
+    - service: climate.set_fan_mode
+      data:
+        entity_id:
+          - climate.basement_thermostat
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
+        fan_mode: 'on'
+    - service: homeassistant.turn_off
+      entity_id: switch.equipment_room_recirculation_pump
+    - service: scene.turn_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_all_but_master
 #########################################
 # done sleeping, turn the HVAC fan off
-# - alias: "done sleeping, turn the HVAC fan off"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.sleep_status
-#       to: 'off'
-#   action:
-#     - service: climate.set_fan_mode
-#       data:
-#         entity_id:
-#           - climate.basement_thermostat
-#           - climate.main_thermostat
-#           - climate.upstairs_thermostat
-#         fan_mode: 'auto'
+- alias: "done sleeping, turn the HVAC fan off"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      to: 'off'
+  action:
+    - service: climate.set_fan_mode
+      data:
+        entity_id:
+          - climate.basement_thermostat
+          - climate.main_thermostat
+          - climate.upstairs_thermostat
+        fan_mode: 'auto'
 #########################################
 # away, turn the HVAC fans on & the recirculation pump off
 - alias: "away, turn the HVAC fans on & the recirculation pump off"
@@ -817,46 +821,46 @@
         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
 #########################################
 # bedtime, garage check
-# - alias: "bedtime, garage check"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.sleep_status
-#       to: 'on'
-#   condition:
-#     condition: or
-#     conditions:
-#       - condition: state
-#         entity_id: sensor.double_garage
-#         state: 'Violated'
-#       - condition: state
-#         entity_id: sensor.single_garage
-#         state: 'Violated'
-#   action:
-#     - service: notify.telegram_jon
-#       data_template:
-#         title: "Garage Door is Open!"
-#         message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
+- alias: "bedtime, garage check"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: sensor.double_garage
+        state: 'Violated'
+      - condition: state
+        entity_id: sensor.single_garage
+        state: 'Violated'
+  action:
+    - service: notify.telegram_jon
+      data_template:
+        title: "Garage Door is Open!"
+        message:  "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}!"
 #########################################
 # bedtime, doors unlocked and notify
-# - alias: "bedtime, doors unlocked and notify"
-#   trigger:
-#     - platform: state
-#       entity_id: binary_sensor.sleep_status
-#       to: 'on'
-#   condition:
-#     condition: or
-#     conditions:
-#       - condition: state
-#         entity_id: lock.front_door_lock
-#         state: 'unlocked'
-#       - condition: state
-#         entity_id: lock.garage_door_lock
-#         state: 'unlocked'
-#   action:
-#     - service: notify.telegram_jon
-#       data:
-#         title: "Door(s) UNLOCKED!"
-#         message:  "Locking the door(s)"
+- alias: "bedtime, doors unlocked and notify"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      to: 'on'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: lock.front_door_lock
+        state: 'unlocked'
+      - condition: state
+        entity_id: lock.garage_door_lock
+        state: 'unlocked'
+  action:
+    - service: notify.telegram_jon
+      data:
+        title: "Door(s) UNLOCKED!"
+        message:  "Locking the door(s)"
 #########################################
 # # battery life notifications
 # - alias: Low Battery Notification
