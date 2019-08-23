@@ -196,26 +196,6 @@
          {% elif (states.sun.sun.attributes.elevation) < -4 %}mdi:weather-night
          {% else %}mdi:weather-sunny
          {% endif %}
-      # dark_outside:
-      #   friendly_name: 'Dark? (solar angle)'
-      #   value_template: >-
-      #     {%if (states.sensor.solar_angle.state |int < -1) %}true
-      #     {% elif ( (states.sun.sun.attributes.elevation | int < 4.5) and (states.sensor.dark_sky_cloud_coverage.state | int > 80)) %}true
-      #     {% elif ( (states.sun.sun.attributes.elevation | int < 6.5) and (states.sensor.dark_sky_cloud_coverage.state | int > 85)) %}true
-      #     {% elif (states.sensor.dark_sky_cloud_coverage.state | int > 90) %}true
-      #     {% else %} false {% endif %}
-      # solar_angle:
-      #   friendly_name: 'Solar Angle'
-      #   value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
-      #   unit_of_measurement: '°'
-      # time_of_day:
-      #   friendly_name: "Time of Day"
-      #   value_template: >-
-      #     {% if   (states.sensor.main_tv_lux.state | int < 250) and (sensor.time_of_day.state == "day"  ) %}dusk
-      #     {% elif (states.sensor.main_tv_lux.state | int < 125) and (sensor.time_of_day.state == "dusk" ) %}night
-      #     {% elif (states.sensor.main_tv_lux.state | int > 25) and (sensor.time_of_day.state == "night") %}dawn
-      #     {% elif (states.sensor.main_tv_lux.state | int > 75) and (sensor.time_of_day.state == "dawn" ) %}day
-      #     {% else %} error {% endif %}
 
 # Target Humidity States
   - platform: template
