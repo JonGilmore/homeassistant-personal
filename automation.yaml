@@ -151,9 +151,7 @@
         after_offset: '-1:00:00'
   action:
     - service: homeassistant.turn_on
-      entity_id:
-        - switch.exterior_foyer
-        - switch.exterior_cans
+      entity_id: switch.exterior_foyer, switch.exterior_cans
 #########################################
 # front door motion, dark out, unoccupied, foyer and ext on for 10 min
 - alias: "front door line, foyer on"
@@ -175,9 +173,7 @@
         after_offset: '-1:00:00'
   action:
     - service: homeassistant.turn_on
-      entity_id:
-        - switch.exterior_foyer
-        - switch.exterior_cans
+      entity_id: switch.exterior_foyer, switch.exterior_cans
     - service: timer.start
       data:
         entity_id: timer.front_door_motion_timer
@@ -194,11 +190,14 @@
           - switch.exterior_foyer
           - switch.exterior_cans
 #########################################
-# deck motion (person & line crossing), dark out, occupied, deck lights on
-- alias: "deck motion (person & line crossing), dark out, occupied, deck lights on"
+# deck motion, dark out, occupied, deck lights on
+- alias: "deck motion, dark out, occupied, deck lights on"
   trigger:
     - platform: state
       entity_id: binary_sensor.deck_person
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.deck_stairs_person
       to: "on"
   condition:
     - condition: state
@@ -208,8 +207,8 @@
       entity_id: sensor.period_of_day
       state: 'night'
   action:
-    - service: scene.turn_on
-      entity_id: scene.exterior_keypad_deck
+    - service: homeassistant.turn_on
+      entity_id: switch.exterior_posts, light.exterior_deck
 # deck lights off (when no line crossing or person detection)
 - alias: "deck lights off (when no line crossing or person detection)"
   trigger:
@@ -228,8 +227,8 @@
         entity_id: switch.exterior_posts
         state: 'on'
   action:
-    - service: scene.turn_on
-      entity_id: scene.exterior_keypad_deck
+    - service: homeassistant.turn_off
+      entity_id: switch.exterior_posts, light.exterior_deck
 #########################################
 # wake up - good morning (only between Oct-May)
 - alias: "wake up - good morning (only between Oct-May)"
@@ -248,9 +247,7 @@
       value_template: '{{ now().strftime("%m")|int < 4 }}'
   action:
     - service: homeassistant.turn_on
-      entity_id:
-        - switch.upstairs_hall_treads
-        - switch.great_room_lamp
+      entity_id: switch.upstairs_hall_treads, switch.great_room_lamp
 #########################################
 - alias: "motion lights"
   trigger:
@@ -1092,6 +1089,28 @@
     - service: homeassistant.turn_off
       entity_id: light.master_entry_lifx
 ########################################
+# storage motion light
+- alias: storage motion light
+  trigger:
+    - platform: state
+      entity_id: sensor.storage_pir
+      to: 'Violated'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.basement_storage_lights
+########################################
+# storage motion light off
+- alias: storage motion light off
+  trigger:
+    - platform: state
+      entity_id: sensor.storage_pir
+      to: 'Normal'
+      for:
+        minutes: 7
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.basement_storage_lights
+########################################
 # master sitting motion light - bed unoccupied
 - alias: master sitting motion light - bed unoccupied
   trigger:
@@ -1422,13 +1441,17 @@
 #       data_template:
 #         message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 ########################################
-# pi device_tracker
+# device_tracker stuff
 - alias: 'pi device_tracker'
   trigger:
     - platform: state
       entity_id: device_tracker.jon_pi
     - platform: state
       entity_id: device_tracker.laura_pi
+    - platform: state
+      entity_id: binary_sensor.jon_gilmore_s_pixel_3_presence
+    # - platform: state
+    #   entity_id: device_tracker.pixel3
   action:
     - service: notify.telegram_jon
       data_template:
@@ -1479,6 +1502,7 @@
         dev_id: laura_pi
         location_name: not_home
         source_type: bluetooth
+########################################
 ## HA restart - restart monitor - ha boot
 - alias: 'Restart Monitor service on HA startup'
   initial_state: 'on'

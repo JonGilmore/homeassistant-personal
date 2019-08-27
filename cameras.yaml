@@ -1,6 +1,13 @@
+###################################
+# mjpeg cameras
 - platform: mjpeg
   mjpeg_url: http://192.168.45.230:80/Streaming/Channels/2/preview
   name: Deck
+  username: admin
+  password: !secret hik_pwd
+- platform: mjpeg
+  mjpeg_url: http://192.168.45.238:80/Streaming/Channels/2/preview
+  name: Deck Stairs
   username: admin
   password: !secret hik_pwd
 - platform: mjpeg
@@ -23,6 +30,7 @@
   name: Garage
   username: admin
   password: !secret hik_pwd
+
 ###################################
 - platform: doorbird
 - platform: ffmpeg
@@ -31,6 +39,9 @@
 - platform: ffmpeg
   name: Patio
   input: !secret patio_cam
+
+###################################
+# local file images
 - platform: local_file
   name: Power Usage
   file_path: /config/temp/power.png
@@ -38,15 +49,20 @@
   name: Temperatures
   file_path: /config/temp/tmp.png
 
+###################################
+# still image cameras
 - name: Deck Last Person
-  platform: generic
-  still_image_url: !secret hik_deck_person
+  platform: mqtt
+  topic: frigate/deck/snapshot
 - name: Driveway Last Person
-  platform: generic
-  still_image_url: !secret hik_driveway_person
+  platform: mqtt
+  topic: frigate/driveway/snapshot
 - name: Doorbell Last Person
-  platform: generic
-  still_image_url: !secret hik_doorbell_person
+  platform: mqtt
+  topic: frigate/doorbell/snapshot
 - name: Garage Last Person
-  platform: generic
-  still_image_url: !secret hik_garage_person
+  platform: mqtt
+  topic: frigate/garage/snapshot
+- name: Deck Stairs Last Person
+  platform: mqtt
+  topic: frigate/deck_stairs/snapshot
