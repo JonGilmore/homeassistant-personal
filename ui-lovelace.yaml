@@ -72,6 +72,7 @@ views:
           - person.laura
           - binary_sensor.anybody_away
           - binary_sensor.anybody_home
+          - binary_sensor.jon_gilmore_s_pixel_3_presence
       - type: horizontal-stack
         cards:
           - type: "custom:button-card"
@@ -307,6 +308,12 @@ views:
           - switch.exterior_posts
       - type: picture-glance
         image:
+        camera_image: camera.deck_stairs
+        title: Deck Stairs
+        entities:
+          - switch.exterior_posts
+      - type: picture-glance
+        image:
         camera_image: camera.front_door_live
         title: Doorbell
         entities:
@@ -336,6 +343,10 @@ views:
         camera_image: camera.garage_last_person
         entities: []
         title: Garage Last Person
+      - type: picture-glance
+        camera_image: camera.deck_stairs_last_person
+        entities: []
+        title: Deck Stairs Last Person
 ##########################################
 # MUSIC TAB
 ##########################################

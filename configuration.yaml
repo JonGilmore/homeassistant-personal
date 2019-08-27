@@ -55,11 +55,6 @@ cloud:
         - climate
         - camera
 
-# googlehome:
-#   devices:
-#     - host: 192.168.45.18
-#     - host: 192.168.45.19
-
 http:
 updater:
   reporting: false
@@ -69,9 +64,6 @@ tts:
 recorder:
   purge_keep_days: 1
   purge_interval: 1
-  include:
-    domains:
-      - sensor
 
 system_health:
 
@@ -164,8 +156,6 @@ notify:
   - name: telegram_jon
     platform: telegram
     chat_id: !secret telegram_chat
-  # - name: android_jon
-  #   platform: fcm-android
 
 telegram_bot:
   - platform: polling
@@ -173,9 +163,6 @@ telegram_bot:
     api_key: !secret telegram_api
     allowed_chat_ids:
       - !secret telegram_chat
-
-# owntracks:
-#   max_gps_accuracy: 100
 
 ####################################################
 #                     Includes                     #
@@ -197,10 +184,8 @@ zone: !include zones.yaml
 
 logger:
   default: error
-  logs:
-    # homeassistant.components.lutron: debug
-    custom_components.lutron: debug
-    pylutron: debug
+  # logs:
+  #   # homeassistant.components.lutron: debug
 
 history:
 sun:
@@ -229,9 +214,7 @@ speedtestdotnet:
   scan_interval:
     minutes: 121
 
-# stream:
 mobile_app:
-# breaking_changes:
 
 panel_iframe:
   grafana:
