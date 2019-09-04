@@ -130,7 +130,7 @@
         friendly_name: "Occupied-Alarm?"
         device_class: occupancy
         value_template: >-
-          {{ not states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or not states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away" }}
+          {{ not (states.alarm_control_panel.area001.attributes["armed_status"] == "armed_to_vacation" or states.alarm_control_panel.area001.attributes["armed_status"] == "armed_away") }}
       cell_occupancy_status:
         friendly_name: "Occupied-Cell?"
         device_class: occupancy
@@ -184,32 +184,3 @@
       #   device_class: presence
       #   value_template: >-
       #     {{ states.device_tracker.laura_pi.state == 'home') }}
-
-
-# # presence detection
-#   - platform: bayesian
-#     device_class: presence
-#     prior: 0.5
-#     name: 'Jon Presence'
-#     probability_threshold: 0.9
-#     observations:
-#       - entity_id: 'device_tracker.jon_ot'
-#         prob_given_true: 0.95
-#         prob_given_false: 0.05
-#         platform: 'state'
-#         to_state: 'home'
-#       - entity_id: 'device_tracker.pixel3'
-#         prob_given_true: 0.9
-#         prob_given_false: 0.1
-#         platform: 'state'
-#         to_state: 'home'
-#       - entity_id: 'device_tracker.mnjgilmorem'
-#         prob_given_true: 0.5
-#         prob_given_false: 0.5
-#         platform: 'state'
-#         to_state: 'home'
-#       - entity_id: 'binary_sensor.alarm_occupancy_status'
-#         prob_given_true: 0.8
-#         prob_given_false: 0.4
-#         platform: 'state'
-#         to_state: 'True'

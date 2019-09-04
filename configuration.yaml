@@ -203,12 +203,6 @@ lovelace:
 config:
 hassio:
 map:
-discovery:
-  ignore:
-    - axis
-    - plex_mediaserver
-    - igd
-    - homekit
 
 speedtestdotnet:
   scan_interval:

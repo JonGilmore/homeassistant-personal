@@ -230,6 +230,38 @@
     - service: homeassistant.turn_off
       entity_id: switch.exterior_posts, light.exterior_deck
 #########################################
+# garage person, dark out,garage lights on
+- alias: "garage person, dark out,garage lights on"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_person
+      to: "on"
+    - platform: state
+      entity_id: binary_sensor.garage_motion
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: sensor.period_of_day
+      state: 'night'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.mudroom_garage_lights
+# deck lights off (when no line crossing or person detection)
+- alias: "deck lights off (when no line crossing or person detection)"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_motion
+      to: "off"
+      for:
+        minutes: 15
+  condition:
+    - condition: state
+      entity_id: light.mudroom_garage_lights
+      state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: light.mudroom_garage_lights
+#########################################
 # wake up - good morning (only between Oct-May)
 - alias: "wake up - good morning (only between Oct-May)"
   trigger:
@@ -381,14 +413,14 @@
     #       - climate.main_thermostat
     #       - climate.upstairs_thermostat
     #     temperature: 70
-    #     operation_mode: heat
+    #     hvac_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
           - climate.main_thermostat
           - climate.upstairs_thermostat
         temperature: 77
-        operation_mode: cool
+        hvac_mode: cool
 # set the temperature back for work ONLY if we're not on vacation AND both people are not_home
 - alias: Thermostats - work
   trigger:
@@ -413,14 +445,14 @@
     #       - climate.main_thermostat
     #       - climate.upstairs_thermostat
     #     temperature: 67
-    #     operation_mode: heat
+    #     hvac_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
           - climate.upstairs_thermostat
           - climate.main_thermostat
         temperature: 78
-        operation_mode: cool
+        hvac_mode: cool
 # (probably) getting home from work (or soon), make sure were not on vacation, and set the temps to normal
 - alias: Thermostats - home from work
   trigger:
@@ -437,14 +469,14 @@
     #       - climate.upstairs_thermostat
     #       - climate.main_thermostat
     #     temperature: 71
-    #     operation_mode: heat
+    #     hvac_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
           - climate.upstairs_thermostat
           - climate.main_thermostat
         temperature: 77
-        operation_mode: cool
+        hvac_mode: cool
 # when we start sleeping, and we're not on vacation, set the temps back, disable cloud UI
 - alias: Thermostats - bed
   trigger:
@@ -462,14 +494,14 @@
     #       - climate.upstairs_thermostat
     #       - climate.main_thermostat
     #     temperature: 66
-    #     operation_mode: heat
+    #     hvac_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
           - climate.upstairs_thermostat
           - climate.main_thermostat
         temperature: 78
-        operation_mode: cool
+        hvac_mode: cool
 #########################################
 # at bedtime, lock the front & garage door locks, set the HVAC fans to on, turn off recirculation pump, turn off all lights & xmas lights
 - alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
@@ -653,7 +685,7 @@
     #       - climate.main_thermostat
     #       - climate.basement_thermostat
     #     temperature: 62
-    #     operation_mode: heat
+    #     hvac_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
@@ -661,7 +693,7 @@
           - climate.main_thermostat
           - climate.basement_thermostat
         temperature: 85
-        operation_mode: cool
+        hvac_mode: cool
     - service: econet.add_vacation
       data:
         entity_id: water_heater.heat_pump_water_heater_gen_4
@@ -709,7 +741,7 @@
     #       - climate.main_thermostat
     #       - climate.basement_thermostat
     #     temperature: 69
-    #     operation_mode: heat
+    #     hvac_mode: heat
     - service: climate.set_temperature
       data:
         entity_id:
@@ -717,7 +749,7 @@
           - climate.main_thermostat
           - climate.basement_thermostat
         temperature: 77
-        operation_mode: cool
+        hvac_mode: cool
     - service: notify.telegram_jon
       data:
         title: "Ran vacation mode: off!"
