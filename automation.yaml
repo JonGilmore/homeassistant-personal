@@ -289,6 +289,7 @@
         - sensor.kitchen_pir
         - sensor.basement_pir
         - sensor.bar_pir
+        - sensor.storage_pir
       to: 'Violated'
     - platform: state
       entity_id:
@@ -296,9 +297,10 @@
         - sensor.kitchen_pir
         - sensor.basement_pir
         - sensor.bar_pir
+        - sensor.storage_pir
       to: 'Normal'
       for:
-        minutes: 5
+        minutes: 10
   condition: ## Ensure Motion Lights aren't disabled
     - condition: state
       entity_id: input_boolean.block_all_motion_lights
@@ -318,6 +320,8 @@
             switch.basement_main
           {% elif trigger_entity == 'sensor.bar_pir' %}
             switch.basement_bar_cabinets
+          {% elif trigger_entity == 'sensor.storage_pir' %}
+            switch.basement_storage_lights
           {% endif %}
 #########################################
 # Close master blinds if its dusk upon 1st motion on the entry only 1 time (after 1hr before sunset)
@@ -1120,28 +1124,6 @@
   action:
     - service: homeassistant.turn_off
       entity_id: light.master_entry_lifx
-########################################
-# storage motion light
-- alias: storage motion light
-  trigger:
-    - platform: state
-      entity_id: sensor.storage_pir
-      to: 'Violated'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.basement_storage_lights
-########################################
-# storage motion light off
-- alias: storage motion light off
-  trigger:
-    - platform: state
-      entity_id: sensor.storage_pir
-      to: 'Normal'
-      for:
-        minutes: 7
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.basement_storage_lights
 ########################################
 # master sitting motion light - bed unoccupied
 - alias: master sitting motion light - bed unoccupied
