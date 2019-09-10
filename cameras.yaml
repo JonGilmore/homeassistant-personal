@@ -39,6 +39,9 @@
 - platform: ffmpeg
   name: Patio
   input: !secret patio_cam
+- platform: ffmpeg
+  name: Wyze
+  input: !secret wyze_cam
 
 ###################################
 # local file images
