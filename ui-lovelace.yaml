@@ -233,16 +233,20 @@ views:
     cards:
       - type: 'custom:simple-thermostat'
         entity: climate.basement_thermostat
+        step_size: 1
       - type: 'custom:simple-thermostat'
         entity: climate.main_thermostat
+        step_size: 1
         sensors:
           - entity: sensor.office_multi_relative_humidity_measurement
       - type: 'custom:simple-thermostat'
         entity: climate.upstairs_thermostat
+        step_size: 1
         sensors:
           - entity: sensor.master_entry_humidity
       - type: 'custom:simple-thermostat'
         entity: climate.garage_thermostat
+        step_size: 1
       - type: entities
         title: Temperatures
         show_header_toggle: false
