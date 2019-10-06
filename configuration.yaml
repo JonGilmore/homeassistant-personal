@@ -109,9 +109,9 @@ elkm1:
   setting:
     enabled: false
 
-hass_opensprinkler:
-  host: !secret os_host
-  password: !secret os_passwd
+# hass_opensprinkler:
+#   host: !secret os_host
+#   password: !secret os_passwd
 
 sleepiq:
   username: !secret sleep_usr
@@ -135,18 +135,6 @@ water_heater:
   - platform: econet
     username: !secret econet_user
     password: !secret econet_pwd
-
-# device_tracker:
-#   - platform: unifi
-#     host: !secret unifi_ip
-#     verify_ssl: false
-#     username: !secret unifi_usr
-#     password: !secret unifi_pwd
-#     ssid_filter:
-#       - 'ReedingRainbow'
-#     new_device_defaults:
-#       track_new_devices: false
-#       hide_if_away: false
 
 scene:
   platform: hunterdouglas_powerview
@@ -235,9 +223,9 @@ panel_iframe:
     url: 'http://192.168.45.249:3000'
     icon: mdi:chart-timeline
 
-isy994:
-  host: !secret url_isy
-  username: !secret isy_user
-  password: !secret isy_passwd
+# isy994:
+#   host: !secret url_isy
+#   username: !secret isy_user
+#   password: !secret isy_passwd
 
 browser_mod:

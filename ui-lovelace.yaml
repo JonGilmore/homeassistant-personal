@@ -22,10 +22,10 @@ resources:
   - url: /community_plugin/simple-thermostat/simple-thermostat.js
     type: module
   - url: /community_plugin/search-card/search-card.js
-    type: module 
+    type: module
   - url: /community_plugin/swipe-card/swipe-card.js
-    type: module 
-    
+    type: module
+
 views:
 ##########################################
 # HOME TAB
@@ -346,6 +346,10 @@ views:
           - binary_sensor.living_room_multi_motion
           - scene.equipment_room_enclosure_device_001_ph_main_off
           - scene.equipment_room_enclosure_device_001_ph_main_on
+      - type: picture-glance
+        camera_image: camera.wyze
+        entities: []
+        title: Wyze Cam
       - type: picture-glance
         camera_image: camera.deck_last_person
         entities: []
@@ -737,7 +741,7 @@ views:
           - switch.master_bedroom_fan
           - light.master_bedroom_master_fan
           - switch.master_bedroom_toilet_fan
-          
+
 ##########################################
 # SMARTTHINGS TAB
 ##########################################
@@ -903,7 +907,7 @@ views:
         image:
         camera_image: camera.driveway
         title: Exterior
-        entities:         
+        entities:
           - scene.equipment_room_enclosure_device_001_ph_sunset1
       - type: glance
         title: Upgrades?
@@ -971,18 +975,6 @@ views:
             name: ping
           - entity: sensor.speedtest_upload
             name: upload
-      - type: entities
-        title: Pi-Hole
-        show_header_toggle: false
-        entities:
-          - sensor.pi_hole_ads_blocked_today
-          - sensor.pi_hole_ads_percentage_blocked_today
-          - sensor.pi_hole_dns_queries_cached
-          - sensor.pi_hole_dns_queries_forwarded
-          - sensor.pi_hole_dns_queries_today
-          - sensor.pi_hole_dns_unique_clients
-          - sensor.pi_hole_dns_unique_domains
-          - sensor.pi_hole_domains_blocked
       - type: custom:search-card
         max_results: 10
 
@@ -1005,4 +997,3 @@ views:
           title: Battery Alert
           show_header_toggle: false
         group: group.battery_alert
-
