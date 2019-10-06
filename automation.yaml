@@ -392,121 +392,6 @@
     - service: homeassistant.turn_off
       entity_id: input_boolean.sunset_run_once
 #########################################
-# Thermostat Rules
-# set the temperature ONLY if we're not on vacation AND one or more of us are home
-- alias: Thermostats - morning
-  trigger:
-    platform: time
-    at: '04:30:00'
-  condition:
-    - condition: state
-      entity_id: binary_sensor.vacation_status
-      state: 'off'
-    - condition: or
-      conditions:
-        - condition: state
-          entity_id: 'person.jon'
-          state: 'home'
-        - condition: state
-          entity_id: 'person.laura'
-          state: 'home'
-  action:
-    # - service: climate.set_temperature
-    #   data:
-    #     entity_id:
-    #       - climate.main_thermostat
-    #       - climate.upstairs_thermostat
-    #     temperature: 70
-    #     hvac_mode: heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.main_thermostat
-          - climate.upstairs_thermostat
-        temperature: 77
-        hvac_mode: cool
-# set the temperature back for work ONLY if we're not on vacation AND both people are not_home
-- alias: Thermostats - work
-  trigger:
-    platform: time
-    at: '08:00:00'
-  condition:
-    - condition: state
-      entity_id: binary_sensor.vacation_status
-      state: 'off'
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: 'person.jon'
-          state: 'not_home'
-        - condition: state
-          entity_id: 'person.laura'
-          state: 'not_home'
-  action:
-    # - service: climate.set_temperature
-    #   data:
-    #     entity_id:
-    #       - climate.main_thermostat
-    #       - climate.upstairs_thermostat
-    #     temperature: 67
-    #     hvac_mode: heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.upstairs_thermostat
-          - climate.main_thermostat
-        temperature: 78
-        hvac_mode: cool
-# (probably) getting home from work (or soon), make sure were not on vacation, and set the temps to normal
-- alias: Thermostats - home from work
-  trigger:
-    platform: time
-    at: '16:00:00'
-  condition:
-    - condition: state
-      entity_id: binary_sensor.vacation_status
-      state: 'off'
-  action:
-    # - service: climate.set_temperature
-    #   data:
-    #     entity_id:
-    #       - climate.upstairs_thermostat
-    #       - climate.main_thermostat
-    #     temperature: 71
-    #     hvac_mode: heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.upstairs_thermostat
-          - climate.main_thermostat
-        temperature: 77
-        hvac_mode: cool
-# when we start sleeping, and we're not on vacation, set the temps back, disable cloud UI
-- alias: Thermostats - bed
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.sleep_status
-      to: 'on'
-  condition:
-    - condition: state
-      entity_id: binary_sensor.vacation_status
-      state: 'off'
-  action:
-    # - service: climate.set_temperature
-    #   data:
-    #     entity_id:
-    #       - climate.upstairs_thermostat
-    #       - climate.main_thermostat
-    #     temperature: 66
-    #     hvac_mode: heat
-    - service: climate.set_temperature
-      data:
-        entity_id:
-          - climate.upstairs_thermostat
-          - climate.main_thermostat
-        temperature: 78
-        hvac_mode: cool
-#########################################
 # at bedtime, lock the front & garage door locks, set the HVAC fans to on, turn off recirculation pump, turn off all lights & xmas lights
 - alias: "lock the garage door lock & set the HVAC fans to on - thermostat"
   trigger:
@@ -1353,9 +1238,9 @@
       state: 'home'
   action:
     - service: cloud.remote_disconnect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Disconnect at night: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+    # - service: notify.telegram_jon
+    #   data_template:
+    #     message: "Cloud Disconnect at night: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 
 - alias: 'Not sleeping, phones home: remote UI disconnect'
   trigger:
@@ -1371,9 +1256,9 @@
       state: 'home'
   action:
     - service: cloud.remote_disconnect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Disconnect at morning: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+    # - service: notify.telegram_jon
+    #   data_template:
+    #     message: "Cloud Disconnect at morning: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 
 - alias: 'jons phone home (and lauras is home): remote UI disconnect'
   trigger:
@@ -1386,9 +1271,9 @@
       state: 'home'  
   action:
     - service: cloud.remote_disconnect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Disconnect when phone is home: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+    # - service: notify.telegram_jon
+    #   data_template:
+    #     message: "Cloud Disconnect when phone is home: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 - alias: 'lauras phone home (and jons is home): remote UI disconnect'
   trigger:
     - platform: state
@@ -1400,9 +1285,9 @@
       state: 'home'
   action:
     - service: cloud.remote_disconnect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Disconnect when phone is home: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+    # - service: notify.telegram_jon
+    #   data_template:
+    #     message: "Cloud Disconnect when phone is home: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 
 - alias: 'Phone left: remote UI connect'
   trigger:
@@ -1415,9 +1300,9 @@
       to: 'not_home'
   action:
     - service: cloud.remote_connect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Connect when device left: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+    # - service: notify.telegram_jon
+    #   data_template:
+    #     message: "Cloud Connect when device left: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 
 - alias: 'Vacation on, enable remote UI connect'
   trigger:
@@ -1426,9 +1311,9 @@
       to: 'on'
   action:
     - service: cloud.remote_connect
-    - service: notify.telegram_jon
-      data_template:
-        message: "Cloud Connect on vacation mode: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+    # - service: notify.telegram_jon
+    #   data_template:
+    #     message: "Cloud Connect on vacation mode: {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
 ########################################################################################################################
 
 ########################################
@@ -1618,3 +1503,42 @@
       entity_id: 
         - scene.basement_keypad_theater
         - scene.basement_keypad_bar
+#########################################
+# Kitchen dishwasher notification
+- alias: "Kitchen dishwasher notification"
+  trigger:
+    - platform: state
+      entity_id: switch.dishwasher
+  action:
+    - service: notify.telegram_jon
+      data_template:
+        message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+#########################################
+# test scene notification
+- alias: 'test scene notification'
+  trigger:
+    - event_data:
+        domain: scene
+        service: turn_on
+        service_data:
+          entity_id: [scene.equipment_room_enclosure_device_001_ph_basement_on]
+      event_type: call_service
+      platform: event
+    - event_data:
+        domain: scene
+        service: turn_on
+        service_data:
+          entity_id: [scene.office_office_pico_dimmer_lower]
+      event_type: call_service
+      platform: event
+    - event_data:
+        domain: scene
+        service: turn_on
+        service_data:
+          entity_id: [scene.office_office_pico_dimmer_raise]
+      event_type: call_service
+      platform: event
+  action:
+    - service: notify.telegram_jon
+      data_template:
+        message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
