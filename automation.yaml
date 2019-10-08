@@ -286,7 +286,7 @@
     - platform: state
       entity_id:
         - sensor.foyer_pir
-        - sensor.kitchen_pir
+        # - sensor.kitchen_pir
         - sensor.basement_pir
         - sensor.bar_pir
         - sensor.storage_pir
@@ -294,7 +294,7 @@
     - platform: state
       entity_id:
         - sensor.foyer_pir
-        - sensor.kitchen_pir
+        # - sensor.kitchen_pir
         - sensor.basement_pir
         - sensor.bar_pir
         - sensor.storage_pir
@@ -314,8 +314,8 @@
           {% set trigger_entity = trigger.entity_id %}
           {% if trigger_entity == 'sensor.foyer_pir' %}
             switch.exterior_foyer
-          {% elif trigger_entity == 'sensor.kitchen_pir' %}
-            switch.kitchen_cabinets
+          # {% elif trigger_entity == 'sensor.kitchen_pir' %}
+          #   switch.kitchen_cabinets
           {% elif trigger_entity == 'sensor.basement_pir' %}
             switch.basement_main
           {% elif trigger_entity == 'sensor.bar_pir' %}
