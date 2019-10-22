@@ -132,19 +132,6 @@
         unit_of_measurement: "On"
         value_template: "{{ states.light|selectattr('state', 'equalto', 'on')|list|length }}"
 
-  # - platform: pi_hole
-  #   host: !secret pi_hole
-  #   monitored_conditions:
-  #     - ads_blocked_today
-  #     - ads_percentage_today
-  #     - dns_queries_today
-  #     - domains_being_blocked
-  #     - queries_cached
-  #     - queries_forwarded
-  #     - unique_clients
-  #     - unique_domains
-
-
 # DARK SKY
   - platform: darksky
     api_key: !secret darksky_api
@@ -196,6 +183,14 @@
          {% elif (states.sun.sun.attributes.elevation) < -4 %}mdi:weather-night
          {% else %}mdi:weather-sunny
          {% endif %}
+  - platform: darksky
+    api_key: !secret darksky_api
+    monitored_conditions:
+      - icon
+  - platform: illuminance
+    name: DSS Illuminance
+    entity_id: sensor.dark_sky_icon
+
 
 # Target Humidity States
   - platform: template

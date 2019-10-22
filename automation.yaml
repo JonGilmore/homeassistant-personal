@@ -1521,21 +1521,7 @@
         domain: scene
         service: turn_on
         service_data:
-          entity_id: [scene.equipment_room_enclosure_device_001_ph_basement_on]
-      event_type: call_service
-      platform: event
-    - event_data:
-        domain: scene
-        service: turn_on
-        service_data:
-          entity_id: [scene.office_office_pico_dimmer_lower]
-      event_type: call_service
-      platform: event
-    - event_data:
-        domain: scene
-        service: turn_on
-        service_data:
-          entity_id: [scene.office_office_pico_dimmer_raise]
+          entity_id: [scene.36757]
       event_type: call_service
       platform: event
   action:

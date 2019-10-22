@@ -202,6 +202,7 @@ views:
           - binary_sensor.light_inside
           - sensor.period_of_day
           - water_heater.heat_pump_water_heater_gen_4
+          - sensor.dss_illuminance
       - type: custom:mini-graph-card
         name: Lux Sensors
         icon: mdi:brightness-6
