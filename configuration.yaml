@@ -144,7 +144,15 @@ notify:
   - name: telegram_jon
     platform: telegram
     chat_id: !secret telegram_chat
+  # - platform: ios
+  #   name: laura
 
+# ios:
+#   push:
+#     categories:
+#       - name: cameras
+#         identifier: 'camera'
+      
 telegram_bot:
   - platform: polling
     parse_mode: html
