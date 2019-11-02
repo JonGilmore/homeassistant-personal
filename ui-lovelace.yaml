@@ -27,9 +27,9 @@ resources:
     type: module
 
 views:
-##########################################
-# HOME TAB
-##########################################
+  ##########################################
+  # HOME TAB
+  ##########################################
   - title: Home
     id: home
     icon: mdi:home
@@ -39,7 +39,7 @@ views:
         type: alarm-panel
         entity: alarm_control_panel.area001
         name: Reeder Ridge
-        style: '--alarm-color-disarmed: var(--label-badge-blue);'
+        style: "--alarm-color-disarmed: var(--label-badge-blue);"
         show_keypad: true
         display_letters: true
         states:
@@ -190,7 +190,7 @@ views:
           - switch.upstairs_hall_main_stairs
           - switch.upstairs_hall_treads
         state_filter:
-          - 'on'
+          - "on"
         card:
           title: Enabled Lights
       - type: entities
@@ -211,7 +211,7 @@ views:
             name: Main TV Lux
           - entity: sensor.sitting_room_lux
             name: Sitting Room Lux
-      - type: 'custom:swipe-card'
+      - type: "custom:swipe-card"
         start_card: 5
         cards:
           - type: picture-entity
@@ -225,27 +225,27 @@ views:
           - type: picture-entity
             entity: camera.driveway_history5
 
-##########################################
-# THERMOSTAT TAB
-##########################################
+  ##########################################
+  # THERMOSTAT TAB
+  ##########################################
   - title: Climate
     id: climate
     icon: mdi:temperature-fahrenheit
     cards:
-      - type: 'custom:simple-thermostat'
+      - type: "custom:simple-thermostat"
         entity: climate.basement_thermostat
         step_size: 1
-      - type: 'custom:simple-thermostat'
+      - type: "custom:simple-thermostat"
         entity: climate.main_thermostat
         step_size: 1
         sensors:
           - entity: sensor.office_multi_relative_humidity_measurement
-      - type: 'custom:simple-thermostat'
+      - type: "custom:simple-thermostat"
         entity: climate.upstairs_thermostat
         step_size: 1
         sensors:
           - entity: sensor.master_entry_humidity
-      - type: 'custom:simple-thermostat'
+      - type: "custom:simple-thermostat"
         entity: climate.garage_thermostat
         step_size: 1
       - type: entities
@@ -288,9 +288,9 @@ views:
       #     - sensor.thermostat_basement_temperature
       #     - sensor.thermostat_main_temperature
       #     - sensor.thermostat_upstairs_temperature
-##########################################
-# CAMERA TAB
-##########################################
+  ##########################################
+  # CAMERA TAB
+  ##########################################
   - title: Cameras
     id: camera
     icon: mdi:camera
@@ -371,26 +371,13 @@ views:
         camera_image: camera.deck_stairs_last_person
         entities: []
         title: Deck Stairs Last Person
-##########################################
-# MUSIC TAB
-##########################################
+  ##########################################
+  # MUSIC TAB
+  ##########################################
   - title: Music
     id: music
     icon: mdi:music
     cards:
-      # - type: custom:decluterring-card
-      #   template: sonos_template
-      #   variables:
-      #     - e1: media_player.deck
-      #     - e2: media_player.garage
-      #     - e3: media_player.guest_bathroom
-      #     - e4: media_player.gym_3
-      #     - e5: media_player.kitchen
-      #     - e6: media_player.laundry
-      #     - e7: media_player.master
-      #     - e8: media_player.office
-      #     - e9: media_player.portable
-
       - type: custom:mini-media-player
         entity: media_player.deck
         hide:
@@ -631,9 +618,9 @@ views:
         entities:
           - media_player.basement_ghm
           - media_player.kitchen_ghm
-##########################################
-# TV TAB
-##########################################
+  ##########################################
+  # TV TAB
+  ##########################################
   - title: TV
     id: tv
     icon: mdi:television-classic
@@ -642,9 +629,9 @@ views:
         entity: media_player.great_room
       - type: media-control
         entity: media_player.49_tcl_roku_tv
-##########################################
-# LIGHT TAB
-##########################################
+  ##########################################
+  # LIGHT TAB
+  ##########################################
   - title: Lights
     id: lights
     icon: mdi:lightbulb
@@ -743,9 +730,9 @@ views:
           - light.master_bedroom_master_fan
           - switch.master_bedroom_toilet_fan
 
-##########################################
-# SMARTTHINGS TAB
-##########################################
+  ##########################################
+  # SMARTTHINGS TAB
+  ##########################################
   - title: ST Devices
     id: st_devices
     icon: mdi:cellphone-wireless
@@ -774,9 +761,9 @@ views:
           - binary_sensor.kitchen_dishwasher_leak_water
           - binary_sensor.kitchen_fridge_leak_water
           - binary_sensor.basement_fridge_water
-##########################################
-# ENERGY TAB
-##########################################
+  ##########################################
+  # ENERGY TAB
+  ##########################################
   - title: Energy
     id: energy
     icon: mdi:power-plug
@@ -789,9 +776,9 @@ views:
           - sensor.aeotec_hem_power_meter
           - sensor.garage_fridge_energy
           - sensor.garage_fridge_power
-##########################################
-# SCENES TAB
-##########################################
+  ##########################################
+  # SCENES TAB
+  ##########################################
   - title: Scenes
     id: scenes
     icon: mdi:movie-outline
@@ -817,9 +804,9 @@ views:
           - scene.equipment_room_enclosure_device_001_ph_kitchen_on
           - scene.equipment_room_enclosure_device_001_ph_sunset1
           - scene.equipment_room_enclosure_device_001_ph_sunset2
-##########################################
-# SPRINKLER TAB
-##########################################
+  ##########################################
+  # SPRINKLER TAB
+  ##########################################
   - title: Sprinklers
     id: sprinklers
     icon: mdi:flower
@@ -886,9 +873,9 @@ views:
           - sensor.rain_delay_stop_time
           - sensor.water_level
           - sensor.last_run
-##########################################
-# MAINTENANCE TAB
-##########################################
+  ##########################################
+  # MAINTENANCE TAB
+  ##########################################
   - title: Maintenance
     id: maintenance
     icon: mdi:wrench
@@ -979,20 +966,20 @@ views:
       - type: custom:search-card
         max_results: 10
 
-##########################################
-# BATTERY TAB
-##########################################
+  ##########################################
+  # BATTERY TAB
+  ##########################################
   - title: Battery Devices
     id: battery_devices
     icon: mdi:battery-charging-wireless-90
     cards:
-      - type: 'custom:group-card'
+      - type: "custom:group-card"
         card:
           type: entities
           title: Battery Status
           show_header_toggle: false
         group: group.battery_status
-      - type: 'custom:group-card'
+      - type: "custom:group-card"
         card:
           type: entities
           title: Battery Alert
