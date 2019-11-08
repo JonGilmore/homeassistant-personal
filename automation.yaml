@@ -273,10 +273,12 @@
     - condition: state
       entity_id: binary_sensor.light_inside
       state: "off"
-    - condition: template
-      value_template: '{{ now().strftime("%m")|int > 10 }}'
-    - condition: template
-      value_template: '{{ now().strftime("%m")|int < 4 }}'
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: '{{ now().strftime("%m")|int > 10 }}'
+        - condition: template
+          value_template: '{{ now().strftime("%m")|int < 4 }}'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.upstairs_hall_treads, switch.great_room_lamp
@@ -323,6 +325,27 @@
         {% elif trigger_entity == 'sensor.storage_pir' %}
           switch.basement_storage_lights
         {% endif %}
+#########################################
+# server rack lights - on
+- alias: "server rack lights - on"
+  trigger:
+    - platform: state
+      entity_id: sensor.storage_pir
+      to: "Violated"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.switch1
+# server rack lights - off
+- alias: "server rack lights - off"
+  trigger:
+    - platform: state
+      entity_id: sensor.storage_pir
+      to: "Normal"
+      for:
+        minutes: 5
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.switch1
 #########################################
 # Close master blinds if its dusk upon 1st motion on the entry only 1 time (after 1hr before sunset)
 - alias: Master Blinds at dusk
@@ -1517,14 +1540,12 @@
 # test scene notification
 - alias: "test scene notification"
   trigger:
-    - event_data:
-        domain: scene
-        service: turn_on
-        service_data:
-          entity_id: [scene.36757]
-      event_type: call_service
-      platform: event
+    - platform: event
+      event_type: lutron_event
+      event_data:
+        id: office_pico_on
+        action: single
   action:
     - service: notify.telegram_jon
-      data_template:
-        message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}."
+      data:
+        message: "pico on"
