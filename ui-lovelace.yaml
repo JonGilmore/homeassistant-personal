@@ -651,6 +651,7 @@ views:
           - light.basement_theater_rear_lamp
           - light.gym_cans
           - light.nook_cans
+          - switch.switch1
       - type: entities
         title: Main Floor Lights
         entities:
