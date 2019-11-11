@@ -44,15 +44,6 @@
   input: !secret wyze_cam
 
 ###################################
-# local file images
-- platform: local_file
-  name: Power Usage
-  file_path: /config/temp/power.png
-- platform: local_file
-  name: Temperatures
-  file_path: /config/temp/tmp.png
-
-###################################
 # still image cameras
 - name: Deck Last Person
   platform: mqtt
