@@ -4,7 +4,7 @@
   round_digits: 0
   type: mean
   entity_ids:
-    - sensor.living_room_multi_relative_humidity_measurement
+    # - sensor.living_room_multi_relative_humidity_measurement
     - sensor.office_multi_relative_humidity_measurement
     - sensor.master_entry_humidity
     - sensor.sunroom_humidity
@@ -242,12 +242,6 @@
       friendly_name: "Master Bed People"
 
 # GRAFANA
-- platform: command_line
-  name: "Download Grafana Pwr"
-  command: !secret grafana_pwr
-- platform: command_line
-  name: "Download Grafana Temp"
-  command: !secret grafana_tmp
 - platform: command_line
   name: "CPU Temperature"
   command: "cat /sys/class/thermal/thermal_zone3/temp"
