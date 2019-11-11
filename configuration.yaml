@@ -123,8 +123,9 @@ doorbird:
       username: !secret db_usr
       password: !secret db_pwd
       token: !secret db_token
-      hass_url_override: !secret hass_ip
       name: Front Door
+      events:
+        - doorbell
 
 lutron:
   host: !secret rr_ip
