@@ -131,12 +131,14 @@
           photo:
             - url: !secret db_pic
 #########################################
-# front door motion, dark out, occupied, foyer and ext on
+# front door motion or doorbell, dark out, occupied, foyer and ext on
 - alias: "front door line, foyer on"
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_line_crossing
       to: "on"
+    - platform: event
+      event_type: doorbird_front_door_doorbell
   condition:
     condition: and
     conditions:
@@ -153,12 +155,14 @@
     - service: homeassistant.turn_on
       entity_id: switch.exterior_foyer, switch.exterior_cans
 #########################################
-# front door motion, dark out, unoccupied, foyer and ext on for 10 min
+# front door motion or doorbell, dark out, unoccupied, foyer and ext on for 10 min
 - alias: "front door line, foyer on"
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_line_crossing
       to: "on"
+    - platform: event
+      event_type: doorbird_front_door_doorbell
   condition:
     condition: and
     conditions:
@@ -1549,3 +1553,13 @@
     - service: notify.telegram_jon
       data:
         message: "pico on"
+#########################################
+# doorbell notification event capture and notify
+- alias: doorbell notification event capture and notify
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_doorbell
+  action:
+    - service: notify.telegram_jon
+      data:
+        message: "doorbell rang"
