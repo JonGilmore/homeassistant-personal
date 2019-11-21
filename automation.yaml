@@ -331,25 +331,25 @@
         {% endif %}
 #########################################
 # server rack lights - on
-- alias: "server rack lights - on"
-  trigger:
-    - platform: state
-      entity_id: sensor.storage_pir
-      to: "Violated"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.switch1
-# server rack lights - off
-- alias: "server rack lights - off"
-  trigger:
-    - platform: state
-      entity_id: sensor.storage_pir
-      to: "Normal"
-      for:
-        minutes: 5
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.switch1
+# - alias: "server rack lights - on"
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.storage_pir
+#       to: "Violated"
+#   action:
+#     - service: homeassistant.turn_on
+#       entity_id: switch.switch1
+# # server rack lights - off
+# - alias: "server rack lights - off"
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.storage_pir
+#       to: "Normal"
+#       for:
+#         minutes: 5
+#   action:
+#     - service: homeassistant.turn_off
+#       entity_id: switch.switch1
 #########################################
 # Close master blinds if its dusk upon 1st motion on the entry only 1 time (after 1hr before sunset)
 - alias: Master Blinds at dusk
@@ -1563,3 +1563,32 @@
     - service: notify.telegram_jon
       data:
         message: "doorbell rang"
+#########################################
+# christmas on
+- alias: christmas on
+  trigger:
+    platform: time
+    at: "17:00:00"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: group.christmasLights
+#########################################
+# christmas off
+- alias: christmas off
+  trigger:
+    platform: time
+    at: "23:00:00"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.christmasLights
+#########################################
+# christmas off - sleeping
+- alias: "christmas off - sleeping"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.sleep_status
+      from: "off"
+      to: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.christmasLights
