@@ -94,3 +94,5 @@ christmasLights:
   entities:
     - switch.exterior_light
     - switch.exterior_outlets
+    - switch.switch1
+    - switch.switch2
