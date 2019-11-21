@@ -23,6 +23,7 @@ cloud:
         - switch
         - fan
         - scene
+        - camera
       exclude_domains:
         - alert
         - automation
@@ -34,6 +35,8 @@ cloud:
         - cover
         - media_player
         - climate
+        - binary_sensor
+        - vacuum
   alexa:
     filter:
       include_entities:
