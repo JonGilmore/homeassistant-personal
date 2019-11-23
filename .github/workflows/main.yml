@@ -21,7 +21,7 @@ jobs:
 #         with:
 #           args: python -m homeassistant --config configuration.yaml --script check_config --info all
 
-    lint:
+    ha_check:
       runs-on: ubuntu-latest
       steps:
         - name: Home Assistant Configuration Check
