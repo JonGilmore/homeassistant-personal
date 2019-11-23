@@ -16,7 +16,7 @@ jobs:
 #           filename: README.md
 #     - name: Secret Scan
 #       uses: max/secret-scan@1.0.0
-      - uses: actions/checkout@v1
+#       - uses: actions/checkout@v1
       - name: HA Check
         uses: "docker://homeassistant/home-assistant:latest"
         run: |
