@@ -8,7 +8,14 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: YAML Lint
+        uses: "docker://pipelinecomponents/yamllint:latest"
+        with:
+          args: yamllint .
+  config_check:
+    runs-on: ubuntu-latest
+    steps:
       - name: HA Check
         uses: "docker://homeassistant/home-assistant:latest"
         with:
-          args: python -m homeassistant --version
+          args: python -m homeassistant --config ./config/ --script check_config --info all
