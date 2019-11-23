@@ -1,12 +1,18 @@
 name: CI
-
-on: [push]
-
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: 0 12 * * *
 jobs:
-  build:
-
+  lint:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Secret Scan
-      uses: max/secret-scan@1.0.0
+      - name: Checking out awesomeness from GitHub
+        uses: actions/checkout@v1.0.0
+      - name: Running the awesome linter
+        uses: max/awesome-lint@v2.0.0
+        with:
+          filename: README.md
+#     - name: Secret Scan
+#       uses: max/secret-scan@1.0.0
