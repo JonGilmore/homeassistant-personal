@@ -192,7 +192,6 @@
       data:
         entity_id:
           - switch.exterior_foyer
-          - switch.exterior_cans
 #########################################
 # deck motion, dark out, occupied, deck lights on
 - alias: "deck motion, dark out, occupied, deck lights on"
@@ -211,8 +210,8 @@
       entity_id: sensor.period_of_day
       state: "night"
   action:
-    - service: homeassistant.turn_on
-      entity_id: switch.exterior_posts, light.exterior_deck
+    - service: scene.turn_on
+      entity_id: scene.equipment_room_enclosure_device_001_ph_deck_on
 # deck lights off (when no line crossing or person detection)
 - alias: "deck lights off (when no line crossing or person detection)"
   trigger:
@@ -231,8 +230,8 @@
         entity_id: switch.exterior_posts
         state: "on"
   action:
-    - service: homeassistant.turn_off
-      entity_id: switch.exterior_posts, light.exterior_deck
+    - service: scene.turn_off
+      entity_id: scene.equipment_room_enclosure_device_001_ph_deck_off
 #########################################
 # garage person, dark out,garage lights on
 - alias: "garage person, dark out,garage lights on"
@@ -1564,31 +1563,40 @@
       data:
         message: "doorbell rang"
 #########################################
-# christmas on
-- alias: christmas on
+# christmas on (only in december)
+- alias: christmas on (only in december)
   trigger:
     platform: time
     at: "17:00:00"
+  condition:
+    - condition: template
+      value_template: '{{ now().strftime("%m")|int == 12 }}'
   action:
     - service: homeassistant.turn_on
       entity_id: group.christmasLights
 #########################################
-# christmas off
-- alias: christmas off
+# christmas off (only in december)
+- alias: christmas off (only in december)
   trigger:
     platform: time
     at: "23:00:00"
+  condition:
+    - condition: template
+      value_template: '{{ now().strftime("%m")|int == 12 }}'
   action:
     - service: homeassistant.turn_off
       entity_id: group.christmasLights
 #########################################
-# christmas off - sleeping
-- alias: "christmas off - sleeping"
+# christmas off - sleeping (only in december)
+- alias: "christmas off - sleeping (only in december)"
   trigger:
     - platform: state
       entity_id: binary_sensor.sleep_status
       from: "off"
       to: "on"
+  condition:
+    - condition: template
+      value_template: '{{ now().strftime("%m")|int == 12 }}'
   action:
     - service: homeassistant.turn_off
       entity_id: group.christmasLights
